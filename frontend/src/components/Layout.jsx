@@ -7,16 +7,18 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import NewNav from './NewNav';
 import NewNavBar from './NewNavBar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RandomChat from './RandomChat';
 
 
 const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandidateLogin, newNavBarCandidateRegister, newNavBarAdminLogin, newNavBarRecruiterLogin, forgotPassword, ClientNewPassword, home, aboutUs, searchCV, service, RPO, contact, candVerification, postJob }) => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleBackButtonClick = () => {
     navigate(-1);
   };
+
 
   useEffect(() => {
     ///////////
@@ -261,14 +263,14 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <span>Back</span>
       </button> */}
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate') &&
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) &&
         <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
           <i className="bi bi-chevron-double-left"></i>
           <span>Back</span>
         </button>
       }
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate') &&
+      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) &&
         <RandomChat />
       }
 

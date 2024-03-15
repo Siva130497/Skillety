@@ -11,7 +11,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const AppliedCandidateRecruiter = () => {
     const location = useLocation();
-    const {atsJob} = location.state || {};
+    const { atsJob } = location.state || {};
     const [staffToken, setstaffToken] = useState("");
     const { id } = useParams();
     const { getProtectedData, getCandidateImg, candidateImg } = useContext(AuthContext);
@@ -69,433 +69,6 @@ const AppliedCandidateRecruiter = () => {
     useEffect(() => {
         setstaffToken(JSON.parse(localStorage.getItem('staffToken')))
     }, [staffToken])
-
-    useEffect(() => {
-        $(document).ready(function () {
-            ////change the toggle text and color
-            $('.toggleSwitch').change(function () {
-                var $label = $(this).closest('.cl-toggle-switch').find('.cl-toggle--switch-label');
-                if ($(this).is(':checked')) {
-                    $label.text('Boolean On').css('color', '#714F36');
-                } else {
-                    $label.text('Boolean Off').css('color', '#B3B3B3');
-                }
-            });
-            ////
-
-            //// avoid "e" negative values for number input field
-            // $('.numeric-input').on('input', function () {
-            //     var inputValue = $(this).val();
-
-            //     // Remove any non-digit characters, "e", and leading minus sign
-            //     inputValue = inputValue.replace(/[^0-9]/g, '');
-
-            //     // Ensure that the input is not negative
-            //     if (inputValue.length > 0 && inputValue.charAt(0) === '-') {
-            //         inputValue = inputValue.slice(1);
-            //     }
-
-            //     // Set the cleaned value back in the input field
-            //     $(this).val(inputValue);
-            // });
-            ////
-
-            ////for tooltip
-            $('.info-icon-button').click(function () {
-                // Toggle tooltip display on button click
-                $('.tooltip').toggleClass('active');
-            });
-            ////
-
-            ///add multi input fields for company
-            $(".cli--tal-search-add-input-button").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "company",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Add Company name",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#container").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-
-            $(".cli--tal-search-add-company-input-button").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "company",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Add Company name",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#containerCompany").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///add multi input fields for search keyword
-            $(".cli--tal-search-keyword-add-input-button").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "exclude_keyword",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Enter the keyword",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#container1").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///add multi input fields for search keyword
-            $(".cli--tal-search-skill-add-input-button").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "exclude_skill",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Enter the skill",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#container2").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///add multi input fields for qualification
-            $(".cli--tal-search-qualification-add-input-button").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "qualification",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Enter the PPG/Doctorate Qualification",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#container3").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///add multi input fields for keyword in search page
-            $(".cli--tal-search-keyword-add-input-button-search").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "qualification",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Enter the PPG/Doctorate Qualification",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#containerSearch").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///add multi input fields for skills in search page
-            $(".cli--tal-search-skill-add-input-button-search").click(function () {
-                // Create a new input area
-                var newInputArea = $("<div>", {
-                    class: "cli-tal-pro-search-filter-multi-input-area",
-                });
-
-                // Create an input element
-                var inputElement = $("<input>", {
-                    type: "text",
-                    name: "qualification",
-                    class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Enter the PPG/Doctorate Qualification",
-                });
-
-                // Create a close button
-                var closeButton = $("<i>", {
-                    class: "bi bi-x cli-input-close-icon",
-                });
-
-                // Add the input and close button to the new input area
-                newInputArea.append(inputElement);
-                newInputArea.append(closeButton);
-
-                // Append the new input area to the container
-                $("#containerSearch2").append(newInputArea);
-
-                // Use a timeout to trigger the transition after the element is added
-                setTimeout(function () {
-                    newInputArea.addClass("active");
-                }, 10);
-
-                // Handle the close button click event
-                closeButton.click(function () {
-                    // Remove the class to trigger the transition
-                    newInputArea.removeClass("active");
-
-                    // Remove the input area after the transition ends
-                    setTimeout(function () {
-                        newInputArea.remove();
-                    }, 300); // Adjust the time to match your transition duration
-                });
-            });
-            ////
-
-            ///for search filter toggle
-            $('.cli-tal-pro-search-filter-toggle-area').click(function () {
-                var expandArea = $(this).closest('.cli-tal-pro-search-filter-content-section').find('.cli-tal-pro-search-filter-expand-area');
-
-                if (expandArea.hasClass('opened')) {
-                    expandArea.removeClass('opened');
-                    $(this).removeClass('opened');
-                } else {
-                    expandArea.addClass('opened');
-                    $(this).addClass('opened');
-                }
-            });
-            ////
-
-            ////for custom select option for days
-            var defaultOption = $('.select-options li:first-child');
-            $('.select-box span').text(defaultOption.text());
-
-            $('.select-box').on('click', function () {
-                var selectBox = $(this);
-                var toggleIcon = selectBox.find('.toggle-icon');
-                var selectOptions = selectBox.next('.select-options');
-
-                selectOptions.slideToggle(300, function () {
-                    if (selectOptions.is(':visible')) {
-                        toggleIcon.css('transform', 'rotateX(180deg)');
-                        selectBox.addClass('active');
-                    } else {
-                        toggleIcon.css('transform', 'rotateX(0deg)');
-                        selectBox.removeClass('active');
-                    }
-                });
-            });
-
-            $('.select-options li').on('click', function () {
-                var selectedValue = $(this).data('value');
-                $('.select-box span').text($(this).text());
-                $('.select-options').slideUp();
-                $('.select-box .toggle-icon').css('transform', 'rotateX(0deg)');
-                $('.select-box').removeClass('active');
-
-                // You can do something with the selected value here
-                console.log('Selected value: ' + selectedValue);
-            });
-
-            $(document).on('click', function (e) {
-                if (!$(e.target).closest('.custom-select').length) {
-                    $('.select-options').slideUp();
-                    $('.select-box .toggle-icon').css('transform', 'rotateX(0deg)');
-                    $('.select-box').removeClass('active');
-                }
-            });
-
-            ////
-
-            // $('.talent--profile-card .tal--pro-card-contact-btn').hover(
-            //     function () {
-            //         // Check if the checkbox is not checked
-            //         if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
-            //             // On hover in
-            //             var newText = $(this).next('.profile-credits-title').text();
-            //             $(this).text(newText);
-            //         }
-            //     },
-            //     function () {
-            //         // Check if the checkbox is not checked
-            //         if (!$(this).closest('.talent--profile-card').find('.tal--checkbox').prop('checked')) {
-            //             // On hover out
-            //             var originalText = "View Profile"; // Replace with your original text
-            //             $(this).text(originalText);
-            //         }
-            //     }
-            // );
-
-        });
-    }, [selectedJobs]);
 
     useEffect(() => {
         if (id) {
@@ -581,23 +154,23 @@ const AppliedCandidateRecruiter = () => {
         }
     }
 
-    useEffect(()=>{
-        if(id && staffToken){
+    useEffect(() => {
+        if (id && staffToken) {
             axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
                 headers: {
                     Authorization: `Bearer ${staffToken}`,
                     Accept: 'application/json'
                 }
             })
-            .then(res=>{
-                console.log(res.data);
-                setApplicationStatus(res.data)
-            })
-            .catch(err=>{
-                console.log(err);
-            })
+                .then(res => {
+                    console.log(res.data);
+                    setApplicationStatus(res.data)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
-    },[id, staffToken])
+    }, [id, staffToken])
 
     useEffect(() => {
         if (staffToken) {
@@ -635,37 +208,37 @@ const AppliedCandidateRecruiter = () => {
             const appliedCandIds = selectedJobs.map(job => job.candidateId);
             console.log(appliedCandIds)
             const appliedCands = candidateDetail.filter(cand => appliedCandIds.includes(cand.id));
-            if(appliedCands){
+            if (appliedCands) {
                 // setLoading(false);
                 setReqCands(appliedCands);
-            }else{
+            } else {
                 // setLoading(false);
                 // setPageNotFound(true);
             }
-            
+
         }
     }, [selectedJobs])
 
     const handleCheckboxChange = (candidateId) => {
-        
+
         const isSelected = selectedCandidates.includes(candidateId);
-      
+
         setSelectedCandidates((prevSelected) =>
-          isSelected
-            ? prevSelected.filter((id) => id !== candidateId)
-            : [...prevSelected, candidateId]
+            isSelected
+                ? prevSelected.filter((id) => id !== candidateId)
+                : [...prevSelected, candidateId]
         );
-      };
-      
-      const handleChangeStatus = () => {
-        
+    };
+
+    const handleChangeStatus = () => {
+
         console.log("Selected Candidates: ", selectedCandidates);
         console.log("Selected Status: ", selectedStatus);
-      
+
         const applicationData = {
-            jobId:id,
-            status:selectedStatus,
-            candidateIdArray:selectedCandidates,
+            jobId: id,
+            status: selectedStatus,
+            candidateIdArray: selectedCandidates,
         }
 
         axios.patch("https://skillety-n6r1.onrender.com/update-application-status", applicationData, {
@@ -674,30 +247,30 @@ const AppliedCandidateRecruiter = () => {
                 Accept: 'application/json'
             }
         })
-        .then(res=>{
-            console.log(res.data);
-            showSuccessMessage(`The Status of the selected candidate is Updated.`)
-
-            axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${staffToken}`,
-                    Accept: 'application/json'
-                }
-            })
-            .then(res=>{
+            .then(res => {
                 console.log(res.data);
-                setApplicationStatus(res.data)
+                showSuccessMessage(`The Status of the selected candidate is Updated.`)
+
+                axios.get(`https://skillety-n6r1.onrender.com/application-status/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${staffToken}`,
+                        Accept: 'application/json'
+                    }
+                })
+                    .then(res => {
+                        console.log(res.data);
+                        setApplicationStatus(res.data)
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             })
-            .catch(err=>{
-                console.log(err);
+            .catch(err => {
+                console.log(err)
+                showErrorMessage();
             })
-        })
-        .catch(err=>{
-            console.log(err)
-            showErrorMessage();
-        })
-        
-      };
+
+    };
 
 
     return (
@@ -726,41 +299,41 @@ const AppliedCandidateRecruiter = () => {
                                             <i class="bi bi-chevron-down toggle-icon"></i>
                                             <select className='change-setting-input select'
                                                 value={selectedStatus}
-                                                onChange={(e) =>setSelectedStatus(e.target.value)}
+                                                onChange={(e) => setSelectedStatus(e.target.value)}
                                             >
                                                 <option value="" disabled selected>-- Select application status --</option>
                                                 <option value="screened">Screened</option>
-                                                <option value="interviews">Interviews in Process</option>
+                                                <option value="interviews">Interview in process</option>
                                                 <option value="offered">Offered</option>
                                                 <option value="rejected">Rejected</option>
                                                 <option value="joined">Joined</option>
-                                                <option value="absconded">Absconded</option>
+                                                {/* <option value="absconded">Absconded</option> */}
                                             </select>
                                         </div>
                                         <button className="setting-update-btn more-det"
-                                        onClick={handleChangeStatus}>Change</button>
+                                            onClick={handleChangeStatus}>Change</button>
                                     </div>}
                                 </div>
                                 {reqCands.map((candidate) => {
                                     const matchingImg = candidateImg ? candidateImg.find(img => img.id === candidate.id) : null;
-                                    const imgSrc = matchingImg ?( matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}` ): "../assets/img/talents-images/avatar.jpg";
+                                    const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "../assets/img/talents-images/avatar.jpg";
 
                                     const calculateMatchPercentage = (skills1, skills2) => {
                                         const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                         return (matchingSkills.length / skills1.length) * 100;
                                     }
                                     const percentage = Math.round(calculateMatchPercentage(job?.skills, candidate.skills));
-                                    const status = applicationStatus.find(status=>status.candidateId === candidate.id)?.status;
-                                    
+                                    const status = applicationStatus.find(status => status.candidateId === candidate.id)?.status;
+
                                     return (
                                         <article className="talent--profile-card applied" key={candidate.id}>
                                             <div className="tal--pro-card-left-area applied">
                                                 <div className='card-split-line applied'></div>
                                                 <div className="tal--pro-card-name-area">
-                                                <label className="tal--pro-card-name-check-container no-absolute">
-                                                        <input type="checkbox" class="tal--checkbox" 
-                                                        checked={selectedCandidates.includes(candidate.id)}
-                                                        onChange={() => handleCheckboxChange(candidate.id)}/>
+                                                    <label className="tal--pro-card-name-check-container no-absolute">
+                                                        <input type="checkbox" class="tal--checkbox"
+                                                            checked={selectedCandidates.includes(candidate.id)}
+                                                            onChange={() => handleCheckboxChange(candidate.id)} />
                                                         <div className="tal--pro-card-name-checkmark"></div>
                                                     </label>
                                                     <h6 className='tal--pro-card-name'>{candidate.firstName + ' ' + candidate.lastName}</h6>
@@ -821,12 +394,12 @@ const AppliedCandidateRecruiter = () => {
                                                             <p className='tal--pro-card-desc'>{candidate.profileHeadline}</p>
                                                         </div>
                                                     </div>
-                                                    {!atsJob &&<div className="row tal--pro-card-desc-row">
+                                                    {!atsJob && <div className="row tal--pro-card-desc-row">
                                                         <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
                                                             <h6 className='tal--pro-card-desc-title font-weight-700'>Status&nbsp;:</h6>
                                                         </div>
-                                                         <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
-                                                            <p className='tal--pro-card-desc font-weight-700'>{status?status:"Screening"}</p>
+                                                        <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                            <p className='tal--pro-card-desc font-weight-700'>{status ? status : "Screening"}</p>
                                                         </div>
                                                     </div>}
                                                 </div>
@@ -850,7 +423,7 @@ const AppliedCandidateRecruiter = () => {
                                                         <p className='tal--pro-card-role-name mb-0'>{candidate.designation[0]}</p>
                                                     </div>
                                                     <div className="tal--pro-card-contact-btn-area">
-                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents-ats/${candidate.id}`, { state: { percentage, jobId:id } })}>View Profile</button>
+                                                        <button className='tal--pro-card-contact-btn' onClick={() => navigate(`/talents-ats/${candidate.id}`, { state: { percentage, jobId: id } })}>View Profile</button>
                                                         {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
 
                                                         {/* <div className="profile-credits-area">

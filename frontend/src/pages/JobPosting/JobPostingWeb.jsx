@@ -908,7 +908,7 @@ const JobPostingWeb = () => {
                                       className="manually-add-btn with-mb"
                                       onClick={handleManualJobRole}
                                       disabled={!isCheckedJobRole}>
-                                      Add Manually
+                                      Add
                                     </button>
                                   </div>
                                 </div>
@@ -1015,7 +1015,7 @@ const JobPostingWeb = () => {
                                       className="manually-add-btn"
                                       onClick={handleManualSkill}
                                       disabled={!isCheckedSkill}
-                                    >Add Manually</button>
+                                    >Add</button>
                                   </div>
                                 </div>
                               </div>

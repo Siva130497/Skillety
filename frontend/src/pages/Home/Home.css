@@ -608,7 +608,7 @@
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .home--service-head-area {
@@ -624,8 +624,13 @@
     color: #5C3B2E;
     font-size: 18px;
     font-weight: 400;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     line-height: normal;
+}
+
+.home--about-para p::first-letter,
+.home--service-para p::first-letter{
+    text-transform: uppercase !important;
 }
 
 .home--services-slider-area {
