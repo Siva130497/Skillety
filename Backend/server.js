@@ -34,7 +34,7 @@ const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
 const axios = require("axios");
 const sampleImg = require("./Database/sampleImg");
-const jimp = require("jimp");
+// const jimp = require("jimp");
 
 //ATS.............
 
@@ -472,17 +472,19 @@ app.post('/upload-candidate-profile-image', uploadImgBase64Cand.single('image'),
       return res.status(400).json({ error: 'No candidate profile provided' });
     }
 
-    const image = await jimp.read(req.file.buffer);
+    // const image = await jimp.read(req.file.buffer);
 
-    // Compress the image
-    image.resize(100, jimp.AUTO); // Resize to width 300, maintaining aspect ratio
+    // // Compress the image
+    // image.resize(100, jimp.AUTO); // Resize to width 300, maintaining aspect ratio
 
-    // Convert the image to base64
-    const base64Image = await image.getBase64Async(jimp.AUTO);
-    // const base64Image = req.file.buffer.toString('base64');
+    // // Convert the image to base64
+    // const base64Image = await image.getBase64Async(jimp.AUTO);
+    // // const base64Image = req.file.buffer.toString('base64');
+
+    const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
-    const newCandidateProfile = new sampleImg({
+    const newCandidateProfile = new candidateProfile({
       id: req.body.id,
       image: base64Image
     });
