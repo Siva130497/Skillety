@@ -185,7 +185,7 @@ const RecruiterLogin = () => {
                           </div>
                           {errorMsg ? (
                             <p className="log-error-msg">
-                              {errorMsg && "!!!" + errorMsg}
+                              {errorMsg && errorMsg}
                             </p>
                           ) : null}
                           <div className="login-form-btn-area">

@@ -220,7 +220,7 @@ const CandidateLogin = () => {
                                         </div>
 
                                         {errorMsg ?
-                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            <p className='log-error-msg'>{errorMsg && errorMsg}</p>
                                             : null
                                         }
 
@@ -245,7 +245,7 @@ const CandidateLogin = () => {
 
                                     <div className="cli--login-no-account-area">
                                         <span className='cli--login-no-account'>Don’t have an account?&nbsp;</span>
-                                        <a href="/candiate-register" className='cli--login-no-account-signup'>Sign up</a>
+                                        <a href="/candiate-register" className='cli--login-no-account-signup text-undeline'>Sign up</a>
                                     </div>
                                 </div>
                             </div>

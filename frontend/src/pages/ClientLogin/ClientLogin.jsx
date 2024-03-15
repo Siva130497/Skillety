@@ -103,7 +103,7 @@ const ClientLogin = () => {
                                         </div>
 
                                         {errorMsg ?
-                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            <p className='log-error-msg'>{errorMsg && errorMsg}</p>
                                             : null
                                         }
 
@@ -127,7 +127,7 @@ const ClientLogin = () => {
                                     </form>
                                     <div className="cli--login-no-account-area">
                                         <span className='cli--login-no-account'>Don’t have an account?&nbsp;</span>
-                                        <a href="/client-register" className='cli--login-no-account-signup'>Sign up</a>
+                                        <a href="/client-register" className='cli--login-no-account-signup text-undeline'>Sign up</a>
                                     </div>
 
                                 </div>

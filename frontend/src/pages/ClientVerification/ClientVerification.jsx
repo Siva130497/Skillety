@@ -182,6 +182,17 @@ const ClientVerification = () => {
         }
     }
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     const renderStep = () => {
         switch (step) {
             case 1:
@@ -213,13 +224,15 @@ const ClientVerification = () => {
 
                         <form action="" className='cli--signup-form' onSubmit={handleRegister}>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <input type="password" id='password' name="password"
+                                <i class="bi bi-eye-slash toggle-eye1" onClick={handleTogglePassword}></i>
+                                <input  type={showPassword ? "text" : "password"} id='password' name="password"
                                     value={credentials.password}
                                     onChange={handleInputChange} placeholder="Enter Password" className='cli--signup-form-input' required />
                                 <label htmlFor="email" className='cli--signup--form-label'>Enter Password</label>
                             </div>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <input type="password" id='confirm_password' name="confirmPassword"
+                                <i class="bi bi-eye-slash toggle-eye1" onClick={handleToggleConfirmPassword}></i>
+                                <input type={showConfirmPassword ? "text" : "password"} id='confirm_password' name="confirmPassword"
                                     value={credentials.confirmPassword}
                                     onChange={handleInputChange} placeholder="Confirm Password" className='cli--signup-form-input' required />
                                 <label htmlFor="email" className='cli--signup--form-label'>Confirm Password</label>

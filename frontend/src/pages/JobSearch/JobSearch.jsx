@@ -1799,7 +1799,7 @@ const JobSearch = () => {
                                                                 )
                                                             }))}
                                                 <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : latestJob.length}</span></h6>
+                                                    <h6 className='tal--pro-total-result-text'>Total jobs : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : latestJob.length}</span></h6>
                                                     <div className='tal--pro-slider-btn-sub'>
                                                         {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 25, x[1] - 25])}>
                                                             <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">
