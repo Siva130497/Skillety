@@ -174,7 +174,11 @@
     color: #FFF;
     font-size: 16px;
     line-height: 164%;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
+}
+
+.cand--milestone-para-area .cand--milestone-para::first-letter{
+    text-transform: uppercase !important;
 }
 
 .home-milestone-number.candidate {

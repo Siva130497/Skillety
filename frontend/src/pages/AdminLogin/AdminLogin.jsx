@@ -64,7 +64,7 @@ const AdminLogin = () => {
                         onPaste={(e)=>e.preventDefault()}
                         required />
                         {errorMsg ?
-                                            <p className='log-error-msg'>{errorMsg && "!!!" + errorMsg}</p>
+                                            <p className='log-error-msg'>{errorMsg && errorMsg}</p>
                                             : null
                                         }
 
