@@ -224,14 +224,14 @@ const ClientVerification = () => {
 
                         <form action="" className='cli--signup-form' onSubmit={handleRegister}>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <i class="bi bi-eye-slash toggle-eye1" onClick={handleTogglePassword}></i>
-                                <input  type={showPassword ? "text" : "password"} id='password' name="password"
+                                <i class={`toggle-eye1 bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'}`} onClick={handleTogglePassword}></i>
+                                <input type={showPassword ? "text" : "password"} id='password' name="password"
                                     value={credentials.password}
                                     onChange={handleInputChange} placeholder="Enter Password" className='cli--signup-form-input' required />
                                 <label htmlFor="email" className='cli--signup--form-label'>Enter Password</label>
                             </div>
                             <div className='cli--signup-form-group' data-aos="fade-up">
-                                <i class="bi bi-eye-slash toggle-eye1" onClick={handleToggleConfirmPassword}></i>
+                                <i class={`toggle-eye1 bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'}`} onClick={handleToggleConfirmPassword}></i>
                                 <input type={showConfirmPassword ? "text" : "password"} id='confirm_password' name="confirmPassword"
                                     value={credentials.confirmPassword}
                                     onChange={handleInputChange} placeholder="Confirm Password" className='cli--signup-form-input' required />
