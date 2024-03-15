@@ -141,10 +141,14 @@
     text-align: center;
     font-size: 18px;
     font-weight: 400;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     transition: ease-in-out 0.5s;
     text-decoration: none;
 }
 .cli--login-no-account-area .cli--login-no-account-signup:hover{
     color: #F9C833;
+}
+
+.text-undeline{
+    text-decoration: underline !important;
 }

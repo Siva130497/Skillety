@@ -717,6 +717,7 @@ const CandidateRegister = () => {
                                             <DatePicker
                                                 selected={selectedDate}
                                                 onChange={handleDateChange}
+                                                minDate={new Date()}
                                                 dateFormat="dd/MM/yyyy"
                                                 placeholderText='DD/MM/YYYY'
                                                 disabled={(credentials.days === "0 to 7 days" && credentials.checkbox) || credentials.days === "Currently not serving notice period"}
