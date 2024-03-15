@@ -405,7 +405,7 @@ const MyApplication = () => {
                                                             const active = activeJobs.find(actv => actv.id === job.jobId)
 
                                                             // Define the status points and their corresponding classes
-                                                            const statusPoints = ["Screening", "screened", "interviews", "offered", "rejected", "joined", "absconded"];
+                                                            const statusPoints = ["Screening", "screened", "interviews", "offered", "rejected", "joined"];
 
                                                             return (
                                                                 <tr className='dash-table-row custom' key={index}>
