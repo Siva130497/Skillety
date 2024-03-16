@@ -965,4 +965,5 @@ app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, uploadImgBa
 
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
+  
 });
