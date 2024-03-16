@@ -159,13 +159,8 @@ const SkilletyPackagePlans = () => {
       BGVComprehensive: 0
     }
   );
-  const [validity, setValidity] = useState(
-    {
-      cvViews: 1,
-      logins: 0,
-      activeJobs: 0
-    }
-  );
+  const [validity, setValidity] = useState(1);
+  
 
   const [total, setTotal] = useState({
     cvViews: 0,
@@ -181,9 +176,7 @@ const SkilletyPackagePlans = () => {
     BGVComprehensive: 0
   })
 
-  console.log(quantity);
-  console.log(validity);
-
+  
   const switchTab = (tabIndex) => {
     setActiveTab(tabIndex);
   };
@@ -206,49 +199,49 @@ const SkilletyPackagePlans = () => {
   };
 
   useEffect(() => {
-    if (quantity.cvViews, validity.cvViews) {
+    if (quantity.cvViews > 0) {
       const servicePrice = parseInt(quantity.cvViews) * 5
-      const discount = parseInt(validity.cvViews) <= 3 ? "0" : 3 < parseInt(validity.cvViews) <= 6 ? "5" : "10"
-      const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
-      const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+      // const discount = parseInt(validity.cvViews) <= 3 ? "0" : 3 < parseInt(validity.cvViews) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
 
-      setTotal({ ...total, cvViews: servicePrice - discountAmount + GSTAmount ? servicePrice - discountAmount + GSTAmount : 0 });
+      setTotal({ ...total, cvViews: servicePrice ? servicePrice : 0 });
     } else {
       setTotal({ ...total, cvViews: 0 });
     }
 
 
-  }, [quantity.cvViews, validity.cvViews])
+  }, [quantity.cvViews])
 
   useEffect(() => {
-    if (quantity.logins, validity.logins) {
+    if (quantity.logins > 0) {
       const servicePrice = parseInt(quantity.logins) * 1000
-      const discount = parseInt(validity.logins) <= 3 ? "0" : 3 < parseInt(validity.logins) <= 6 ? "5" : "10"
-      const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
-      const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+      // const discount = parseInt(validity.logins) <= 3 ? "0" : 3 < parseInt(validity.logins) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
 
-      setTotal({ ...total, logins: servicePrice - discountAmount + GSTAmount ? servicePrice - discountAmount + GSTAmount : 0 });
+      setTotal({ ...total, logins: servicePrice ? servicePrice  : 0 });
     } else {
       setTotal({ ...total, logins: 0 });
     }
 
 
-  }, [quantity.logins, validity.logins])
+  }, [quantity.logins])
 
   useEffect(() => {
-    if (quantity.activeJobs, validity.activeJobs) {
+    if (quantity.activeJobs > 0) {
       const servicePrice = parseInt(quantity.activeJobs) * 100
-      const discount = parseInt(validity.activeJobs) <= 3 ? "0" : 3 < parseInt(validity.activeJobs) <= 6 ? "5" : "10"
-      const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
-      const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+      // const discount = parseInt(validity.activeJobs) <= 3 ? "0" : 3 < parseInt(validity.activeJobs) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
 
-      setTotal({ ...total, activeJobs: servicePrice - discountAmount + GSTAmount ? servicePrice - discountAmount + GSTAmount : 0 });
+      setTotal({ ...total, activeJobs: servicePrice  ? servicePrice  : 0 });
     } else {
       setTotal({ ...total, activeJobs: 0 });
     }
 
 
-  }, [quantity.activeJobs, validity.activeJobs])
+  }, [quantity.activeJobs])
 
   useEffect(() => {
     if (quantitySVAS.OnlineTechnicalAssessment) {
@@ -316,18 +309,34 @@ const SkilletyPackagePlans = () => {
   }, [quantitySVAS.BGVComprehensive])
 
   ////for buy service
-  const handleServiceBuyNowClick = (serviceName, quantity, validity) => {
-    if (quantity && validity) {
+  const handleServiceBuyNowClick = () => {
+    if(quantity.cvViews>0 || quantity.logins>0 || quantity.activeJobs>0){
       switchServiceTab(2);
-      const unitPrice = serviceName === "CVViews" ? 5 : serviceName === "LoginIDs" ? 1000 : 100;
-      const servicePrice = parseInt(quantity) * unitPrice
-      const discount = parseInt(validity) <= 3 ? "0" : 3 < parseInt(validity) <= 6 ? "5" : "10"
+      let serviceNames = [];
+      if(quantity.cvViews>0){
+        serviceNames.push("CV Views")
+      }
+      if(quantity.logins>0){
+        serviceNames.push("Login IDs")
+      }
+      if(quantity.activeJobs>0){
+        serviceNames.push("Job Postings")
+      }
+      const servicePrice = parseInt(quantity.cvViews) * 5 + parseInt(quantity.logins) * 1000 + parseInt(quantity.activeJobs) * 100
+      const parsedValidity = parseInt(validity);
+
+      const discount = parsedValidity <= 3 ? "0" : (parsedValidity <= 6 ? "5" : "10");
       const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
       const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+      
       setServiceInfo({
         id: loginClientDetail?.companyId,
-        serviceName,
-        quantity: parseInt(quantity),
+        serviceNames,
+        quantities: {
+          cvViews:parseInt(quantity.cvViews),
+          logins:parseInt(quantity.logins),
+          activeJobs:parseInt(quantity.activeJobs)
+        },
         validity: parseInt(validity),
         servicePrice: servicePrice.toString(),
         finalAmount: (parseInt(servicePrice) - discountAmount + GSTAmount).toString(),
@@ -336,9 +345,11 @@ const SkilletyPackagePlans = () => {
         GST: allPackages[0]?.GST.toString(),
         GSTAmount: GSTAmount.toString()
       });
+    
     }
-
+      
   };
+ 
 
   const handleServicePreviousClick = () => {
     setServiceInfo()
@@ -613,7 +624,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuy = () => {
     axios
-      .post("https://skillety-n6r1.onrender.com//client-package-plan", packageInfo, {
+      .post("http://localhost:5002/client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -649,7 +660,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuyService = () => {
     axios
-      .post("https://skillety-n6r1.onrender.com/client-skillety-service", serviceInfo, {
+      .post("http://localhost:5002/client-skillety-service", serviceInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -658,7 +669,7 @@ const SkilletyPackagePlans = () => {
       .then((res) => {
         console.log(res.data);
         showSuccessMessage(
-          `Thank you for choosing the ${serviceInfo?.serviceName}. Welcome aboard!`
+          `Your Payment is Successful. Welcome aboard!`
         );
 
         setTimeout(() => {
@@ -834,16 +845,16 @@ const SkilletyPackagePlans = () => {
                               return (
                                 <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1"
                                   key={pack.id}>
-                                  <div className={(currentPackage?.packageType === pack.packageType) ? "pl--package-detail-area active" : "pl--package-detail-area"}>
-                                    <div
-                                      className={(currentPackage?.packageType === pack.packageType) ? "pl--package-info-area active" : `pl--package-info-area`}
-                                    >
-                                      <img
-                                        src={pack.packageType === "Test" ? "../assets/img/packages/Starter.png" : pack.packageType === "Start" ? "../assets/img/packages/Starter.png" : pack.packageType === "Scale" ? "../assets/img/packages/Professional.png" : "../assets/img/packages/premium.png"}
-                                        className="pl--package-img"
-                                        alt=""
-                                      />
-                                      <h5 className="pl--package-name">{pack.packageType}</h5>
+                                    <div className={(currentPackage?.packageType === pack.packageType) ? "pl--package-detail-area active" : "pl--package-detail-area"}>
+                                      <div
+                                        className={(currentPackage?.packageType === pack.packageType) ? "pl--package-info-area active" : `pl--package-info-area`}
+                                      >
+                                        <img
+                                          src={pack.packageType === "Test" ? "../assets/img/packages/test.png" : pack.packageType === "Start" ? "../assets/img/packages/Starter.png" :  pack.packageType === "Scale" ? "../assets/img/packages/Professional.png" :  "../assets/img/packages/premium.png"}
+                                          className="pl--package-img"
+                                          alt=""
+                                        />
+                                        <h5 className="pl--package-name">{pack.packageType}</h5>
 
                                       <div className="pl--package-mobile-flex">
                                         <h6 className="pl--package-mobile-title">
@@ -1549,10 +1560,12 @@ const SkilletyPackagePlans = () => {
 
                             <tr className="sol-price-table-row">
                               <td className="sol-price-table-data first-data text-start">
-                                Validity in months
+                                Validity (In months)
                               </td>
                               <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                                <select className="sol-price-table-qty-input">
+                                <select className="sol-price-table-qty-input"
+                                value={validity}
+                                onChange={(e)=>setValidity(e.target.value)}>
                                   <option value="1" selected>1</option>
                                   <option value="2">2</option>
                                   <option value="3">3</option>
@@ -1568,12 +1581,13 @@ const SkilletyPackagePlans = () => {
                                 </select>
                               </td>
 
-                              <td className="sol-price-table-data price text-center">
+                              {/* <td className="sol-price-table-data price text-center">
                                 120
-                              </td>
+                              </td> */}
 
                               <td className="text-center last-data sol-price-buy-now-btn-area">
-                                <button className="sol-price-buy-now-btn">
+                                <button className="sol-price-buy-now-btn"
+                                onClick={handleServiceBuyNowClick}>
                                   <div className="sol-price-buy-now-btn-sub">
                                     Buy Now
                                   </div>
@@ -1624,7 +1638,7 @@ const SkilletyPackagePlans = () => {
                               <div className="col-6">
                                 <div className="pl-package-detail-view-area">
                                   <div className="pl-package-detail-title">
-                                    {serviceInfo?.serviceName}
+                                    {serviceInfo?.serviceNames.join(", ")}
                                   </div>
                                   {/* <button
                                         type="button"

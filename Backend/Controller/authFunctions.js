@@ -335,13 +335,13 @@ const createClientStaff = async (req, res) => {
         id: companyId,
         status: true,
       });
-      const loginAsServiceForCompanyId = await skilletyService.findOne({
+      const loginAsServiceForCompanyId = await skilletyService.find({
         id: companyId,
-        serviceName: "LoginIDs",
+        serviceNames: { $in: ["Login IDs"] },
         status: true,
       });
 
-      if (packageDetailForCompanyId) {
+     
         if (
           packageDetailForCompanyId.loginsRemaining > 0 ||
           loginAsServiceForCompanyId 
@@ -413,9 +413,7 @@ const createClientStaff = async (req, res) => {
             .status(200)
             .json({ error: "You reached the limit of creating accounts" });
         }
-      } else {
-        return res.status(400).json({ error: "No active package found!" });
-      }
+      
     } else {
       return res.status(404).json({ error: "No client found with the matching id" });
     }
@@ -2396,13 +2394,23 @@ const getAllPackagePlans = async(req, res) => {
 
 /* client_package choosing */
 const clientPackageSelection = async (req, res) => {
-  const { id } = req.body;
+  const { id, validity } = req.body;
   try {
     // Find the current active package
     const currentActivePackage = await clientPackage.findOne({ id: id, status: true });
+    const isTestPackageBought = await clientPackage.findOne({id : id, packageType:"Test"});
+
+    const boughtDate = new Date(); // Current date
+    const expiryDate = new Date(boughtDate);
+    
+    if (validity < 1 || validity > 30) {
+      return res.status(400).json({ error: "Validity should be between 1 and 30 days inclusive." });
+    }
+    
+    expiryDate.setDate(boughtDate.getDate() + validity);
 
     if (currentActivePackage) {
-      if(currentActivePackage.packageType === "Test" && req.body.packageType === "Test"){
+      if(isTestPackageBought && req.body.packageType === "Test"){
         return res.status.json({error:"You can buy Test package only once!"})
       }
       // Calculate the days since the package was created
@@ -2420,6 +2428,8 @@ const clientPackageSelection = async (req, res) => {
           loginsRemaining: req.body.logins - 1,
           cvViewsRemaining: req.body.cvViews,
           activeJobsRemaining: req.body.activeJobs,
+          boughtDate: formatDate(boughtDate),
+          expiryDate: formatDate(expiryDate),
           status: true // Set status to true for the new document
         });
 
@@ -2436,6 +2446,8 @@ const clientPackageSelection = async (req, res) => {
         loginsRemaining: req.body.logins - 1,
         cvViewsRemaining: req.body.cvViews,
         activeJobsRemaining: req.body.activeJobs,
+        boughtDate: formatDate(boughtDate),
+        expiryDate: formatDate(expiryDate),
         status: true // Set status to true for the new document
       });
 
@@ -2448,36 +2460,61 @@ const clientPackageSelection = async (req, res) => {
   }
 };
 
+
 /* client service buying */
 const clientServiceBuying = async (req, res) => {
-  const { id } = req.body;
+  const { id, quantities, validity } = req.body;
   try {
-    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
-    if(clientCurrentPackageActive){
-      const newService = new skilletyService({
-        ...req.body,
-        remaining: req.body.quantity,
-        status: true // Set status to true for the new document
-      });
-
-      await newService.save();
-
-      return res.status(201).json(newService);
-    }else{
-      return res.status(400).json({ error: "No active package found!" });
+    // Validate validity
+    if (validity < 1 || validity > 12) {
+      return res.status(400).json({ error: "Validity should be between 1 and 12." });
     }
+
+    const boughtDate = new Date(); // Current date
+    const expiryDate = new Date(boughtDate);
+    expiryDate.setMonth(boughtDate.getMonth() + validity);
+
+    // Calculate the total days in the month of the expiry date
+    const totalDaysInMonth = new Date(expiryDate.getFullYear(), expiryDate.getMonth() + 1, 0).getDate();
+
+    // Adjust the expiry date based on the total days in the month
+    expiryDate.setDate(Math.min(boughtDate.getDate(), totalDaysInMonth));
+
+    const newService = new skilletyService({
+      ...req.body,
+      remainings: {
+        cvViews: quantities.cvViews,
+        logins: quantities.logins,
+        activeJobs: quantities.activeJobs
+      },
+      boughtDate: formatDate(boughtDate),
+      expiryDate: formatDate(expiryDate),
+      status: true // Set status to true for the new document
+    });
+
+    await newService.save();
+
+    return res.status(201).json(newService);
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
 
+// Helper function to format date as dd/mm/yyyy
+function formatDate(date) {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+
 /* client service buying */
 const clientValueAddedServiceBuying = async (req, res) => {
   const { id } = req.body;
   try {
-    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
-    if(clientCurrentPackageActive){
+    
       const newValueAddedService = new skilletyValueAddedService({
         ...req.body,
         remaining: req.body.quantity,
@@ -2487,9 +2524,7 @@ const clientValueAddedServiceBuying = async (req, res) => {
       await newValueAddedService.save();
 
       return res.status(201).json(newValueAddedService);
-    }else{
-      return res.status(400).json({ error: "No active package found!" });
-    }
+   
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -2516,18 +2551,22 @@ const getClientChoosenPlan = async(req, res) => {
 /* find all packages client bought */
 const getAllClientChoosenPlans = async(req, res) => {
   const {id} = req.params;
-  try{
+  try {
     const clientWithPackagePlans = await clientPackage.find({ id: id });
-    if(clientWithPackagePlans.length>0){
-      
-      return res.status(200).json(clientWithPackagePlans);
-    }else{
-      return res.status(404).json({ message: 'no package bought' });
+    const clientCustomizedPackages = await skilletyService.find({ id: id });
+    
+    const combinedPackages = [...clientWithPackagePlans, ...clientCustomizedPackages];
+
+    if (combinedPackages.length > 0) {
+      return res.status(200).json(combinedPackages);
+    } else {
+      return res.status(404).json({ message: 'No package bought' });
     }
-  }catch(err){
+  } catch(err) {
     return res.status(500).json({ error: err.message });
   }
 }
+
 /* get client with their package plan */
 const checkTheValidityOfPackage = async (req, res) => {
   const { id } = req.params;
@@ -2562,14 +2601,44 @@ const checkTheValidityOfPackage = async (req, res) => {
 
 /* create client viewed candidate */
 const createViewedCandidate = async(req, res) => {
-  console.log(req.body);
+  const {companyId, candidateId} = req.body;
   try{
-    const clientViewedCandidate = new viewedCandidate({
-      ...req.body,
-    });
-    await clientViewedCandidate.save();
-    console.log(clientViewedCandidate);
-    return res.status(201).json(clientViewedCandidate);
+    const isAlreadyViewTheCandidate = await viewedCandidate.findOne({companyId, candidateId});
+    if(isAlreadyViewTheCandidate){
+      return res.status(400).json({error:"The candidate detail already viewed!"})
+    }else{
+      const isClientPackageAvailable = await clientPackage.findOne({id:companyId, status:true});
+      const isCustomizedCvViewsFound = await skilletyService.find({
+        id: companyId,
+        serviceNames: { $in: ["CV Views"] },
+        status: true,
+      });
+
+      if(isClientPackageAvailable || isCustomizedCvViewsFound.length>0){
+        if(isClientPackageAvailable.cvViewsRemaining > 0){
+          await clientPackage.findOneAndUpdate(
+            { id:companyId, status:true },
+            { $inc: { cvViewsRemaining: -1 } },
+            { new: true })
+
+          const clientViewedCandidate = new viewedCandidate({
+              ...req.body,
+            });
+            await clientViewedCandidate.save();
+
+          return res.status(201).json({message:"Candidate Viewed"});
+        }else{
+          
+          if(isCustomizedCvViewsFound.length>0){
+
+          }else{
+
+          }
+        }
+      }else{
+        return res.status(400).json({error:"No active package found!"})
+      }
+    }
   }catch(err){
     return res.status(500).json({ error: err.message });
   }

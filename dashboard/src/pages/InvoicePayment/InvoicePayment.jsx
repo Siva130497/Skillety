@@ -33,17 +33,17 @@ const InvoicePayment = () => {
 
     useEffect(() => {
         const calculateInvoice = () => {
-            const cvViews = individualPackageDetail?.cvViews;
-            const usedViews = individualPackageDetail?.cvViews-individualPackageDetail?.cvViewsRemaining;
-            const balanceViews = individualPackageDetail?.cvViewsRemaining;
+            const cvViews = individualPackageDetail?.cvViews || individualPackageDetail?.quantities?.cvViews || 0;
+            const usedViews = cvViews-(individualPackageDetail?.cvViewsRemaining || individualPackageDetail?.remainings?.cvViews || 0);
+            const balanceViews = individualPackageDetail?.cvViewsRemaining || individualPackageDetail?.remainings?.cvViews || 0;
 
-            const loginIDs = individualPackageDetail?.logins;
-            const usedLoginIDs = individualPackageDetail?.logins-individualPackageDetail?.loginsRemaining;
-            const balanceLoginIDs = individualPackageDetail?.loginsRemaining;
+            const loginIDs = individualPackageDetail?.logins || individualPackageDetail?.quantities?.logins || 0;
+            const usedLoginIDs = loginIDs-(individualPackageDetail?.loginsRemaining || individualPackageDetail?.remainings?.logins || 0);
+            const balanceLoginIDs = individualPackageDetail?.loginsRemaining || individualPackageDetail?.remainings?.logins || 0;
 
-            const jobPostings = individualPackageDetail?.activeJobs;
-            const usedJobPostings = individualPackageDetail?.activeJobs-individualPackageDetail?.activeJobsRemaining;
-            const balanceJobPostings = individualPackageDetail?.activeJobsRemaining;
+            const jobPostings = individualPackageDetail?.activeJobs || individualPackageDetail?.quantities?.activeJobs || 0;
+            const usedJobPostings = jobPostings-(individualPackageDetail?.activeJobsRemaining || individualPackageDetail?.remainings?.activeJobs || 0);
+            const balanceJobPostings = individualPackageDetail?.activeJobsRemaining || individualPackageDetail?.remainings?.activeJobs || 0;
 
             setInvoice([
                 ['Cv Views', usedViews, balanceViews],
@@ -212,14 +212,18 @@ const InvoicePayment = () => {
 
     useEffect(() => {
         if (loginClientDetail?.companyId) {
-            axios.get(`https://skillety-n6r1.onrender.com/client-all-package-plans/${loginClientDetail?.companyId}`,{
+            axios.get(`http://localhost:5002/client-all-package-plans/${loginClientDetail?.companyId}`,{
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
                 }
             }).then(res=>{
                 console.log(res.data);
-                setAllPackageBought(res.data);
+                const sortedData = res.data.sort((a, b) => {
+                    // Convert dates to milliseconds and compare
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
+                setAllPackageBought(sortedData);
                 setLoading(false);
             }).catch(err=>{
                 console.log(err)
@@ -351,18 +355,21 @@ const InvoicePayment = () => {
                                                                 key={pack._id}>
                                                                     <td className='dash-table-data1 text-left'>{index+1}.</td>
                                                                     <td className='dash-table-data1 text-center'>
-                                                                        {pack?.packageType}
+                                                                        {pack?.packageType || "DIY"}
                                                                     </td>
-                                                                    <td className='dash-table-data1 text-center'>
+                                                                    {/* <td className='dash-table-data1 text-center'>
                                                                         {`${new Date(pack?.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(pack?.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(pack?.createdAt).getFullYear() % 100}`}
+                                                                    </td> */}
+                                                                    <td className='dash-table-data1 text-center'>
+                                                                        {pack?.boughtDate}
                                                                     </td>
 
                                                                     <td className='dash-table-data1 text-center'>
-                                                                        {pack.validity} days
+                                                                        {pack.validity} {pack?.serviceNames ? "months" : "days"}
                                                                     </td>
 
                                                                     <td className='dash-table-data1 text-center'>
-                                                                        Rs.&nbsp;<span>{pack?.amount}/-</span>
+                                                                        Rs.&nbsp;<span>{pack?.amount || "INR "+pack?.finalAmount}/-</span>
                                                                     </td>
 
                                                                     <td className='text-left'>
@@ -448,18 +455,18 @@ const InvoicePayment = () => {
                                                 <tbody>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>CV Views</th>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViews}</td>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViewsRemaining}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViews || individualPackageDetail?.quantities?.cvViews || 0}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.cvViewsRemaining || individualPackageDetail?.remainings?.cvViews || 0}</td>
                                                     </tr>
                                                     <tr className='row-of-table-row'>
                                                         <th className='table--head'>Login IDs</th>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.logins}</td>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.loginsRemaining}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.logins || individualPackageDetail?.quantities?.logins || 0}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.loginsRemaining || individualPackageDetail?.remainings?.logins || 0}</td>
                                                     </tr>
                                                     <tr className='row-of-table-row'>
-                                                        <th className='table--head'>Number Of Jobs</th>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobs}</td>
-                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobsRemaining}</td>
+                                                        <th className='table--head'>Job Postings</th>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobs || individualPackageDetail?.quantities?.activeJobs || 0}</td>
+                                                        <td className='table--data text-center'>{individualPackageDetail?.activeJobsRemaining || individualPackageDetail?.remainings?.activeJobs || 0}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

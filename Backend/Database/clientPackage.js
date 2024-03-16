@@ -58,6 +58,14 @@ const clientPackageSchema = new Schema(
         type: String,
         required: true
       },
+    boughtDate: {
+        type: String,
+        required: true
+      },
+    expiryDate: {
+        type: String,
+        required: true
+      },
     status: {
       type: Boolean,
       required: true
