@@ -5575,11 +5575,11 @@ const getDataForClientGraph = async (req, res) => {
               categories: categories,
               series: [
                   {
-                      name: "PostedActiveJobs",
+                      name: "Posted active jobs",
                       data: postedActiveJobCounts,
                   },
                   {
-                      name: "AppliedJobs",
+                      name: "No of applicants",
                       data: appliedJobCounts,
                   },
               ],

@@ -5434,7 +5434,7 @@ const TalentsProfileSearch = () => {
                           data-aos="fade-up"
                         >
                           <h6 className="tal--pro-total-result-text">
-                            Total Items :{" "}
+                            No of applicants :{" "}
                             <span>
                               {filteredSearchResultsMsg
                                 ? "0"

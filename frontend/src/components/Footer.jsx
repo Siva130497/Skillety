@@ -101,7 +101,7 @@ export const Footer = () => {
                               <a href="/terms-and-conditions" className='footer--link'>Terms & Conditions</a>
                             </li>
                             <li data-aos="fade">
-                              <a href="/privacy-policy" className='footer--link'>Privacy Policies</a>
+                              <a href="/privacy-policy" className='footer--link'>Privacy & Policy</a>
                             </li>
                           </ul>
                         </div>

@@ -128,7 +128,7 @@ export const CandidateFooter = () => {
                           </li>
                           <li data-aos="fade">
                             <a href="/privacy-policy" className="footer--link">
-                              Privacy Policies
+                              Privacy & Policy
                             </a>
                           </li>
                         </ul>

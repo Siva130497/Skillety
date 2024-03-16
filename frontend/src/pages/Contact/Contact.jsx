@@ -63,7 +63,7 @@ const Contact = () => {
 
             if (!result.error) {
                 console.log(result);
-                showSuccessMessage("Your message is recieved. One of our agent will contact you shorty")
+                showSuccessMessage("Your message is recieved.One of our agent will contact you shortly")
                 setCredentials(initialCredentials);
             } else {
                 console.log(result);
@@ -85,6 +85,11 @@ const Contact = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+
+        if (name === "phoneNo" && value.length === 13) {
+            return;
+        }
+
         setCredentials({ ...credentials, [name]: value });
     }
 
@@ -241,7 +246,7 @@ const Contact = () => {
                                 </div>
                                 <div className="con--where-desc-area">
                                     <p className="con--where-desc" data-aos="fade-left">
-                                        It's easy. Just complete this form and send it to us. We will get in touch with you within 24 hours.
+                                        It's easy! Simply complete this form and send it to us. We'll get in touch with you within 24 hours
                                     </p>
                                 </div>
                                 <div className="con--note-form-area">

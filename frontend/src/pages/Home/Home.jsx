@@ -453,7 +453,7 @@ const Home = () => {
               {/* <p>We are a gig-economy based crowdsourcing platform for Freelancers. We have an exclusive vault of Immediate Joiners - guys who can pick up an Offer and Join within 7 days or less. We have curated a group of Technical Interview experts for Clients who face shortage of internal Interview Panels. We help you to move away from the old and soiled hierarchical business structure, and evolve into a 21st Century on-demand, open talent, cross-functional team; with a skilled and passionate workforce who are more engaged, effective & productive. Welcome to Skillety – Your on-demand HR solutions partner.</p> */}
               <p>
                 {talentHomeContent.find(content => content.id === "content_29")?.content ||
-                  "Skillety is an AI-driven job portal for Immediate Joiners - candidates who can pick up a job offer and join in less than 7 days, 15 days or 30 days. We deliver an inimitable combination of Speed, Quality & Convenience through our comprehensive suite of diverse hiring solutions like Sourcing, Posting, Assessment, Interview, Onboarding & Verification – all seamlessly integrated into one place. The combined power of our AI-driven platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse."}</p>
+                  "Skillety is an ai-driven job portal for immediate joiners - candidates who can pick up a job offer and join in less than 7 days, 15 days or 30 days. We deliver an inimitable combination of speed, quality & convenience through our comprehensive suite of diverse hiring solutions like sourcing, posting, assessment, interview, onboarding & verification – all seamlessly integrated into one place. The combined power of our ai-driven platform and the extensive experience of our formidable team, makes us an end-to-end recruitment powerhouse."}</p>
             </div>
           </section>
 
@@ -466,7 +466,7 @@ const Home = () => {
               <div className="home--service-para" data-aos="fade-left" data-aos-delay="100">
                 <p>
                   {talentHomeContent.find(content => content.id === "content_30")?.content ||
-                    "What makes us unique is the combination of a Job Portal for Immediate Joiners coupled with a comprehensive suite of diverse hiring solutions, including Sourcing, Screening, Assessments, Interviews, Verification, and Onboarding, all thoughtfully integrated into a single platform. This reduces the TAT for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As An End-To-End Recruitment Powerhouse, Skillety Is Your Ideal Partner, Dedicated To Optimizing Your Recruitment Journey."}</p>
+                    "What Makes Us Unique Is The Combination Of A Job Portal For Immediate Joiners Coupled With A Comprehensive Suite Of Diverse Hiring Solutions, Including Sourcing, Screening, Assessments, Interviews, Verification, And Onboarding, All Thoughtfully Integrated Into A Single Platform. This Reduces The TAT For A New Hire By An Impressive 30-50%. Our Pay-As-You-Go Model Offers Our Clients With A Simple Billing And Performance Evaluation Process, Focused solely on End Results.As An End-To-End Recruitment Powerhouse, Skillety Is Your Ideal Partner, Dedicated To Optimizing Your Recruitment Journey."}</p>
               </div>
               <div className="row">
                 <div className="col-12 col-xl-7 col-lg-8">
