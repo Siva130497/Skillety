@@ -248,6 +248,7 @@ const {
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 const firebaseAuth = require("../middleware/firebaseAuth");
+const jobPostingMiddleware = require("../middleware/jobPostingMiddleware");
 
 // Client Registeration Route
 router.post("/register-Client", clientRegister);
@@ -314,7 +315,7 @@ router.get("/recruiter-candidate-Detail/:id", getAllRecruiterCandidateDetail);
 router.get("/candidate/:id", getCandidateDetail);
 
 //client-post job detail 
-router.post("/client-job-detail", employeeAuth, clientJobPosting)
+router.post("/client-job-detail", employeeAuth, jobPostingMiddleware, clientJobPosting);
 
 //post job detail 
 router.post("/job-detail", employeeAuth, jobPosting)
@@ -486,13 +487,13 @@ router.post("/new-package", createPackagePlan);
 //find the client's package plan endpoint
 router.get("/client-package-plan/:id", employeeAuth, getClientChoosenPlan);
 
-router.get("/client-all-package-plans/:id",  getAllClientChoosenPlans);
+router.get("/client-all-package-plans/:id", employeeAuth, getAllClientChoosenPlans);
 
 //check the validity of the package
 router.get("/checking-package-validity/:id", employeeAuth, checkTheValidityOfPackage);
 
 //client viewed candidate create end point
-router.post("/cv-views", createViewedCandidate);
+router.post("/cv-views", employeeAuth, createViewedCandidate);
 
 //all viewed candidate by client endpoint
 router.get("/cv-views/:id", employeeAuth, getViewedCandidates);
