@@ -212,7 +212,7 @@ const InvoicePayment = () => {
 
     useEffect(() => {
         if (loginClientDetail?.companyId) {
-            axios.get(`http://localhost:5002/client-all-package-plans/${loginClientDetail?.companyId}`,{
+            axios.get(`https://skillety-n6r1.onrender.com/client-all-package-plans/${loginClientDetail?.companyId}`,{
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'

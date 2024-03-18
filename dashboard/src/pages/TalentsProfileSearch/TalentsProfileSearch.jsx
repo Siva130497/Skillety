@@ -1434,84 +1434,128 @@ const TalentsProfileSearch = () => {
     //     // }
     //   }
 
+    // const viewCandidateDetail = async (id, percentage) => {
+    //     try {
+    //         const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
+    //         if (packageSelectionDetail) {
+    //             if (viewedCandidate.length > 0) {
+    //                 const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
+    //                 if (alreadyViewedCandidate) {
+    //                     window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
+    //                 } else {
+    //                     console.log(viewedCandidate.length)
+    //                     if (viewedCandidate.length < cvViews) {
+    //                         const idData = {
+    //                             candidateId: id,
+    //                             companyId: loginClientDetail.companyId,
+    //                         };
+    //                         const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", idData, {
+    //                             headers: {
+    //                                 Authorization: `Bearer ${clientToken}`,
+    //                                 Accept: 'application/json'
+    //                             }
+    //                         });
+
+    //                         const result = response.data;
+    //                         console.log(result);
+    //                         getViewedCandidates();
+    //                         // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
+    //                         navigate(`/talents/${id}`, { state: { percentage } })
+    //                     } else {
+    //                         await new Promise(() => {
+    //                             Swal.fire({
+    //                                 title: 'Buy Package Plan',
+    //                                 text: 'You reached your max cv-views in your plan, upgrade your plan',
+    //                                 icon: 'info',
+    //                                 confirmButtonColor: '#3085d6',
+    //                                 confirmButtonText: 'OK',
+    //                             }).then(() => {
+    //                                 // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
+    //                                 navigate("/package-plans");
+    //                             });
+    //                         });
+    //                     }
+    //                 }
+    //             } else {
+    //                 const idData = {
+    //                     candidateId: id,
+    //                     companyId: loginClientDetail.companyId,
+    //                 };
+    //                 const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", idData, {
+    //                     headers: {
+    //                         Authorization: `Bearer ${clientToken}`,
+    //                         Accept: 'application/json'
+    //                     }
+    //                 });
+
+    //                 const result = response.data;
+    //                 console.log(result);
+    //                 getViewedCandidates();
+    //                 // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
+    //                 navigate(`/talents/${id}`, { state: { percentage } })
+    //             }
+    //         } else {
+    //             await new Promise(() => {
+    //                 Swal.fire({
+    //                     title: 'Buy Package Plan',
+    //                     text: '',
+    //                     icon: 'info',
+    //                     confirmButtonColor: '#3085d6',
+    //                     confirmButtonText: 'OK',
+    //                 }).then(() => {
+    //                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
+    //                     navigate("/package-plans");
+    //                 });
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
     const viewCandidateDetail = async (id, percentage) => {
         try {
-            const packageSelectionDetail = await getClientChoosenPlan(loginClientDetail.companyId);
-            if (packageSelectionDetail) {
-                if (viewedCandidate.length > 0) {
-                    const alreadyViewedCandidate = viewedCandidate.find(cand => cand.candidateId === id);
-                    if (alreadyViewedCandidate) {
-                        window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
-                    } else {
-                        console.log(viewedCandidate.length)
-                        if (viewedCandidate.length < cvViews) {
-                            const idData = {
-                                candidateId: id,
-                                companyId: loginClientDetail.companyId,
-                            };
-                            const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", idData, {
-                                headers: {
-                                    Authorization: `Bearer ${clientToken}`,
-                                    Accept: 'application/json'
-                                }
-                            });
+            const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", 
+            {
+                candidateId: id,
+                companyId: loginClientDetail.companyId,
+            });
 
-                            const result = response.data;
-                            console.log(result);
-                            getViewedCandidates();
-                            // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
-                            navigate(`/talents/${id}`, { state: { percentage } })
-                        } else {
-                            await new Promise(() => {
-                                Swal.fire({
-                                    title: 'Buy Package Plan',
-                                    text: 'You reached your max cv-views in your plan, upgrade your plan',
-                                    icon: 'info',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK',
-                                }).then(() => {
-                                    // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
-                                    navigate("/package-plans");
-                                });
-                            });
-                        }
-                    }
-                } else {
-                    const idData = {
-                        candidateId: id,
-                        companyId: loginClientDetail.companyId,
-                    };
-                    const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", idData, {
-                        headers: {
-                            Authorization: `Bearer ${clientToken}`,
-                            Accept: 'application/json'
-                        }
-                    });
-
-                    const result = response.data;
-                    console.log(result);
-                    getViewedCandidates();
-                    // window.open(`https://skillety-dashboard-tk2y.onrender.com/talents/${id}`, '_blank');
-                    navigate(`/talents/${id}`, { state: { percentage } })
-                }
+            if(response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!"){
+                navigate(`/talents/${id}`, { state: { percentage } });
             } else {
-                await new Promise(() => {
-                    Swal.fire({
-                        title: 'Buy Package Plan',
-                        text: '',
-                        icon: 'info',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK',
-                    }).then(() => {
-                        // window.open(`https://skillety-dashboard-tk2y.onrender.com/package-plans`, '_blank');
-                        navigate("/package-plans");
-                    });
+                Swal.fire({
+                    title: 'Error!',
+                    text: '',
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
                 });
             }
         } catch (error) {
             console.error(error);
+            if(error.response.data.error === "Customized CV Views package expired!" || error.response.data.error === "No CV views remaining in the active package!" || error.response.data.error === "No active package found!") {
+                Swal.fire({
+                    title: 'Buy Package Plan',
+                    text: error.response.data.error,
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                }).then(() => {
+                    navigate("/package-plans");
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: '',
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                });
+            }
         }
     };
+    
 
     return (
         <div>

@@ -32,7 +32,7 @@ const Packages = ({ companyId }) => {
 
   const handleBuy = () => {
     if (clientToken) {
-      const url = `http://localhost:3000/package-plans?token=${encodeURIComponent(clientToken)}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?token=${encodeURIComponent(clientToken)}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
