@@ -51,6 +51,7 @@ const recruiterClient = require("../Database/recruiterClient");
 const googleLoginCand = require("../Database/googleLoginCand");
 const bookingEventDetail = require("../Database/bookEventDetail");
 const image = require('../Database/image');
+const companyJob = require("../Database/companyJob");
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
