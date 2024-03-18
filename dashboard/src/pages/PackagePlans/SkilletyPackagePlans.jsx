@@ -624,7 +624,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuy = () => {
     axios
-      .post("http://localhost:5002/client-package-plan", packageInfo, {
+      .post("https://skillety-n6r1.onrender.com/client-package-plan", packageInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -660,7 +660,7 @@ const SkilletyPackagePlans = () => {
 
   const handleBuyService = () => {
     axios
-      .post("http://localhost:5002/client-skillety-service", serviceInfo, {
+      .post("https://skillety-n6r1.onrender.com/client-skillety-service", serviceInfo, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",

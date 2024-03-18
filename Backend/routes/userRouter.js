@@ -244,6 +244,7 @@ const {
    
    candidateDetailUpload,
    clientDetailUpload,
+   functionNew,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 const firebaseAuth = require("../middleware/firebaseAuth");
@@ -485,13 +486,13 @@ router.post("/new-package", createPackagePlan);
 //find the client's package plan endpoint
 router.get("/client-package-plan/:id", employeeAuth, getClientChoosenPlan);
 
-router.get("/client-all-package-plans/:id", employeeAuth, getAllClientChoosenPlans);
+router.get("/client-all-package-plans/:id",  getAllClientChoosenPlans);
 
 //check the validity of the package
 router.get("/checking-package-validity/:id", employeeAuth, checkTheValidityOfPackage);
 
 //client viewed candidate create end point
-router.post("/cv-views", employeeAuth, createViewedCandidate);
+router.post("/cv-views", createViewedCandidate);
 
 //all viewed candidate by client endpoint
 router.get("/cv-views/:id", employeeAuth, getViewedCandidates);
@@ -896,6 +897,8 @@ router.post("/bulk-candidate", candidateDetailUpload);
 
 //bulk client detail save
 router.post("/bulk-client", clientDetailUpload);
+
+router.get("/check", functionNew);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {
