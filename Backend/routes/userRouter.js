@@ -39,6 +39,8 @@ const {
   getNonApprovaljobs,
   getOwnPostedjobs,
   getOwnActivejobs,
+  getOwnPostedNonApprovedjobs,
+  getOwnJobs,
   applyingjob,
   updatingApplicationStatusForJob,
   getAllApplicationStatusForJobId,
@@ -60,6 +62,9 @@ const {
   getAssignedCandidates,
   getLoginClientDetail,
   getAllClientStaffs,
+  editingClientStaffDetail,
+  changingAllJobsToAnotherLogins,
+  changingAJobToAnotherLogins,
   forgotPassword,
   newPassword,
   eventPosting,
@@ -361,6 +366,12 @@ router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 //get active job details
 router.get('/my-active-jobs/:id', getOwnActivejobs)
 
+//get non approval job
+router.get("/non-approval-job/:id", employeeAuth, getOwnPostedNonApprovedjobs)
+
+//find all own jobs
+router.get("/own-jobs/:id", employeeAuth, getOwnJobs);
+
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
 
@@ -423,6 +434,15 @@ router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
 //get all client staff created by particular client
 router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
+
+//edit the client staff detail
+router.patch("/edit-particular-client-staff", employeeAuth, editingClientStaffDetail);
+
+//assigned all the jobs from one staff to another
+router.patch("/job-assigning", employeeAuth, changingAllJobsToAnotherLogins);
+
+//assigned job to another login
+router.patch("/assign-a-job", employeeAuth, changingAJobToAnotherLogins);
 
 //request to temp password for forgot password
 router.post("/forgotpassword", forgotPassword);

@@ -361,7 +361,7 @@ const JobPostingWeb = () => {
       }
     } catch (err) {
       console.log(err);
-      showErrorMessage()
+      showErrorMessage(err.response.data.error)
     }
   }
 

@@ -18,7 +18,7 @@ const ManageJobs = () => {
     const [clientToken, setClientToken] = useState("");
     const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
     const [employeeId, setEmployeeId] = useState("");
-    const [loginClientDetail, setLoginClientDetail] = useState([]);
+    const [loginClientDetail, setLoginClientDetail] = useState();
 
     // const uniqueJobIds = new Set();
     const [updatePostedJobs, setUpdatePostedJobs] = useState([]);
@@ -27,7 +27,8 @@ const ManageJobs = () => {
     const [appliedOfPostedJobs, setAppliedOfPostedJobs] = useState([]);
     const [allStaff, setAllStaff] = useState([]);
     const [assignedCandidates, setAssignedCandidates] = useState([]);
-    
+    const [selectedFromClient, setSelectedFromClient] = useState([]);
+    const [selectedToClient, setSelectedToClient] = useState([]);
     const [x, setX] = useState([0, 10]);
 
     const [loading, setLoading] = useState(true);
@@ -142,9 +143,10 @@ const ManageJobs = () => {
     }, [employeeId]);
 
     const getOwnPostedjobs = async () => {
+        const id = loginClientDetail.role === "Client" ? loginClientDetail.companyId : loginClientDetail.id;
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-posted-jobs/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -153,7 +155,7 @@ const ManageJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result]);
             } else {
                 console.log(result);
             }
@@ -167,9 +169,10 @@ const ManageJobs = () => {
     }
 
     const getOwnActivejobs = async () => {
+        const id = loginClientDetail.role === "Client" ? loginClientDetail.companyId : loginClientDetail.id;
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${loginClientDetail.companyId}`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -178,7 +181,7 @@ const ManageJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result]);
             } else {
                 console.log(result);
             }
@@ -192,9 +195,10 @@ const ManageJobs = () => {
     }
 
     const getNonApprovaljobs = async () => {
+        const id = loginClientDetail.role === "Client" ? loginClientDetail.companyId : loginClientDetail.id;
         try {
             // setLoading(true);
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/non-approval-jobs`, {
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/non-approval-job/${id}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'
@@ -203,7 +207,7 @@ const ManageJobs = () => {
             const result = res.data;
             if (!result.error) {
                 console.log(result);
-                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result.reverse()]);
+                setUpdatePostedJobs(prevPostedJobs => [...prevPostedJobs, ...result]);
             } else {
                 console.log(result);
             }
@@ -276,34 +280,52 @@ const ManageJobs = () => {
     }
 
     
-
+    const getOwnjobs = async () => {
+        const id = loginClientDetail.role === "Client" ? loginClientDetail.companyId : loginClientDetail.id;
+        try {
+            // setLoading(true);
+            const res = await axios.get(`https://skillety-n6r1.onrender.com/own-jobs/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            });
+            const result = res.data;
+            setPostedJobs(result);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
         if (loginClientDetail) {
-            getOwnPostedjobs();
-            getNonApprovaljobs();
-            getOwnActivejobs();
+            // getOwnPostedjobs();
+            // getNonApprovaljobs();
+            // getOwnActivejobs();
+            getOwnjobs();
             getAppliedOfPostedJobs();
             allStaffFromCompany();
             getClientChoosenPlan(loginClientDetail?.companyId);
         }
     }, [loginClientDetail]);
 
-    useEffect(() => {
-        const uniqueIds = {};
-        const newArray = updatePostedJobs.filter(obj => {
-            // Check if the ID is already in the uniqueIds object
-            if (!uniqueIds[obj.id]) {
-                // If not, mark it as seen and include it in the new array
-                uniqueIds[obj.id] = true;
-                return true;
-            }
-            // If the ID is already in the uniqueIds object, filter it out
-            return false;
-        });
-        setPostedJobs(newArray)
-        setLoading(newArray.length === 0);
-    }, [updatePostedJobs]);
+    // useEffect(() => {
+    //     const uniqueIds = {};
+    //     const newArray = updatePostedJobs.filter(obj => {
+    //         // Check if the ID is already in the uniqueIds object
+    //         if (!uniqueIds[obj.id]) {
+    //             // If not, mark it as seen and include it in the new array
+    //             uniqueIds[obj.id] = true;
+    //             return true;
+    //         }
+    //         // If the ID is already in the uniqueIds object, filter it out
+    //         return false;
+    //     });
+    //     setPostedJobs(newArray)
+    //     setLoading(newArray.length === 0);
+    // }, [updatePostedJobs]);
 
     console.log(postedJobs)
 
@@ -538,6 +560,79 @@ const ManageJobs = () => {
                                 Manage Jobs
                             </div>
 
+                            <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
+                                        <div className="card-change-status-title">
+                                            From Client
+                                        </div>
+                                        <div className="card-change-status-input-area">
+                                            <div className='select-option-area position-relative w-100'>
+                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                <select className='change-setting-input select'
+                                                  onChange={(e)=>{
+                                                    setSelectedFromClient(e.target.value.split(","))
+                                                  }}  
+                                                >
+                                                    <option value="" disabled selected>-- Select client name --</option>
+                                                    {allStaff.map((staff)=>{
+                                                        return (
+                                                            <option
+                                                                key={staff.id}
+                                                                value={`${staff.id},${staff.name}`}
+                                                            >{staff?.name}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
+                                        <div className="card-change-status-title">
+                                            To Client
+                                        </div>
+                                        <div className="card-change-status-input-area">
+                                            <div className='select-option-area position-relative w-100'>
+                                                <i class="bi bi-chevron-down toggle-icon"></i>
+                                                <select className='change-setting-input select'
+                                                  onChange={(e)=>{
+                                                    setSelectedToClient(e.target.value.split(","))
+                                                  }}  
+                                                >
+                                                    <option value="" disabled selected>-- Select client name --</option>
+                                                    {allStaff.map((staff)=>{
+                                                        return (
+                                                            <option
+                                                                key={staff.id}
+                                                                value={`${staff.id},${staff.name}`}
+                                                            >{staff?.name}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button className="setting-update-btn more-det"
+                                    onClick={()=>{
+                                        axios.patch("https://skillety-n6r1.onrender.com/job-assigning", { fromId:selectedFromClient[0], toId:selectedToClient[0] }, {
+                                            headers:{
+                                                Authorization: `Bearer ${clientToken}`,
+                                                Accept: 'application/json'
+                                            }
+                                        }).then(res=>{
+                                            if(res.data.message === "All the jobs has been assigned successful"){
+                                                showSuccessMessage(`All Jobs From ${selectedFromClient[1]} Assigned to ${selectedToClient[1]}`)
+                                                setTimeout(()=>{
+                                                    {window.location.reload()}
+                                                },3000);
+                                            }else{
+                                                showErrorMessage("Unhandle exception error ocuured while assigning the jobs")
+                                            }
+                                        }).catch(err=>{
+                                            showErrorMessage(err.response.data.error);
+                                        })
+                                    }}>Change</button>
+
                             {loading ? (
                                 <div className="table-skeleton-area">
                                     <div className="row">
@@ -625,7 +720,7 @@ const ManageJobs = () => {
                                                             <th className='dash-table-head text-center'>Posted Date</th>
                                                             <th className='dash-table-head text-center'>Applicants</th>
                                                             {/* <th className='dash-table-head text-center'>Assigned applicants</th> */}
-                                                            <th className='dash-table-head text-center'>Posted by</th>
+                                                            <th className='dash-table-head text-center'>Owner</th>
                                                             <th className='dash-table-head text-center'>Status</th>
                                                             <th className='dash-table-head text-left'>Action</th>
                                                         </tr>
@@ -664,7 +759,45 @@ const ManageJobs = () => {
                                                                         </button> : <div className='text-approval'>No candidates  <br /> assigned yet!</div>}
                                                                     </td> */}
                                                                     <td className='dash-table-data1 text-center text-capitalized'>
-                                                                        {staff && staff.name}
+                                                                        <div className='table-select-input-area'>
+                                                                            <select className='table-select-input'
+                                                                                onChange={(e)=>{
+                                                                                    
+                                                                                    // Extracting id and name from the selected option value
+                                                                                    const [selectedId, selectedName] = e.target.value.split(',');
+                                                                                    
+                                                                                    axios.patch("https://skillety-n6r1.onrender.com/assign-a-job", {fromId: staff?.id, toId: selectedId, changingJobId: job.id}, {
+                                                                                        headers:{
+                                                                                            Authorization: `Bearer ${clientToken}`,
+                                                                                            Accept: 'application/json'
+                                                                                        }
+                                                                                    }).then(res=>{
+                                                                                        if(res.data.message === "Job has been assigned successful"){
+                                                                                            showSuccessMessage(`${job.jobRole[0]} Job ownership has been changed from ${staff?.name} to ${selectedName}`);
+                                                                                        }else{
+                                                                                            showErrorMessage("Error occur in Job assigning");
+                                                                                        }
+                                                                                        
+                                                                                    }).catch(err=>{
+                                                                                        showErrorMessage(err.response.data.error);
+                                                                                    })
+
+                                                                                }}>
+                                                                                <option selected disabled>{staff?.name}</option>
+                                                                                {allStaff.map((indStaff)=>{
+                                                                                    if(indStaff?.name !== staff?.name){
+                                                                                        return(
+                                                                                            <option
+                                                                                                // Encoding both id and name into the value attribute
+                                                                                                value={`${indStaff.id},${indStaff.name}`}
+                                                                                                key={indStaff.id}>
+                                                                                                {indStaff.name}
+                                                                                            </option>
+                                                                                        )
+                                                                                    }
+                                                                                })}          
+                                                                            </select>
+                                                                        </div>
                                                                     </td>
                                                                     <td className='text-center'>
                                                                         {job?.pending ?
