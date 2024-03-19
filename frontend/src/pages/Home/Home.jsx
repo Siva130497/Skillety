@@ -329,11 +329,11 @@ const Home = () => {
                     </h5> */}
                   <h5 data-aos="fade-left" data-aos-delay="200">
                     {talentHomeContent.find(content => content.id === "content_26")?.content ||
-                      "Welcome to the world’s only Job Portal for Immediate Joiners - guys who can Join you within 7 days or less!!!"}
+                      "Welcome to the world’s only job portal for immediate joiners - guys who can join you within 7 days or less!!!"}
                   </h5>
                   <h6 data-aos="fade-right" data-aos-delay="300">
                     {talentHomeContent.find(content => content.id === "content_28")?.content ||
-                      "Search For Talents"}
+                      "Search For talents"}
                   </h6>
                 </div>
                 <div className="home--search-area">
@@ -374,7 +374,7 @@ const Home = () => {
                     onClick={handlePopularSearch} disabled={selectedResults.length === 0}>Search</button>
                 </div>
                 {popularSearches.length > 0 && <div className="home--popular-area">
-                  <h6 data-aos="fade-right">Popular Searches</h6>
+                  <h6 data-aos="fade-right">Popular searches</h6>
                   <div className="popular--btn-area">
                     {popularSearches.map(pop => {
                       return (
@@ -436,7 +436,7 @@ const Home = () => {
           <section className="home--about-section">
             <div className='home--about-toparea'>
               <div className='home--about-headarea'>
-                <h6 data-aos="fade-down">About Us</h6>
+                <h6 data-aos="fade-down">About us</h6>
                 <h4 className='about--heading' data-aos="fade-up"><span>Skillety</span> simply means <span>“Skill at Will”.</span></h4>
               </div>
               <div className='home--know-more-area'>
@@ -466,7 +466,7 @@ const Home = () => {
               <div className="home--service-para" data-aos="fade-left" data-aos-delay="100">
                 <p>
                   {talentHomeContent.find(content => content.id === "content_30")?.content ||
-                    "What Makes Us Unique Is The Combination Of A Job Portal For Immediate Joiners Coupled With A Comprehensive Suite Of Diverse Hiring Solutions, Including Sourcing, Screening, Assessments, Interviews, Verification, And Onboarding, All Thoughtfully Integrated Into A Single Platform. This Reduces The TAT For A New Hire By An Impressive 30-50%. Our Pay-As-You-Go Model Offers Our Clients With A Simple Billing And Performance Evaluation Process, Focused solely on End Results.As An End-To-End Recruitment Powerhouse, Skillety Is Your Ideal Partner, Dedicated To Optimizing Your Recruitment Journey."}</p>
+                    "What makes us unique is the combination of a job portal for immediate joiners coupled with a comprehensive suite of diverse hiring solutions, including sourcing, screening, assessments, interviews, verification, and onboarding, all thoughtfully integrated into a single platform. This reduces the tat for a new hire by an impressive 30-50%. Our pay-as-you-go model offers our clients with a simple billing and performance evaluation process, focused solely on end results. As an end-to-end recruitment powerhouse, skillety is your ideal partner, dedicated to optimizing your recruitment journey."}</p>
               </div>
               <div className="row">
                 <div className="col-12 col-xl-7 col-lg-8">
@@ -543,7 +543,7 @@ const Home = () => {
                       </div>
                       <p className='service--content'>
                         {talentHomeContent.find(content => content.id === "content_35")?.content ||
-                          "Post multiple Jobs easily and publish it on 172 partner job-boards & social media platforms, in just one click. CVs would flow in from all sides into your Dashboard and Inbox."}
+                          "Post multiple jobs easily and publish it on 172 partner job-boards & social media platforms, in just one click. CVs would flow in from all sides into your dashboard and inbox."}
                       </p>
                       <div className='service-know-morearea'>
                         <a href="/job-posting" className='service--know-more'>
@@ -573,7 +573,7 @@ const Home = () => {
                       </div>
                       <p className='service--content'>
                         {talentHomeContent.find(content => content.id === "content_37")?.content ||
-                          "Send Technical Assessment test links to multiple candidates, simultaneously. The Test Report comes with a comprehensive analysis of their aptitude, knowledge and proficiency."}
+                          "Send technical assessment test links to multiple candidates, simultaneously. The test report comes with a comprehensive analysis of their aptitude, knowledge and proficiency."}
                       </p>
                       <div className='service-know-morearea'>
                         <a href="/skill-assessment" className='service--know-more'>
@@ -606,7 +606,7 @@ const Home = () => {
                         </p> */}
                       <p className='service--content'>
                         {talentHomeContent.find(content => content.id === "content_39")?.content ||
-                          "Get instant access to the Interview Outsourcing services of Skillety. Do thorough L1 Interviews with a coding round conducted by panels from FAANG companies. The Feedback comes as a comprehensive report along with the playback of the video interview."}
+                          "Get instant access to the interview outsourcing services of skillety. Do thorough l1 interviews with a coding round conducted by panels from Faang companies. The feedback comes as a comprehensive report along with the playback of the video interview."}
                       </p>
                       <div className='service-know-morearea'>
                         <a href="/interview-as-a-service" className='service--know-more'>
@@ -636,7 +636,7 @@ const Home = () => {
                       </div>
                       <p className='service--content'>
                         {talentHomeContent.find(content => content.id === "content_41")?.content ||
-                          "Before releasing the Offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree Background Verification after the candidate joins – all from the Skillety platform."}
+                          "Before releasing the offer, do a quick sanity check if it's a fake profile or not, with our BGV-Lite services. Also do a detailed 360-degree background verification after the candidate joins – all from the skillety platform."}
                       </p>
                       <div className='service-know-morearea'>
                         <a href="/background-verification" className='service--know-more'>
@@ -818,7 +818,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_42")?.content ||
-                            "Total Registered Users"}</h6>
+                            "Total registered users"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_43")?.content ||
                             "210"}>0</h2>
@@ -839,7 +839,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_44")?.content ||
-                            "New Registrations per day"}</h6>
+                            "New registrations per day"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_45")?.content ||
                             "450"}>0</h2>
@@ -860,7 +860,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_46")?.content ||
-                            "Total Enterprise Clients"}</h6>
+                            "Total enterprise clients"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_47")?.content ||
                             "140"}>0</h2>
@@ -881,7 +881,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_48")?.content ||
-                            "Total Candidates placed"}</h6>
+                            "Total candidates placed"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_49")?.content ||
                             "1600"}>0</h2>
@@ -902,7 +902,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_50")?.content ||
-                            "Offer-to-Joining Conversion rate"}</h6>
+                            "Offer-to-joining conversion rate"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_51")?.content ||
                             "347"}>0</h2>
@@ -923,7 +923,7 @@ const Home = () => {
                       <div className="home--milestone-card-right">
                         <h6 className='home--milestone-title'>
                           {talentHomeContent.find(content => content.id === "content_52")?.content ||
-                            "Placements per Year"}</h6>
+                            "Placements per year"}</h6>
                         <h2 className='home-milestone-number' data-target=
                           {talentHomeContent.find(content => content.id === "content_67")?.content ||
                             "540"}>0</h2>
@@ -988,12 +988,12 @@ const Home = () => {
         <div className='candidate--section'>
           <div className='home--about-toparea'>
             <div className='home--about-headarea'>
-              <h6 data-aos="fade-down">Immediate Joiners</h6>
+              <h6 data-aos="fade-down">Immediate joiners</h6>
               <h4 className='candidate--heading' data-aos="fade-up"><span>Connect</span> with Diverse <br /> Professionals and <span>Elevate</span><br /> <span>Your Brand</span></h4>
             </div>
             <div className='home--know-more-area'>
               <a href="/talent-profile-search" className='home--know-more' data-aos="fade-right">
-                <div className='home--know-more-btn'>More Talents
+                <div className='home--know-more-btn'>More talents
                 </div>
                 <div className='home--know-more-arrow'>
                   <img src="assets/img/home-images/arrow-img.png" className='knowmore--arrow' alt="" />

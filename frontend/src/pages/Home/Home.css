@@ -21,7 +21,11 @@
     font-size: 44px;
     font-weight: 400;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
+}
+
+.home--head h5::first-letter {
+    text-transform: uppercase !important;
 }
 
 .home--left-cover {
@@ -144,7 +148,7 @@
     background-repeat: no-repeat;
     border: 1px solid #FFF;
     z-index: 1;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     background-color: transparent;
     color: #fff !important;
     /* text-shadow: 1px 2px 5px #535353; */
@@ -155,6 +159,10 @@
     transition: ease-in-out 0.8s !important;
     margin: 0px 25px 25px 0;
     overflow: hidden;
+}
+
+.home--popular-btn::first-letter{
+    text-transform: uppercase !important;
 }
 
 .home--popular-btn::after {
@@ -460,7 +468,7 @@
     color: #5C3B2E;
     font-size: 20px !important;
     font-weight: 400 !important;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0px;
 }
 
@@ -629,7 +637,7 @@
 }
 
 .home--about-para p::first-letter,
-.home--service-para p::first-letter{
+.home--service-para p::first-letter {
     text-transform: uppercase !important;
 }
 
@@ -756,7 +764,11 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 164%;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
+}
+
+.service--content-area .service--content::first-letter {
+    text-transform: uppercase !important;
 }
 
 .service-know-morearea {
@@ -960,7 +972,7 @@
     color: #FFF;
     font-size: 20px !important;
     font-weight: 400 !important;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0px;
 }
 
@@ -1096,9 +1108,13 @@
     font-size: 20px;
     font-weight: 600;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-top: 25px;
     transition: ease-in-out 0.8s;
+}
+
+.home--milestone-card-right .home--milestone-title::first-letter{
+    text-transform: uppercase !important;
 }
 
 .home--milestone-card-right .home-milestone-number {

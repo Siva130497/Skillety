@@ -148,9 +148,9 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                             </ul>
                         </li>
                         <li><a href="/packages" className={`nav-link scrollto ${window.location.pathname === '/packages' ? 'active' : ''}`}>Pricing</a></li>
-                        <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>
+                        {/* <li><a href="/about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li> */}
                         {/* <li><a className={RPOActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/rpo">RPO</a></li> */}
-                        <li><a className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/contact-us">Contact Us</a></li>
+                        {/* <li><a className={contactActive ? "nav-link scrollto active" : "nav-link scrollto"} href="/contact-us">Contact Us</a></li> */}
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul className='loged-in'>
