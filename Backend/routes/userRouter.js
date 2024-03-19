@@ -39,6 +39,8 @@ const {
   getNonApprovaljobs,
   getOwnPostedjobs,
   getOwnActivejobs,
+  getOwnPostedNonApprovedjobs,
+  getOwnJobs,
   applyingjob,
   updatingApplicationStatusForJob,
   getAllApplicationStatusForJobId,
@@ -60,6 +62,9 @@ const {
   getAssignedCandidates,
   getLoginClientDetail,
   getAllClientStaffs,
+  editingClientStaffDetail,
+  changingAllJobsToAnotherLogins,
+  changingAJobToAnotherLogins,
   forgotPassword,
   newPassword,
   eventPosting,
@@ -244,9 +249,11 @@ const {
    
    candidateDetailUpload,
    clientDetailUpload,
+   functionNew,
 } = require("../Controller/authFunctions");
 const employeeAuth = require("../middleware/employeeAuth");
 const firebaseAuth = require("../middleware/firebaseAuth");
+const jobPostingMiddleware = require("../middleware/jobPostingMiddleware");
 
 // Client Registeration Route
 router.post("/register-Client", clientRegister);
@@ -313,7 +320,7 @@ router.get("/recruiter-candidate-Detail/:id", getAllRecruiterCandidateDetail);
 router.get("/candidate/:id", getCandidateDetail);
 
 //client-post job detail 
-router.post("/client-job-detail", employeeAuth, clientJobPosting)
+router.post("/client-job-detail", employeeAuth, jobPostingMiddleware, clientJobPosting);
 
 //post job detail 
 router.post("/job-detail", employeeAuth, jobPosting)
@@ -358,6 +365,12 @@ router.get('/my-posted-jobs/:id', employeeAuth, getOwnPostedjobs)
 
 //get active job details
 router.get('/my-active-jobs/:id', getOwnActivejobs)
+
+//get non approval job
+router.get("/non-approval-job/:id", employeeAuth, getOwnPostedNonApprovedjobs)
+
+//find all own jobs
+router.get("/own-jobs/:id", employeeAuth, getOwnJobs);
 
 //candidate applied for job
 router.post('/job-applying',  applyingjob)
@@ -421,6 +434,15 @@ router.get('/client/:clientId',employeeAuth, getLoginClientDetail);
 
 //get all client staff created by particular client
 router.get('/all-client-staffs/:companyId', employeeAuth, getAllClientStaffs);
+
+//edit the client staff detail
+router.patch("/edit-particular-client-staff", employeeAuth, editingClientStaffDetail);
+
+//assigned all the jobs from one staff to another
+router.patch("/job-assigning", employeeAuth, changingAllJobsToAnotherLogins);
+
+//assigned job to another login
+router.patch("/assign-a-job", employeeAuth, changingAJobToAnotherLogins);
 
 //request to temp password for forgot password
 router.post("/forgotpassword", forgotPassword);
@@ -896,6 +918,8 @@ router.post("/bulk-candidate", candidateDetailUpload);
 
 //bulk client detail save
 router.post("/bulk-client", clientDetailUpload);
+
+router.get("/check", functionNew);
 
 // Client, Client-staff Login Route
 router.post("/login-Client", async (req, res) => {

@@ -51,6 +51,7 @@ const recruiterClient = require("../Database/recruiterClient");
 const googleLoginCand = require("../Database/googleLoginCand");
 const bookingEventDetail = require("../Database/bookEventDetail");
 const image = require('../Database/image');
+const companyJob = require("../Database/companyJob");
 
 //MOBILE APP..........
 const candidateProfile = require("../Database/candidateProfile");
@@ -324,28 +325,14 @@ const createClientStaff = async (req, res) => {
     });
 
     if (userAvailable || allUserAvailable) {
-      return res.status(404).json({ message: "User already registered" });
+      return res.status(404).json({ error: "User already registered" });
     }
 
     const neededClient = await finalClient.findOne({ id });
 
     if (neededClient) {
       const { companyName, companyId } = neededClient._doc;
-      const packageDetailForCompanyId = await clientPackage.findOne({
-        id: companyId,
-        status: true,
-      });
-      const loginAsServiceForCompanyId = await skilletyService.findOne({
-        id: companyId,
-        serviceName: "LoginIDs",
-        status: true,
-      });
-
-      if (packageDetailForCompanyId) {
-        if (
-          packageDetailForCompanyId.loginsRemaining > 0 ||
-          loginAsServiceForCompanyId 
-        ) {
+     
           const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
           const token = uuidv4();
           const tempUrl = baseUrl + token;
@@ -369,24 +356,6 @@ const createClientStaff = async (req, res) => {
             },
           });
 
-          if(packageDetailForCompanyId.loginsRemaining > 0){
-            await clientPackage.findOneAndUpdate(
-              { id: companyId, status: true },
-              { $inc: { loginsRemaining: -1 } },
-              { new: true }
-            );
-          }else{
-            await skilletyService.findOneAndUpdate(
-              { id: companyId, serviceName: "LoginIDs", status: true },
-              { $inc: { remaining: -1 } },
-              { new: true }
-            );
-  
-            if (loginAsServiceForCompanyId.remaining === 1) {
-              loginAsServiceForCompanyId.status = false;
-              await loginAsServiceForCompanyId.save();
-            }
-          }
           
           const mailOptions = {
             from: "demoemail1322@gmail.com",
@@ -408,14 +377,7 @@ const createClientStaff = async (req, res) => {
               res.status(201).json({ newTempClient, emailSent: true });
             }
           });
-        } else {
-          return res
-            .status(200)
-            .json({ error: "You reached the limit of creating accounts" });
-        }
-      } else {
-        return res.status(400).json({ error: "No active package found!" });
-      }
+        
     } else {
       return res.status(404).json({ error: "No client found with the matching id" });
     }
@@ -1279,6 +1241,8 @@ const getNonApprovaljobs = async(req, res) => {
   }
 }
 
+
+
 /* get a job  */
 const getJob = async (req, res) => {
   const { id } = req.params;
@@ -1509,16 +1473,17 @@ const getOwnPostedjobs = async (req, res) => {
     const postedJobs = await jobDetail.find({
       $or: [
         { companyId: id },
+        { clientStaffId: id},
         { recruiterId: id },
         { managerId: id }
       ]
-    });
+    }).sort({updatedAt:-1});
 
     if (postedJobs.length > 0) {
       return res.status(200).json(postedJobs);
     }
 
-      return res.status(404).json({ message: 'No posted job found' });
+      return res.status(404).json({ message: 'No approved posted job found' });
     
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1533,10 +1498,11 @@ const getOwnActivejobs = async (req, res) => {
     const activeJobs = await activeJob.find({
       $or: [
         { companyId: id },
+        { clientStaffId: id},
         { recruiterId: id },
         { managerId: id }
       ]
-    });
+    }).sort({updatedAt:-1});
 
     if (activeJobs.length > 0) {
       const activeJobWithStatus = activeJobs.map(job => ({ ...job.toObject(), active: true }));
@@ -1544,6 +1510,76 @@ const getOwnActivejobs = async (req, res) => {
     }
 
       return res.status(404).json({ message: 'No active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+/* get non approved job for an id */
+const getOwnPostedNonApprovedjobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const postedJobs = await nonApprovalJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id}
+      ]
+    }).sort({updatedAt:-1});
+
+    if (postedJobs.length > 0) {
+      return res.status(200).json(postedJobs);
+    }
+
+      return res.status(404).json({ message: 'No non approval job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const getOwnJobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    // Querying job details
+    const postedJobs = await jobDetail.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id},
+        { recruiterId: id },
+        { managerId: id }
+      ]
+    }).sort({updatedAt:-1});
+
+    // Querying active jobs
+    const activeJobs = await activeJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id},
+        { recruiterId: id },
+        { managerId: id }
+      ]
+    }).sort({updatedAt:-1});
+
+    // Querying non-approved jobs
+    const nonApprovedJobs = await nonApprovalJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id}
+      ]
+    }).sort({updatedAt:-1});
+
+    // Combining results into a single array
+    const combinedJobs = [...postedJobs, ...activeJobs.map(job => ({ ...job.toObject(), active: true })), ...nonApprovedJobs];
+
+    // Checking if any results found
+    if (combinedJobs.length > 0) {
+      return res.status(200).json(combinedJobs);
+    }
+
+    return res.status(404).json({ error: 'No jobs found' });
     
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1901,6 +1937,105 @@ const getAllClientStaffs = async(req, res) => {
     res.status(500).json({error: err.message})
   }
 }
+
+const editingClientStaffDetail = async (req, res) => {
+  try {
+    const { id, name, email, phone } = req.body;
+
+    // Check if email or phone number already exists for other documents
+    const clientAvailable = await finalClient.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+
+    if (clientAvailable || allUserAvailable) {
+      return res.status(404).json({ error: "The email address or phone number already exists" });
+    }
+
+    // Update documents
+    await finalClient.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          name,
+          email,
+          phone
+        }
+      }
+    );
+
+    await allUsers.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          name,
+          email,
+          phone
+        }
+      }
+    );
+
+    res.status(200).json({ message: "Client Staff Details Updated" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+const changingAllJobsToAnotherLogins = async (req, res) => {
+  try {
+    const { fromId, toId } = req.body;
+    const checkingFromIdRole = await finalClient.findOne({id:fromId});
+    const checkingToIdRole = await finalClient.findOne({id:toId});
+    if(checkingFromIdRole || checkingToIdRole){
+      // Update documents where clientStaffId equals fromId, set clientStaffId to toId
+      await nonApprovalJob.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      await jobDetail.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      await activeJob.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      res.status(200).json({ message: "All the jobs has been assigned successful" });
+    }else{
+      res.status(400).json({error:"In-correct id role for assigning job"})
+    }
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const changingAJobToAnotherLogins = async (req, res) => {
+  try {
+    const { fromId, toId, changingJobId } = req.body;
+    const checkingFromIdRole = await finalClient.findOne({id:fromId}, 'role');
+    const checkingToIdRole = await finalClient.findOne({id:toId}, 'role');
+    if(checkingFromIdRole || checkingToIdRole){
+      const changingJob = await nonApprovalJob.findOne({id:changingJobId}) || await jobDetail.findOne({id:changingJobId}) || await activeJob.findOne({id:changingJobId});
+      if(changingJob){
+        changingJob.clientStaffId = toId;
+        await changingJob.save();
+        res.status(200).json({ message: "Job has been assigned successful" });
+      }else{
+        res.status(404).json({error:"Invalid JobId"})
+      }
+      
+    }else{
+      res.status(400).json({error:"In-correct id role for assigning job"})
+    }
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 /**
  * @DESC To register the employee
@@ -2396,13 +2531,23 @@ const getAllPackagePlans = async(req, res) => {
 
 /* client_package choosing */
 const clientPackageSelection = async (req, res) => {
-  const { id } = req.body;
+  const { id, validity } = req.body;
   try {
     // Find the current active package
     const currentActivePackage = await clientPackage.findOne({ id: id, status: true });
+    const isTestPackageBought = await clientPackage.findOne({id : id, packageType:"Test"});
+
+    const boughtDate = new Date(); // Current date
+    const expiryDate = new Date(boughtDate);
+    
+    if (validity < 1 || validity > 30) {
+      return res.status(400).json({ error: "Validity should be between 1 and 30 days inclusive." });
+    }
+    
+    expiryDate.setDate(boughtDate.getDate() + validity);
 
     if (currentActivePackage) {
-      if(currentActivePackage.packageType === "Test" && req.body.packageType === "Test"){
+      if(isTestPackageBought && req.body.packageType === "Test"){
         return res.status.json({error:"You can buy Test package only once!"})
       }
       // Calculate the days since the package was created
@@ -2420,6 +2565,8 @@ const clientPackageSelection = async (req, res) => {
           loginsRemaining: req.body.logins - 1,
           cvViewsRemaining: req.body.cvViews,
           activeJobsRemaining: req.body.activeJobs,
+          boughtDate: formatDate(boughtDate),
+          expiryDate: formatDate(expiryDate),
           status: true // Set status to true for the new document
         });
 
@@ -2436,6 +2583,8 @@ const clientPackageSelection = async (req, res) => {
         loginsRemaining: req.body.logins - 1,
         cvViewsRemaining: req.body.cvViews,
         activeJobsRemaining: req.body.activeJobs,
+        boughtDate: formatDate(boughtDate),
+        expiryDate: formatDate(expiryDate),
         status: true // Set status to true for the new document
       });
 
@@ -2448,36 +2597,350 @@ const clientPackageSelection = async (req, res) => {
   }
 };
 
+
 /* client service buying */
+// const clientServiceBuying = async (req, res) => {
+//   const { id, quantities, validity, serviceNames } = req.body;
+//   try {
+//     // Validate validity
+//     if (validity < 1 || validity > 12) {
+//       return res.status(400).json({ error: "Validity should be between 1 and 12." });
+//     }
+
+//     const boughtDate = new Date(); // Current date
+//     const expiryDate = new Date(boughtDate);
+//     expiryDate.setMonth(boughtDate.getMonth() + validity);
+
+//     // Calculate the total days in the month of the expiry date
+//     const totalDaysInMonth = new Date(expiryDate.getFullYear(), expiryDate.getMonth() + 1, 0).getDate();
+
+//     // Adjust the expiry date based on the total days in the month
+//     expiryDate.setDate(Math.min(boughtDate.getDate(), totalDaysInMonth));
+
+//     const isClientPackageAvailable = await clientPackage.findOne({ id, status: true });
+
+//     if (serviceNames.includes("CV Views")) {
+      
+//       const isCustomizedCvViewsFound = await skilletyService.findOne({
+//         id,
+//         serviceNames: { $in: ["CV Views"] },
+//         status: true,
+//       })
+
+//       if (isCustomizedCvViewsFound) {
+//         const createdAtDate = new Date(isCustomizedCvViewsFound.createdAt);
+//         const currentDate = new Date();
+//         const monthElapsed = (currentDate.getFullYear() - createdAtDate.getFullYear()) * 12 + (currentDate.getMonth() - createdAtDate.getMonth());
+//         if (monthElapsed > isCustomizedCvViewsFound.validity) {
+//           isCustomizedCvViewsFound.status = false;
+//           await isCustomizedCvViewsFound.save();
+
+//           const newService = new skilletyService({
+//             ...req.body,
+//             remainings: {
+//               cvViews: quantities.cvViews,
+//               logins: quantities.logins,
+//               activeJobs: quantities.activeJobs
+//             },
+//             boughtDate: formatDate(boughtDate),
+//             expiryDate: formatDate(expiryDate),
+//             status: true // Set status to true for the new document
+//           });
+      
+//           await newService.save();
+      
+//           return res.status(201).json(newService);
+
+//         } else {
+//           if (isCustomizedCvViewsFound.remainings.cvViews > 0) {
+//             return res.status(400).json({ error: "There are remaining CV Views in the existing customized package" });
+//           }else{
+//             const newService = new skilletyService({
+//               ...req.body,
+//               remainings: {
+//                 cvViews: quantities.cvViews,
+//                 logins: quantities.logins,
+//                 activeJobs: quantities.activeJobs
+//               },
+//               boughtDate: formatDate(boughtDate),
+//               expiryDate: formatDate(expiryDate),
+//               status: true // Set status to true for the new document
+//             });
+        
+//             await newService.save();
+        
+//             return res.status(201).json(newService);
+//           }
+//         }
+//       }
+
+//       if (isClientPackageAvailable) {
+//         if(isClientPackageAvailable.cvViewsRemaining > 0){
+//           return res.status(400).json({ error: "There are remaining CV Views in the existing active package" });
+//         }else{
+//           const newService = new skilletyService({
+//             ...req.body,
+//             remainings: {
+//               cvViews: quantities.cvViews,
+//               logins: quantities.logins,
+//               activeJobs: quantities.activeJobs
+//             },
+//             boughtDate: formatDate(boughtDate),
+//             expiryDate: formatDate(expiryDate),
+//             status: true // Set status to true for the new document
+//           });
+      
+//           await newService.save();
+      
+//           return res.status(201).json(newService);
+//         }
+        
+//       }
+
+//       const newService = new skilletyService({
+//         ...req.body,
+//         remainings: {
+//           cvViews: quantities.cvViews,
+//           logins: quantities.logins,
+//           activeJobs: quantities.activeJobs
+//         },
+//         boughtDate: formatDate(boughtDate),
+//         expiryDate: formatDate(expiryDate),
+//         status: true // Set status to true for the new document
+//       });
+  
+//       await newService.save();
+  
+//       return res.status(201).json(newService);
+      
+//     } else if (serviceNames.includes("Job Postings")) {
+//       const isCustomizedJobPostingsFound = await skilletyService.findOne({
+//         id,
+//         serviceNames: { $in: ["Job Postings"] },
+//         status: true,
+//       })
+
+//       if (isCustomizedJobPostingsFound) {
+//         const createdAtDate = new Date(isCustomizedJobPostingsFound.createdAt);
+//         const currentDate = new Date();
+//         const monthElapsed = (currentDate.getFullYear() - createdAtDate.getFullYear()) * 12 + (currentDate.getMonth() - createdAtDate.getMonth());
+//         if (monthElapsed > isCustomizedCvViewsFound.validity) {
+//           isCustomizedJobPostingsFound.status = false;
+//           await isCustomizedJobPostingsFound.save();
+
+//           const newService = new skilletyService({
+//             ...req.body,
+//             remainings: {
+//               cvViews: quantities.cvViews,
+//               logins: quantities.logins,
+//               activeJobs: quantities.activeJobs
+//             },
+//             boughtDate: formatDate(boughtDate),
+//             expiryDate: formatDate(expiryDate),
+//             status: true // Set status to true for the new document
+//           });
+      
+//           await newService.save();
+      
+//           return res.status(201).json(newService);
+
+//         } else {
+//           if (isCustomizedJobPostingsFound.remainings.activeJobs > 0) {
+//             return res.status(400).json({ error: "There are remaining Job Postings in the existing customized package" });
+//           }else{
+//             const newService = new skilletyService({
+//               ...req.body,
+//               remainings: {
+//                 cvViews: quantities.cvViews,
+//                 logins: quantities.logins,
+//                 activeJobs: quantities.activeJobs
+//               },
+//               boughtDate: formatDate(boughtDate),
+//               expiryDate: formatDate(expiryDate),
+//               status: true // Set status to true for the new document
+//             });
+        
+//             await newService.save();
+        
+//             return res.status(201).json(newService);
+//           }
+//         }
+//       }
+
+//       if (isClientPackageAvailable) {
+//         if(isClientPackageAvailable.activeJobsRemaining > 0){
+//           return res.status(400).json({ error: "There are remaining Job Postings in the existing active package" });
+//         }else{
+//           const newService = new skilletyService({
+//             ...req.body,
+//             remainings: {
+//               cvViews: quantities.cvViews,
+//               logins: quantities.logins,
+//               activeJobs: quantities.activeJobs
+//             },
+//             boughtDate: formatDate(boughtDate),
+//             expiryDate: formatDate(expiryDate),
+//             status: true // Set status to true for the new document
+//           });
+      
+//           await newService.save();
+      
+//           return res.status(201).json(newService);
+//         }
+        
+//       }
+
+//       const newService = new skilletyService({
+//         ...req.body,
+//         remainings: {
+//           cvViews: quantities.cvViews,
+//           logins: quantities.logins,
+//           activeJobs: quantities.activeJobs
+//         },
+//         boughtDate: formatDate(boughtDate),
+//         expiryDate: formatDate(expiryDate),
+//         status: true // Set status to true for the new document
+//       });
+  
+//       await newService.save();
+  
+//       return res.status(201).json(newService);
+//     }
+//   } catch (err) {
+//     return res.status(500).json({ error: err.message });
+//   }
+// };
+
+
+// Helper function to format date as dd/mm/yyyy
+
 const clientServiceBuying = async (req, res) => {
-  const { id } = req.body;
+  const { id, quantities, validity, serviceNames } = req.body;
   try {
-    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
-    if(clientCurrentPackageActive){
-      const newService = new skilletyService({
-        ...req.body,
-        remaining: req.body.quantity,
-        status: true // Set status to true for the new document
-      });
-
-      await newService.save();
-
-      return res.status(201).json(newService);
-    }else{
-      return res.status(400).json({ error: "No active package found!" });
+    // Validate validity
+    if (validity < 1 || validity > 12) {
+      return res.status(400).json({ error: "Validity should be between 1 and 12." });
     }
+
+    const boughtDate = new Date(); // Current date
+    const expiryDate = new Date(boughtDate);
+    expiryDate.setMonth(boughtDate.getMonth() + validity);
+
+    // Calculate the total days in the month of the expiry date
+    const totalDaysInMonth = new Date(expiryDate.getFullYear(), expiryDate.getMonth() + 1, 0).getDate();
+
+    // Adjust the expiry date based on the total days in the month
+    expiryDate.setDate(Math.min(boughtDate.getDate(), totalDaysInMonth));
+
+    const isClientPackageAvailable = await clientPackage.findOne({ id, status: true });
+
+    if (serviceNames.includes("CV Views")) {
+      const isCustomizedCvViewsFound = await skilletyService.findOne({
+        id,
+        serviceNames: { $in: ["CV Views"] },
+        status: true,
+      }).sort({createdAt:-1});
+
+      if (isCustomizedCvViewsFound) {
+        const createdAtDate = new Date(isCustomizedCvViewsFound.createdAt);
+        const currentDate = new Date();
+        const currentDateMs = currentDate.getTime();
+        const createdAtDateMs = createdAtDate.getTime();
+        const dayElapsed = (currentDateMs - createdAtDateMs) / (1000 * 60 * 60 * 24);
+        
+        if (dayElapsed > isCustomizedCvViewsFound.validity*30) {
+          isCustomizedCvViewsFound.status = false;
+          await isCustomizedCvViewsFound.save();
+
+          const newService = new skilletyService({
+            ...req.body,
+            remainings: quantities,
+            boughtDate: formatDate(boughtDate),
+            expiryDate: formatDate(expiryDate),
+            status: true // Set status to true for the new document
+          });
+      
+          await newService.save();
+      
+          return res.status(201).json(newService);
+        }
+
+        if (isCustomizedCvViewsFound.remainings.cvViews > 0) {
+          return res.status(400).json({ error: "There are remaining CV Views in the existing customized package" });
+        }
+      } else if (isClientPackageAvailable && isClientPackageAvailable.cvViewsRemaining > 0) {
+        return res.status(400).json({ error: "There are remaining CV Views in the existing active package" });
+      }
+    } else if (serviceNames.includes("Job Postings")) {
+      const isCustomizedJobPostingsFound = await skilletyService.findOne({
+        id,
+        serviceNames: { $in: ["Job Postings"] },
+        status: true,
+      }).sort({createdAt:-1});
+
+      if (isCustomizedJobPostingsFound) {
+        const createdAtDate = new Date(isCustomizedJobPostingsFound.createdAt);
+        const currentDate = new Date();
+        const currentDateMs = currentDate.getTime();
+        const createdAtDateMs = createdAtDate.getTime();
+        const dayElapsed = (currentDateMs - createdAtDateMs) / (1000 * 60 * 60 * 24);
+        
+        if (dayElapsed > isCustomizedJobPostingsFound.validity*30) {
+          isCustomizedJobPostingsFound.status = false;
+          await isCustomizedJobPostingsFound.save();
+
+          const newService = new skilletyService({
+            ...req.body,
+            remainings: quantities,
+            boughtDate: formatDate(boughtDate),
+            expiryDate: formatDate(expiryDate),
+            status: true // Set status to true for the new document
+          });
+      
+          await newService.save();
+      
+          return res.status(201).json(newService);
+        }
+
+        if (isCustomizedJobPostingsFound.remainings.activeJobs > 0) {
+          return res.status(400).json({ error: "There are remaining Job Postings in the existing customized package" });
+        }
+      } else if (isClientPackageAvailable && isClientPackageAvailable.activeJobsRemaining > 0) {
+        return res.status(400).json({ error: "There are remaining Job Postings in the existing active package" });
+      }
+    }
+
+    const newService = new skilletyService({
+      ...req.body,
+      remainings: quantities,
+      boughtDate: formatDate(boughtDate),
+      expiryDate: formatDate(expiryDate),
+      status: true // Set status to true for the new document
+    });
+
+    await newService.save();
+
+    return res.status(201).json(newService);
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 };
 
+
+function formatDate(date) {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+
 /* client service buying */
 const clientValueAddedServiceBuying = async (req, res) => {
   const { id } = req.body;
   try {
-    const clientCurrentPackageActive = await clientPackage.findOne({ id: id, status: true });
-    if(clientCurrentPackageActive){
+    
       const newValueAddedService = new skilletyValueAddedService({
         ...req.body,
         remaining: req.body.quantity,
@@ -2487,9 +2950,7 @@ const clientValueAddedServiceBuying = async (req, res) => {
       await newValueAddedService.save();
 
       return res.status(201).json(newValueAddedService);
-    }else{
-      return res.status(400).json({ error: "No active package found!" });
-    }
+   
 
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -2514,20 +2975,51 @@ const getClientChoosenPlan = async(req, res) => {
 }
 
 /* find all packages client bought */
-const getAllClientChoosenPlans = async(req, res) => {
-  const {id} = req.params;
-  try{
+const getAllClientChoosenPlans = async (req, res) => {
+  const { id } = req.params;
+  const currentDate = new Date();
+  try {
     const clientWithPackagePlans = await clientPackage.find({ id: id });
-    if(clientWithPackagePlans.length>0){
-      
-      return res.status(200).json(clientWithPackagePlans);
-    }else{
-      return res.status(404).json({ message: 'no package bought' });
+    const clientCustomizedPackages = await skilletyService.find({ id: id });
+
+    const updatedClientWithPackagePlans = await Promise.all(clientWithPackagePlans.map(async inv => {
+      const createdAtDate = new Date(inv.createdAt);
+      const validityEndDate = new Date(createdAtDate);
+      validityEndDate.setDate(validityEndDate.getDate() + inv.validity);
+
+      if (currentDate > validityEndDate) {
+        await clientPackage.findByIdAndUpdate(inv._id, { status: false });
+        inv.status = false; // Update local object
+      }
+      return inv;
+    }));
+
+    const updatedClientCustomizedPackages = await Promise.all(clientCustomizedPackages.map(async inv => {
+      const createdAtDate = new Date(inv.createdAt);
+      const validityEndDate = new Date(createdAtDate);
+      validityEndDate.setMonth(validityEndDate.getMonth() + inv.validity);
+
+      if (currentDate > validityEndDate) {
+        await skilletyService.findByIdAndUpdate(inv._id, { status: false });
+        inv.status = false; // Update local object
+      }
+      return inv;
+    }));
+    
+    const combinedPackages = [...updatedClientWithPackagePlans, ...updatedClientCustomizedPackages];
+
+    if (combinedPackages.length > 0) {
+      return res.status(200).json(combinedPackages);
+    } else {
+      return res.status(404).json({ message: 'No package bought' });
     }
-  }catch(err){
+  } catch(err) {
     return res.status(500).json({ error: err.message });
   }
 }
+
+
+
 /* get client with their package plan */
 const checkTheValidityOfPackage = async (req, res) => {
   const { id } = req.params;
@@ -2561,19 +3053,84 @@ const checkTheValidityOfPackage = async (req, res) => {
 
 
 /* create client viewed candidate */
-const createViewedCandidate = async(req, res) => {
-  console.log(req.body);
+const createViewedCandidate = async (req, res) => {
+  const { companyId, candidateId } = req.body;
+  try {
+    const isAlreadyViewTheCandidate = await viewedCandidate.findOne({ companyId, candidateId });
+    if (isAlreadyViewTheCandidate) {
+      return res.status(200).json({ message: "The candidate detail already viewed!" });
+    } else {
+      const isClientPackageAvailable = await clientPackage.findOne({ id: companyId, status: true });
+      const isCustomizedCvViewsFound = await skilletyService.findOne({
+        id: companyId,
+        serviceNames: { $in: ["CV Views"] },
+        status: true,
+      }).sort({ createdAt: -1 });
+
+      if (isClientPackageAvailable || isCustomizedCvViewsFound) {
+        if (isClientPackageAvailable && isClientPackageAvailable.cvViewsRemaining > 0) {
+          await clientPackage.findOneAndUpdate(
+            { id: companyId, status: true },
+            { $inc: { cvViewsRemaining: -1 } },
+            { new: true });
+
+          const clientViewedCandidate = new viewedCandidate({ ...req.body });
+          await clientViewedCandidate.save();
+          return res.status(201).json({ message: "Candidate Viewed" });
+        } else if (isCustomizedCvViewsFound && isCustomizedCvViewsFound.remainings.cvViews > 0) {
+          const currentDate = new Date();
+          const createdAtDate = new Date(isCustomizedCvViewsFound.createdAt);
+          const validityEndDate = new Date(createdAtDate);
+          validityEndDate.setMonth(validityEndDate.getMonth() + isCustomizedCvViewsFound.validity);
+
+          console.log(validityEndDate);
+          if (currentDate <= validityEndDate) {
+            isCustomizedCvViewsFound.remainings.cvViews -= 1;
+            await isCustomizedCvViewsFound.save();
+
+            const clientViewedCandidate = new viewedCandidate({ ...req.body });
+            await clientViewedCandidate.save();
+            return res.status(201).json({ message: "Candidate Viewed" });
+          } else {
+            isCustomizedCvViewsFound.status = false;
+            await isCustomizedCvViewsFound.save();
+            return res.status(400).json({ error: "Customized CV Views package expired!" });
+          }
+        } else {
+          return res.status(400).json({ error: "No CV views remaining in the active package!" });
+        }
+      } else {
+        return res.status(400).json({ error: "No active package found!" });
+      }
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+ const functionNew = async(req, res)=>{
   try{
-    const clientViewedCandidate = new viewedCandidate({
-      ...req.body,
-    });
-    await clientViewedCandidate.save();
-    console.log(clientViewedCandidate);
-    return res.status(201).json(clientViewedCandidate);
+    const currentDate = new Date(); // Get current date
+    function formatDate(date) {
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+  const reqDate = formatDate(currentDate)
+  console.log(reqDate);
+// Find documents matching the criteria
+  const customizedCvViews = await skilletyService.find({
+      expiryDate: { $gte: reqDate } // Expiry date is after or equal to the current date
+  });
+
+  return res.status(200).json(customizedCvViews);
+
   }catch(err){
     return res.status(500).json({ error: err.message });
   }
-}
+ }
 
 /* get viewed candidates by client */
 const getViewedCandidates = async(req, res) => {
@@ -8802,6 +9359,8 @@ module.exports = {
    getApprovedInActivejobs,
    getNonApprovaljobs,
    getOwnActivejobs,
+   getOwnPostedNonApprovedjobs,
+   getOwnJobs,
    getOwnPostedjobs,
    applyingjob,
    updatingApplicationStatusForJob,
@@ -8824,6 +9383,9 @@ module.exports = {
    getAssignedCandidates,
    getLoginClientDetail,
    getAllClientStaffs,
+   editingClientStaffDetail,
+   changingAllJobsToAnotherLogins,
+   changingAJobToAnotherLogins,
    forgotPassword,
    newPassword,
    eventPosting,
@@ -9008,4 +9570,5 @@ module.exports = {
 
   candidateDetailUpload,
   clientDetailUpload,
+  functionNew,
 };

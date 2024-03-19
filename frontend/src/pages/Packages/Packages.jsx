@@ -32,7 +32,7 @@ const Packages = ({ companyId }) => {
 
   const handleBuy = () => {
     if (clientToken) {
-      const url = `http://localhost:3000/package-plans?token=${encodeURIComponent(clientToken)}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?token=${encodeURIComponent(clientToken)}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
@@ -50,7 +50,7 @@ const Packages = ({ companyId }) => {
               <div className="custom--container">
                 <div className="breadcrumb--area-dark" data-aos="fade-down">
                   <div className="breadcrumb--item-dark">
-                    <a href="/">Home</a>
+                    <a href="/client-home">Home</a>
                   </div>
                   <div className="breadcrumb--item-dark">
                     <p>Plans</p>

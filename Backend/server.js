@@ -33,7 +33,8 @@ const http = require('http');
 const employeeAuth = require('./middleware/employeeAuth');
 const {Server} = require('socket.io');
 const axios = require("axios");
-
+const sampleImg = require("./Database/sampleImg");
+// const jimp = require("jimp");
 
 //ATS.............
 
@@ -461,7 +462,7 @@ app.patch('/update-image/:id', employeeAuth, uploadImgBase64Event.single('image'
 // const uploadCandidateImg = multer({storage: storageCandidateImg})
 const storageMemoryCand = multer.memoryStorage();
 const uploadImgBase64Cand = multer({ storage: storageMemoryCand });
-app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64Cand.single('image'), async(req, res) => {
+app.post('/upload-candidate-profile-image', uploadImgBase64Cand.single('image'), async(req, res) => {
   try {
     if (!req.body.id) {
       return res.status(400).json({ error: 'No candidate id provided' });
@@ -471,7 +472,15 @@ app.post('/upload-candidate-profile-image', employeeAuth, uploadImgBase64Cand.si
       return res.status(400).json({ error: 'No candidate profile provided' });
     }
 
-    // Convert image buffer to base64
+    // const image = await jimp.read(req.file.buffer);
+
+    // // Compress the image
+    // image.resize(100, jimp.AUTO); // Resize to width 300, maintaining aspect ratio
+
+    // // Convert the image to base64
+    // const base64Image = await image.getBase64Async(jimp.AUTO);
+    // // const base64Image = req.file.buffer.toString('base64');
+
     const base64Image = req.file.buffer.toString('base64');
 
     // Save the image to the database
@@ -956,4 +965,5 @@ app.patch('/update-exiesting-offline-client-logo/:id', employeeAuth, uploadImgBa
 
 server.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
+  console.log(new Date());
 });

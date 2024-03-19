@@ -25,11 +25,11 @@ const useTokenRedirect = () => {
 
 
     if (clientToken) {
-      // navigate("/");
+      // navigate("/client-home");
       localStorage.removeItem("clientToken");
       showErrorMessage("You have been signed out by the previous user.")
     }else if (candidateToken){
-      // navigate("/candidate-home")
+      // navigate("/")
       localStorage.removeItem("candidateToken");
       showErrorMessage("You have been signed out by the previous user.")
     }

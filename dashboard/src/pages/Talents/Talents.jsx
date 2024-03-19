@@ -20,7 +20,7 @@ import AuthContext from '../../context/AuthContext';
 const Talents = () => {
     const { id } = useParams();
     const location = useLocation();
-
+    const token = new URLSearchParams(window.location.search).get('token') || JSON.parse(localStorage.getItem('clientToken'));
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -42,6 +42,13 @@ const Talents = () => {
     //         }, 500);
     //     }
     // }, []); 
+
+    useEffect(() => {
+        if (token) {
+          localStorage.setItem("clientToken", JSON.stringify(token));
+        }
+    
+      }, [token])
 
     useEffect(() => {
 

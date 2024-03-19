@@ -1585,111 +1585,163 @@ const TalentsProfileSearch = () => {
   //     // }
   //   }
 
+  // const viewCandidateDetail = async (id, percentage) => {
+  //   try {
+  //     const packageSelectionDetail = await getClientChoosenPlan(
+  //       loginClientDetail.companyId
+  //     );
+  //     if (clientToken) {
+  //       if (packageSelectionDetail) {
+  //         if (viewedCandidate.length > 0) {
+  //           const alreadyViewedCandidate = viewedCandidate.find(
+  //             (cand) => cand.candidateId === id
+  //           );
+  //           if (alreadyViewedCandidate) {
+  //             window.open(
+  //               `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
+  //               "_blank"
+  //             );
+  //           } else {
+  //             console.log(viewedCandidate.length);
+  //             if (viewedCandidate.length < cvViews) {
+  //               const idData = {
+  //                 candidateId: id,
+  //                 companyId: loginClientDetail.companyId,
+  //               };
+  //               const response = await axios.post(
+  //                 "https://skillety-n6r1.onrender.com/cv-views",
+  //                 idData,
+  //                 {
+  //                   headers: {
+  //                     Authorization: `Bearer ${clientToken}`,
+  //                     Accept: "application/json",
+  //                   },
+  //                 }
+  //               );
+
+  //               const result = response.data;
+  //               console.log(result);
+  //               getViewedCandidates();
+  //               window.open(
+  //                 `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
+  //                 "_blank"
+  //               );
+  //             } else {
+  //               await new Promise(() => {
+  //                 Swal.fire({
+  //                   title: "Buy Package Plan",
+  //                   text: "You reached your max cv-views in your plan, upgrade your plan",
+  //                   icon: "info",
+  //                   confirmButtonColor: "#3085d6",
+  //                   confirmButtonText: "OK",
+  //                 }).then(() => {
+  //                   window.open(
+  //                     `https://skillety-dashboard-tk2y.onrender.com/package-plans`,
+  //                     "_blank"
+  //                   );
+  //                 });
+  //               });
+  //             }
+  //           }
+  //         } else {
+  //           const idData = {
+  //             candidateId: id,
+  //             companyId: loginClientDetail.companyId,
+  //           };
+  //           const response = await axios.post(
+  //             "https://skillety-n6r1.onrender.com/cv-views",
+  //             idData,
+  //             {
+  //               headers: {
+  //                 Authorization: `Bearer ${clientToken}`,
+  //                 Accept: "application/json",
+  //               },
+  //             }
+  //           );
+
+  //           const result = response.data;
+  //           console.log(result);
+  //           getViewedCandidates();
+  //           window.open(
+  //             `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
+  //             "_blank"
+  //           );
+  //         }
+  //       } else {
+  //         await new Promise(() => {
+  //           Swal.fire({
+  //             title: "Buy Package Plan",
+  //             text: "",
+  //             icon: "info",
+  //             confirmButtonColor: "#3085d6",
+  //             confirmButtonText: "OK",
+  //           }).then(() => {
+  //             window.open(
+  //               `https://skillety-dashboard-tk2y.onrender.com/package-plans`,
+  //               "_blank"
+  //             );
+  //           });
+  //         });
+  //       }
+  //     } else {
+  //       navigate("/client-login");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const viewCandidateDetail = async (id, percentage) => {
     try {
-      const packageSelectionDetail = await getClientChoosenPlan(
-        loginClientDetail.companyId
-      );
-      if (clientToken) {
-        if (packageSelectionDetail) {
-          if (viewedCandidate.length > 0) {
-            const alreadyViewedCandidate = viewedCandidate.find(
-              (cand) => cand.candidateId === id
-            );
-            if (alreadyViewedCandidate) {
-              window.open(
-                `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
-                "_blank"
-              );
-            } else {
-              console.log(viewedCandidate.length);
-              if (viewedCandidate.length < cvViews) {
-                const idData = {
-                  candidateId: id,
-                  companyId: loginClientDetail.companyId,
-                };
-                const response = await axios.post(
-                  "https://skillety-n6r1.onrender.com/cv-views",
-                  idData,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${clientToken}`,
-                      Accept: "application/json",
-                    },
-                  }
-                );
-
-                const result = response.data;
-                console.log(result);
-                getViewedCandidates();
-                window.open(
-                  `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
-                  "_blank"
-                );
-              } else {
-                await new Promise(() => {
-                  Swal.fire({
-                    title: "Buy Package Plan",
-                    text: "You reached your max cv-views in your plan, upgrade your plan",
-                    icon: "info",
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: "OK",
-                  }).then(() => {
-                    window.open(
-                      `https://skillety-dashboard-tk2y.onrender.com/package-plans`,
-                      "_blank"
-                    );
-                  });
-                });
-              }
-            }
-          } else {
-            const idData = {
-              candidateId: id,
-              companyId: loginClientDetail.companyId,
-            };
-            const response = await axios.post(
-              "https://skillety-n6r1.onrender.com/cv-views",
-              idData,
-              {
-                headers: {
-                  Authorization: `Bearer ${clientToken}`,
-                  Accept: "application/json",
-                },
-              }
-            );
-
-            const result = response.data;
-            console.log(result);
-            getViewedCandidates();
-            window.open(
-              `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?percentage=${percentage}`,
-              "_blank"
-            );
-          }
-        } else {
-          await new Promise(() => {
-            Swal.fire({
-              title: "Buy Package Plan",
-              text: "",
-              icon: "info",
-              confirmButtonColor: "#3085d6",
-              confirmButtonText: "OK",
-            }).then(() => {
-              window.open(
-                `https://skillety-dashboard-tk2y.onrender.com/package-plans`,
-                "_blank"
-              );
+        if (clientToken) {
+            const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", {
+                candidateId: id,
+                companyId: loginClientDetail.companyId,
             });
-          });
+
+            if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
+                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
+                if (!isNaN(percentage)) {
+                    url += `&percentage=${percentage}`;
+                }
+
+                window.open(url, "_blank");
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: '',
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                });
+            }
+        } else {
+            navigate("/client-login");
         }
-      } else {
-        navigate("/client-login");
-      }
     } catch (error) {
-      console.error(error);
+        console.error(error);
+        if (error.response.data.error === "Customized CV Views package expired!" || error.response.data.error === "No CV views remaining in the active package!" || error.response.data.error === "No active package found!") {
+            Swal.fire({
+                title: 'Buy Package Plan',
+                text: error.response.data.error,
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                navigate("/packages");
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: '',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK',
+            });
+        }
     }
-  };
+};
+
 
   return (
     <div>
@@ -1700,7 +1752,7 @@ const TalentsProfileSearch = () => {
             <div className="custom--container tal--pro-search">
               <div className="breadcrumb--area-dark" data-aos="fade-down">
                 <div className="breadcrumb--item-dark">
-                  <a href="/">Home</a>
+                  <a href="/client-home">Home</a>
                 </div>
                 <div className="breadcrumb--item-dark">
                   <p>Search Talent</p>

@@ -36,7 +36,7 @@ const ServicesSkillAssessment = () => {
                                 <div className="col-12 col-xl-8 col-lg-12 col-md-12 about--left-cover">
                                     <div className="breadcrumb--area" data-aos="fade-down">
                                         <div className="breadcrumb--item">
-                                            <a href="/">Home</a>
+                                            <a href="/client-home">Home</a>
                                         </div>
                                         <div className="breadcrumb--item">
                                             <p>Services</p>
