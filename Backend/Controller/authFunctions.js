@@ -549,7 +549,7 @@ const finalClientRegister = async (req, res) => {
       to: updatedUser.email,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
+      html: `<p>Congratulations!</p><p>We are happy to have you with us.</p>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -673,7 +673,7 @@ const candidateReg = async(req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
+      html: `<p>Congratulations! </p><p>We are happy to have you with us.</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -2169,6 +2169,9 @@ const newPassword = async(req, res) => {
   const {password, role} = req.body;
   console.log(password);
   try{
+    if(password.length<8){
+      return res.status(401).json({error:"Password must be minimum 8 characters long"})
+    }
         const hashPassword = await bcrypt.hash(password, 12);
         console.log(hashPassword);
         const updatedUser = await allUsers.findOneAndUpdate(
@@ -4163,10 +4166,15 @@ const updatingCandidatePassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+    if(newPassword.length<8){
+      return res.status(401).json({ error: 'Password must be minimum 8 characters long' });
+    }
+
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Current password does not match' });
     }
+    
     const hashPassword = await bcrypt.hash(newPassword, 12);
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
@@ -4510,7 +4518,7 @@ const finalCandRegister = async (req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
+      html: `<p>Congratulations! </p><p>We are happy to have you with us.</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -4530,10 +4538,16 @@ const finalCandRegister = async (req, res) => {
 
 const updateCand = async (req, res) => {
   const { id } = req.params;
-
+  const {email, phone} = req.body;
   try {
-    const candToUpdate = await candidateCreate.findOne({ id });
+    const clientAvailable = await candidateCreate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+    const candAvailable = await candidate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
 
+    if (clientAvailable || allUserAvailable || candAvailable) {
+      return res.status(404).json({ error: "The email address or phone number already exists" });
+    }
+    const candToUpdate = await candidateCreate.findOne({ id });
     if (candToUpdate) {
       const updatedCand = await candidateCreate.findOneAndUpdate(
         { id },
@@ -5045,6 +5059,13 @@ const candidateUpdateDetail = async (req, res) => {
   const { fName, sName, email, phone, location, experience_years, experience_month, joinDaysPeriod } = req.body;
 
   try {
+
+    const clientAvailable = await candidate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+
+    if (clientAvailable || allUserAvailable) {
+      return res.status(404).json({ error: "The email address or phone number already exists" });
+    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       {
