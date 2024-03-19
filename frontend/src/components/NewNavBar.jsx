@@ -25,7 +25,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                         (candidateRegister || candidateLogin || candVerification) ?
                             <div className='logo--area candidate me-auto'>
                                 <div className='logo--subarea'>
-                                    <a href="/candidate-home">
+                                    <a href="/">
                                         <img className='nav--logo candidate' src=
                                         {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
                                         "../assets/img/logo/skillety-logo-sm.png"} 
@@ -35,7 +35,7 @@ const NewNavBar = ({ clientRegister, candidateRegister, clientLogin, candidateLo
                             </div> :
                             <div className='logo--area client me-auto'>
                                 <div className='logo--subarea'>
-                                    <a href="/">
+                                    <a href="/client-home">
                                     <img className='nav--logo candidate' src=
                                         {"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
                                         "../assets/img/logo/skillety-logo-sm.png"} 

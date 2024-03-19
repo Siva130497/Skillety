@@ -50,7 +50,7 @@ const Packages = ({ companyId }) => {
               <div className="custom--container">
                 <div className="breadcrumb--area-dark" data-aos="fade-down">
                   <div className="breadcrumb--item-dark">
-                    <a href="/">Home</a>
+                    <a href="/client-home">Home</a>
                   </div>
                   <div className="breadcrumb--item-dark">
                     <p>Plans</p>

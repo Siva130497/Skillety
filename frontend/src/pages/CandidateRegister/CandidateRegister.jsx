@@ -136,7 +136,7 @@ const CandidateRegister = () => {
 
     useEffect(()=>{
         if(candToken || candidateToken){
-            navigate("/candidate-home")
+            navigate("/")
         }
     },[candToken, candidateToken])
 
@@ -1291,7 +1291,7 @@ const CandidateRegister = () => {
                         <div className="custom--container">
                             <div className="breadcrumb--area-dark" data-aos="fade-down">
                                 <div className="breadcrumb--item-dark">
-                                    <a href="/candidate-home">Home</a>
+                                    <a href="/">Home</a>
                                 </div>
                                 <div className="breadcrumb--item-dark">
                                     <p>Registration Form</p>

@@ -71,9 +71,9 @@ function App() {
       <PrimeReactProvider>
         <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<HomeCandidate />} />
             {/* <Route path='/slider' element={<Slider />} /> */}
-            <Route path='/candidate-home' element={<HomeCandidate />} />
+            <Route path='/client-home' element={<Home />} />
             <Route path='/about-us' element={<About />} />
             <Route path='/candidate-about-us' element={<CandidateAboutUs />} />
             <Route path='/contact-us' element={<Contact />} />

@@ -275,7 +275,7 @@ const JobDetails = () => {
 
                   <div className="breadcrumb--area-dark" data-aos="fade-down">
                     <div className="breadcrumb--item-dark">
-                      <a href="/candidate-home">Home</a>
+                      <a href="/">Home</a>
                     </div>
                     <div className="breadcrumb--item-dark">
                       <a className="sub--bredcrumb-link" href="/job-search">

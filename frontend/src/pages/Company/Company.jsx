@@ -66,7 +66,7 @@ const Company = () => {
                             <div className="col-12 col-xl-8 col-lg-12 col-md-12 about--left-cover">
                                 <div className="breadcrumb--area candidate" data-aos="fade-down">
                                     <div className="breadcrumb--item">
-                                        <a href="/candidate-home">Home</a>
+                                        <a href="/">Home</a>
                                     </div>
                                     <div className="breadcrumb--item">
                                         <p>Companies</p>
