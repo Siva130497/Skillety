@@ -164,7 +164,7 @@ const Talents = () => {
                             <div className="custom--container">
                                 <div className="breadcrumb--area-dark" data-aos="fade-down">
                                     <div className="breadcrumb--item-dark">
-                                        <a href="/">Home</a>
+                                        <a href="/client-home">Home</a>
                                     </div>
                                     <div className="breadcrumb--item-dark">
                                         <a className='sub--bredcrumb-link' href="/talent-profile-search">Talents profile</a>

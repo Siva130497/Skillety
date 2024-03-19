@@ -66,7 +66,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                 <div>
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
-                            <a href="/">
+                            <a href="/client-home">
                                 <img className='nav--logo'
                                     // src=
                                     // {"data:image/jpeg;base64," + talentJobPostContent.find(content => content.id === "content_2")?.content ||
@@ -84,7 +84,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                         id="switchTalent"
                         name="switchPlan"
                         value="Talent"
-                        onChange={() => navigate("/candidate-home")}
+                        onChange={() => navigate("/")}
                     />
                     <input
                         type="radio"
@@ -105,7 +105,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
 
                 <nav id="navbar" className="navbar client navbar-expand-lg">
                     <ul>
-                        {/* <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
+                        {/* <li><div><a href="/client-home" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
                         <li><a href={clientToken ? `/post-job-web/${clientToken}` : "/client-login"} className={postJobActive ? "nav-link scrollto active" : "nav-link scrollto"}>Post Job</a></li>
                         <li><a href="/talent-profile-search" className={searchCVActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search CV</a></li>
                         <li className="dropdown"><a href="#" className={serviceActive ? "nav-link scrollto active" : "nav-link scrollto"}><span>Services</span> <i className="bi bi-chevron-down"></i></a>

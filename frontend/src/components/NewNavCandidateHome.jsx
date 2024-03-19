@@ -72,7 +72,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                 <div>
                     <div className='logo--area me-auto'>
                         <div className='logo--subarea'>
-                            <a href="/candidate-home">
+                            <a href="/">
                             <img className='nav--logo candidate' 
                             // src={"data:image/jpeg;base64,"+talentJobPostContent[0]?.content ||
                             //             "../assets/img/logo/skillety-logo-sm.png"} 
@@ -95,7 +95,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                         id="switchEmployer"
                         name="switchPlan"
                         value="Employer"
-                        onChange={() => navigate("/")}
+                        onChange={() => navigate("/client-home")}
                     />
                     <label htmlFor="switchTalent" className='scroll-to-top'>Talent</label>
                     <label htmlFor="switchEmployer" className='scroll-to-top'>Employer</label>
@@ -109,7 +109,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
 
                 <nav id="navbar" className="navbar candidate navbar-expand-lg">
                     <ul>
-                        {/* <li><div><a href="/candidate-home" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
+                        {/* <li><div><a href="/" className={homeActive ? "nav-link scrollto active" : "nav-link scrollto"}>Home</a></div></li> */}
                         <li><a href="/job-search" className={searchJobActive ? "nav-link scrollto active" : "nav-link scrollto"}>Search Jobs</a></li>
                         <li><a href="/events" className={eventsActive ? "nav-link scrollto active" : "nav-link scrollto"}>Media</a></li>
                         <li><a href="/candidate-about-us" className={aboutUsActive ? "nav-link scrollto active" : "nav-link scrollto"}>About Us</a></li>

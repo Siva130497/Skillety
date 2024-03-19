@@ -666,7 +666,7 @@ const Home = () => {
                       <p className='service--content'>
                         This Is Specifically Designed For Companies Who Would Want To Test Run The RPO Model First, And Then Decide. We Take Up Hiring Requirements From One Or Few Projects On Exclusivity, And Close Them In Record Time, First. The Results Will Determine Whether You Want To Upgrade To An Enterprise RPO (Or Not), Based On Solid Proof.                      </p>
                       <div className='service-know-morearea'>
-                        <a href="/" className='service--know-more'>
+                        <a href="/client-home" className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>

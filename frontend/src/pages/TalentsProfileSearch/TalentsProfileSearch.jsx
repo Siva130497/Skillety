@@ -1752,7 +1752,7 @@ const TalentsProfileSearch = () => {
             <div className="custom--container tal--pro-search">
               <div className="breadcrumb--area-dark" data-aos="fade-down">
                 <div className="breadcrumb--item-dark">
-                  <a href="/">Home</a>
+                  <a href="/client-home">Home</a>
                 </div>
                 <div className="breadcrumb--item-dark">
                   <p>Search Talent</p>

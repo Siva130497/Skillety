@@ -68,12 +68,12 @@ export const AuthContextProvider = ({children}) => {
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/${result.accessToken}`, '_blank');
-                    location.state ? navigate("/candidate-home") : navigate(-1);
+                    location.state ? navigate("/") : navigate(-1);
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/post-job/${result.accessToken}`, '_blank');
-                    location.state ? navigate("/") : navigate(-1);
+                    location.state ? navigate("/client-home") : navigate(-1);
                     
                 }
                 
