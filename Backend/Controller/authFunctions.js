@@ -325,28 +325,14 @@ const createClientStaff = async (req, res) => {
     });
 
     if (userAvailable || allUserAvailable) {
-      return res.status(404).json({ message: "User already registered" });
+      return res.status(404).json({ error: "User already registered" });
     }
 
     const neededClient = await finalClient.findOne({ id });
 
     if (neededClient) {
       const { companyName, companyId } = neededClient._doc;
-      const packageDetailForCompanyId = await clientPackage.findOne({
-        id: companyId,
-        status: true,
-      });
-      const loginAsServiceForCompanyId = await skilletyService.find({
-        id: companyId,
-        serviceNames: { $in: ["Login IDs"] },
-        status: true,
-      });
-
      
-        if (
-          packageDetailForCompanyId.loginsRemaining > 0 ||
-          loginAsServiceForCompanyId 
-        ) {
           const baseUrl = "https://skillety-frontend-wcth.onrender.com/verification/";
           const token = uuidv4();
           const tempUrl = baseUrl + token;
@@ -370,24 +356,6 @@ const createClientStaff = async (req, res) => {
             },
           });
 
-          if(packageDetailForCompanyId.loginsRemaining > 0){
-            await clientPackage.findOneAndUpdate(
-              { id: companyId, status: true },
-              { $inc: { loginsRemaining: -1 } },
-              { new: true }
-            );
-          }else{
-            await skilletyService.findOneAndUpdate(
-              { id: companyId, serviceName: "LoginIDs", status: true },
-              { $inc: { remaining: -1 } },
-              { new: true }
-            );
-  
-            if (loginAsServiceForCompanyId.remaining === 1) {
-              loginAsServiceForCompanyId.status = false;
-              await loginAsServiceForCompanyId.save();
-            }
-          }
           
           const mailOptions = {
             from: "demoemail1322@gmail.com",
@@ -409,12 +377,7 @@ const createClientStaff = async (req, res) => {
               res.status(201).json({ newTempClient, emailSent: true });
             }
           });
-        } else {
-          return res
-            .status(200)
-            .json({ error: "You reached the limit of creating accounts" });
-        }
-      
+        
     } else {
       return res.status(404).json({ error: "No client found with the matching id" });
     }
@@ -1278,6 +1241,8 @@ const getNonApprovaljobs = async(req, res) => {
   }
 }
 
+
+
 /* get a job  */
 const getJob = async (req, res) => {
   const { id } = req.params;
@@ -1508,16 +1473,17 @@ const getOwnPostedjobs = async (req, res) => {
     const postedJobs = await jobDetail.find({
       $or: [
         { companyId: id },
+        { clientStaffId: id},
         { recruiterId: id },
         { managerId: id }
       ]
-    });
+    }).sort({updatedAt:-1});
 
     if (postedJobs.length > 0) {
       return res.status(200).json(postedJobs);
     }
 
-      return res.status(404).json({ message: 'No posted job found' });
+      return res.status(404).json({ message: 'No approved posted job found' });
     
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1532,10 +1498,11 @@ const getOwnActivejobs = async (req, res) => {
     const activeJobs = await activeJob.find({
       $or: [
         { companyId: id },
+        { clientStaffId: id},
         { recruiterId: id },
         { managerId: id }
       ]
-    });
+    }).sort({updatedAt:-1});
 
     if (activeJobs.length > 0) {
       const activeJobWithStatus = activeJobs.map(job => ({ ...job.toObject(), active: true }));
@@ -1543,6 +1510,76 @@ const getOwnActivejobs = async (req, res) => {
     }
 
       return res.status(404).json({ message: 'No active job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+/* get non approved job for an id */
+const getOwnPostedNonApprovedjobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    const postedJobs = await nonApprovalJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id}
+      ]
+    }).sort({updatedAt:-1});
+
+    if (postedJobs.length > 0) {
+      return res.status(200).json(postedJobs);
+    }
+
+      return res.status(404).json({ message: 'No non approval job found' });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+const getOwnJobs = async (req, res) => {
+  try {
+    const id = req.params.id; 
+    
+    // Querying job details
+    const postedJobs = await jobDetail.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id},
+        { recruiterId: id },
+        { managerId: id }
+      ]
+    }).sort({updatedAt:-1});
+
+    // Querying active jobs
+    const activeJobs = await activeJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id},
+        { recruiterId: id },
+        { managerId: id }
+      ]
+    }).sort({updatedAt:-1});
+
+    // Querying non-approved jobs
+    const nonApprovedJobs = await nonApprovalJob.find({
+      $or: [
+        { companyId: id },
+        { clientStaffId: id}
+      ]
+    }).sort({updatedAt:-1});
+
+    // Combining results into a single array
+    const combinedJobs = [...postedJobs, ...activeJobs.map(job => ({ ...job.toObject(), active: true })), ...nonApprovedJobs];
+
+    // Checking if any results found
+    if (combinedJobs.length > 0) {
+      return res.status(200).json(combinedJobs);
+    }
+
+    return res.status(404).json({ error: 'No jobs found' });
     
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -1900,6 +1937,105 @@ const getAllClientStaffs = async(req, res) => {
     res.status(500).json({error: err.message})
   }
 }
+
+const editingClientStaffDetail = async (req, res) => {
+  try {
+    const { id, name, email, phone } = req.body;
+
+    // Check if email or phone number already exists for other documents
+    const clientAvailable = await finalClient.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
+
+    if (clientAvailable || allUserAvailable) {
+      return res.status(404).json({ error: "The email address or phone number already exists" });
+    }
+
+    // Update documents
+    await finalClient.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          name,
+          email,
+          phone
+        }
+      }
+    );
+
+    await allUsers.findOneAndUpdate(
+      { id: id },
+      {
+        $set: {
+          name,
+          email,
+          phone
+        }
+      }
+    );
+
+    res.status(200).json({ message: "Client Staff Details Updated" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+const changingAllJobsToAnotherLogins = async (req, res) => {
+  try {
+    const { fromId, toId } = req.body;
+    const checkingFromIdRole = await finalClient.findOne({id:fromId});
+    const checkingToIdRole = await finalClient.findOne({id:toId});
+    if(checkingFromIdRole || checkingToIdRole){
+      // Update documents where clientStaffId equals fromId, set clientStaffId to toId
+      await nonApprovalJob.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      await jobDetail.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      await activeJob.updateMany(
+        { clientStaffId: fromId },
+        { $set: { clientStaffId: toId } }
+      );
+
+      res.status(200).json({ message: "All the jobs has been assigned successful" });
+    }else{
+      res.status(400).json({error:"In-correct id role for assigning job"})
+    }
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const changingAJobToAnotherLogins = async (req, res) => {
+  try {
+    const { fromId, toId, changingJobId } = req.body;
+    const checkingFromIdRole = await finalClient.findOne({id:fromId}, 'role');
+    const checkingToIdRole = await finalClient.findOne({id:toId}, 'role');
+    if(checkingFromIdRole || checkingToIdRole){
+      const changingJob = await nonApprovalJob.findOne({id:changingJobId}) || await jobDetail.findOne({id:changingJobId}) || await activeJob.findOne({id:changingJobId});
+      if(changingJob){
+        changingJob.clientStaffId = toId;
+        await changingJob.save();
+        res.status(200).json({ message: "Job has been assigned successful" });
+      }else{
+        res.status(404).json({error:"Invalid JobId"})
+      }
+      
+    }else{
+      res.status(400).json({error:"In-correct id role for assigning job"})
+    }
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 /**
  * @DESC To register the employee
@@ -9223,6 +9359,8 @@ module.exports = {
    getApprovedInActivejobs,
    getNonApprovaljobs,
    getOwnActivejobs,
+   getOwnPostedNonApprovedjobs,
+   getOwnJobs,
    getOwnPostedjobs,
    applyingjob,
    updatingApplicationStatusForJob,
@@ -9245,6 +9383,9 @@ module.exports = {
    getAssignedCandidates,
    getLoginClientDetail,
    getAllClientStaffs,
+   editingClientStaffDetail,
+   changingAllJobsToAnotherLogins,
+   changingAJobToAnotherLogins,
    forgotPassword,
    newPassword,
    eventPosting,
