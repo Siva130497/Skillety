@@ -516,7 +516,7 @@ const JobDetails = () => {
                                 </div>
                                 <div className="dash-job-det-info-area">
                                   <div className="dash-job-det-info">
-                                    Industry Type&nbsp;&nbsp;:&nbsp;&nbsp;
+                                    Industry type&nbsp;&nbsp;:&nbsp;&nbsp;
                                     <span>{job?.industry}</span>
                                   </div>
                                 </div>
@@ -531,19 +531,19 @@ const JobDetails = () => {
                             <div className="col-12 col-md-6">
                               <div className="dash-job-det-info-area">
                                 <div className="dash-job-det-info">
-                                  Employment Type&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  Employment type&nbsp;&nbsp;:&nbsp;&nbsp;
                                   <span>{job?.jobCategory}</span>
                                 </div>
                               </div>
                               <div className="dash-job-det-info-area">
                                 <div className="dash-job-det-info">
-                                  Role Category&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  Role category&nbsp;&nbsp;:&nbsp;&nbsp;
                                   <span>{job?.role}</span>
                                 </div>
                               </div>
                               <div className="dash-job-det-info-area">
                                 <div className="dash-job-det-info">
-                                  Working Mode&nbsp;&nbsp;:&nbsp;&nbsp;
+                                  Working mode&nbsp;&nbsp;:&nbsp;&nbsp;
                                   <span>{job?.workMode}</span>
                                 </div>
                               </div>

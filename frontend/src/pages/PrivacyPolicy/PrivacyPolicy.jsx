@@ -27,7 +27,7 @@ const PrivacyPolicy = () => {
                             <div className="terms-con-section">
                                 <div className="terms-con-area">
                                     <div className="terms-con-title">
-                                        <span>Privacy </span>Policy
+                                        <span>Privacy Policy</span>
                                     </div>
 
                                     <div className="privacy-initial-area">

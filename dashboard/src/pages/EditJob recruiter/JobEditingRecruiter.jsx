@@ -773,7 +773,7 @@ function showErrorMessage() {
                 Post Job
               </div>
               <div className="card post-job-card">
-                <div className="post-job-title">Post a Job </div>
+                <div className="post-job-title">Post a job </div>
                 {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                 <div className="job-post-form-area">
@@ -845,7 +845,7 @@ function showErrorMessage() {
 
                       <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
+                          <label htmlFor="" className='job-post-form-label'>Employment type<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             id="jobCategory"
@@ -854,8 +854,8 @@ function showErrorMessage() {
                             onChange={handleChange}
                             required>
                             <option value="">Please select any one job category.</option>
-                            <option value="full time">Full Time, Permanent</option>
-                            <option value="part time">Part Time, Permanent</option>
+                            <option value="full time">Full time, permanent</option>
+                            <option value="part time">Part time, permanent</option>
                             <option value="remote">Remote</option>
                             <option value="freelancer">Freelancer</option>
                           </select>
@@ -1123,7 +1123,7 @@ function showErrorMessage() {
 
                     <div className="row m-b-35">
                       <div className="col-12">
-                        <label htmlFor="" className='job-post-form-label mb-1'>Annual Salary Range<span className='form-required'>*</span></label>
+                        <label htmlFor="" className='job-post-form-label mb-1'>Annual salary range<span className='form-required'>*</span></label>
                         <div className='job-post-form-sub-label'>Enter the salary offered for this job</div>
                       </div>
                       <div className="col-4 col-xl-2 col-lg-2 col-md-2">
@@ -1186,14 +1186,14 @@ function showErrorMessage() {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
+                          <label htmlFor="" className='job-post-form-label'>Industry you are hiring from<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             name="industry"
                             value={credentials.industry}
                             onChange={handleChange}>
                             <option value="" selected disabled>Select industry</option>
-                            <option value="Information Technology">Information Technology</option>
+                            <option value="Information Technology">Information technology</option>
                             <option value="Healthcare">Healthcare</option>
                             <option value="Finance">Finance</option>
                             <option value="Education">Education</option>
@@ -1206,18 +1206,18 @@ function showErrorMessage() {
                     <div className="row m-b-35">
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
-                          <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
+                          <label htmlFor="" className='job-post-form-label'>Educational qualification<span className='form-required'>*</span></label>
                           <i class="bi bi-chevron-down"></i>
                           <select className='job-post-form-input select-input'
                             name="education"
                             value={credentials.education}
                             onChange={handleChange}>
-                            <option value="" selected disabled>Select Educational Qualification</option>
-                            <option value="High School Diploma">High School Diploma</option>
-                            <option value="Bachelor's Degree">Bachelor's Degree</option>
-                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="" selected disabled>Select educational qualification</option>
+                            <option value="High School Diploma">High school diploma</option>
+                            <option value="Bachelor's Degree">Bachelor's degree</option>
+                            <option value="Master's Degree">Master's degree</option>
                             <option value="Doctorate">Doctorate</option>
-                            <option value="Professional Certification">Professional Certification</option>
+                            <option value="Professional Certification">Professional certification</option>
                           </select>
                         </div>
                       </div>
@@ -1256,10 +1256,10 @@ function showErrorMessage() {
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label mb-1'>Job description</label>
-                          <div className='job-post-form-sub-label'>Write a Job description or
-                            <button className='paste-btn' id="paste-button">
+                          <div className='job-post-form-sub-label'>Write your Job Description here or Copy and Paste your JD here.
+                            {/* <button className='paste-btn' id="paste-button">
                               Paste your JD
-                            </button>
+                            </button> */}
                           </div>
                           <textarea rows="5" className='job-post-form-input paste-input'
                             name='jobDescription'

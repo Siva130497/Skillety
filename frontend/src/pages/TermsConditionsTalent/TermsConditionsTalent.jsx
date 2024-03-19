@@ -24,7 +24,7 @@ const TermsConditionsTalent = () => {
 
                             <div className="terms-con-section">
                                 <div className="terms-con-area">
-                                    <div className="terms-con-title"><span>Terms</span> & <span>Conditions</span></div>
+                                    <div className="terms-con-title"><span>Terms & Conditions</span></div>
 
                                     <div className="terms-con-note-area m-t-35">
                                         <div className="terms-con-sub-title">

@@ -55,7 +55,7 @@
     font-size: 15px !important;
     font-weight: 600 !important;
     margin-bottom: 14px;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
 }
 
 .job-post-form-custom-label {

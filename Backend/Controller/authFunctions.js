@@ -2548,7 +2548,7 @@ const clientPackageSelection = async (req, res) => {
 
     if (currentActivePackage) {
       if(isTestPackageBought && req.body.packageType === "Test"){
-        return res.status.json({error:"You can buy Test package only once!"})
+        return res.status(400).json({ error: "You can buy Test package only once!" });
       }
       // Calculate the days since the package was created
       const createdAtDate = new Date(currentActivePackage.createdAt);

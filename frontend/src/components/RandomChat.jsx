@@ -137,7 +137,7 @@ const RandomChat = () => {
         <div className='message--count'>
             {incomingMsg.length}
         </div>
-        <h6 className='chat--text'>Chat With Us</h6>
+        <h6 className='chat--text'>Chat with us</h6>
         {/* <span className="material-symbols-outlined chat-close-icon">close</span> */}
       </button>
 

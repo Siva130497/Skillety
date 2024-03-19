@@ -116,18 +116,18 @@ const SettingsClient = () => {
                 }
             });
 
-            $(".show-btn").click(function () {
-                var passwordField = $(this).prev(".change-setting-input");
-                var icon = $(this).find("i");
+            // $(".show-btn").click(function () {
+            //     var passwordField = $(this).prev(".change-setting-input");
+            //     var icon = $(this).find("i");
 
-                if (passwordField.attr("type") === "password") {
-                    passwordField.attr("type", "text");
-                    icon.removeClass("bi-eye-slash").addClass("bi-eye");
-                } else {
-                    passwordField.attr("type", "password");
-                    icon.removeClass("bi-eye").addClass("bi-eye-slash");
-                }
-            });
+            //     if (passwordField.attr("type") === "password") {
+            //         passwordField.attr("type", "text");
+            //         icon.removeClass("bi-eye-slash").addClass("bi-eye");
+            //     } else {
+            //         passwordField.attr("type", "password");
+            //         icon.removeClass("bi-eye").addClass("bi-eye-slash");
+            //     }
+            // });
 
             // Trigger the file input when the image is clicked
             $(".upload-label").click(function (e) {
@@ -280,6 +280,16 @@ const SettingsClient = () => {
             })
     }
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "phone" && value.length === 13) {
+            return;
+        }
+
+        setUserInfo({ ...userInfo, [name]: value });
+    };
+
     const handlePhoneUpdate = () => {
         const userData = {
             id: loginClientDetail.id,
@@ -294,7 +304,7 @@ const SettingsClient = () => {
             .then(res => {
                 console.log(res.data)
                 if (!res.data.error) {
-                    showSuccessMessage("Phone number has been successfully updated.")
+                    showSuccessMessage("Phone number has been successfully updated.");
                     setUserInfo(prevUserInfo => ({ ...prevUserInfo, phone: "" }));
                     getLoginClientDetail();
                 }
@@ -303,6 +313,7 @@ const SettingsClient = () => {
                 console.log(err)
                 showErrorMessage(err.response.data.error);
             })
+
     }
 
     const handlePasswordUpdate = () => {
@@ -413,6 +424,23 @@ const SettingsClient = () => {
     };
     //////////
 
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleNewPassword = () => {
+        setShowNewPassword(!showNewPassword);
+    };
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
     return (
         <div>
             {clientToken && <div class="main-wrapper main-wrapper-1">
@@ -447,7 +475,7 @@ const SettingsClient = () => {
                                         <div className="tab-pane fade show active" id="Account" role="tabpanel" aria-labelledby="account-tab">
                                             <div className="setting-content">
                                                 <div className='setting-title'>Account Settings</div>
-                                                <div className='setting-sub'>Change your company profile photo, email, mobile number or password</div>
+                                                <div className='setting-sub'>Change your company profile photo, email, mobile number and password</div>
                                             </div>
 
                                             <div className="setting-content">
@@ -479,7 +507,7 @@ const SettingsClient = () => {
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
                                                             <input type="email" className='change-setting-input' placeholder='Change Email'
-                                                                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
+                                                                value={userInfo.email} onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
                                                             <button className='setting-update-btn' onClick={handleEmailUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -499,7 +527,7 @@ const SettingsClient = () => {
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
+                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' name='phone' value={userInfo.phone} onChange={handleInputChange} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>
@@ -515,25 +543,25 @@ const SettingsClient = () => {
                                                 <div className={`change-input-area ${isPasswordExpanded ? 'multi-input-expanded' : ''}`}>
                                                     <div className="row mt-4">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showPassword ? "text" : "password"} className='change-setting-input' placeholder='Current Password' onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleTogglePassword}>
+                                                                <i class={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showNewPassword ? "text" : "password"} className='change-setting-input' placeholder='New Password' id="new-password" onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleToggleNewPassword}>
+                                                                <i class={`bi ${showNewPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-3">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6">
-                                                            <input type="password" className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
-                                                            <button class="show-btn">
-                                                                <i class="bi bi-eye-slash"></i>
+                                                            <input type={showConfirmPassword ? "text" : "password"} className='change-setting-input' placeholder='Confirm Password' id="confirm-password" onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })} />
+                                                            <button class="show-btn" onClick={handleToggleConfirmPassword}>
+                                                                <i class={`bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'}`}></i>
                                                             </button>
                                                         </div>
                                                     </div>

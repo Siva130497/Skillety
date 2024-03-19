@@ -123,7 +123,7 @@ const TalentsProfileSearch = () => {
                 type: "text",
                 name: "company",
                 class: "cli-tal-pro-search-filter-input",
-                placeholder: "Add Company name",
+                placeholder: "Add company name",
             });
 
             // Create a close button
@@ -166,7 +166,7 @@ const TalentsProfileSearch = () => {
                 type: "text",
                 name: "company",
                 class: "cli-tal-pro-search-filter-input",
-                placeholder: "Add Company name",
+                placeholder: "Add company name",
             });
 
             // Create a close button
@@ -1862,7 +1862,7 @@ const TalentsProfileSearch = () => {
                                                                                 value={filters.minExperienceYr}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
                                                                             >
-                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="" selected >Min experience</option>
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
@@ -1905,7 +1905,7 @@ const TalentsProfileSearch = () => {
                                                                                 value={filters.minExperienceMonth}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
                                                                             >
-                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="" selected >Min experience</option>
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
@@ -2068,15 +2068,15 @@ const TalentsProfileSearch = () => {
                                                                                 <option value="₹" selected>₹</option>
                                                                                 <option value="$">$</option>
                                                                             </select>
-                                                                            <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                            <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary'
                                                                                 value={filters.minSalary}
                                                                                 onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                         </div>
                                                                         <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
+                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max salary'
                                                                             value={filters.maxSalary}
                                                                             onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
-                                                                        <span className='cli-tal-pro-exp-input-text'>laks</span>
+                                                                        {/* <span className='cli-tal-pro-exp-input-text'>laks</span> */}
                                                                     </div>
                                                                     <div className="cli--mark-keyword-area">
                                                                         <label className="cli--mark-keyword-check-input">
@@ -2090,7 +2090,7 @@ const TalentsProfileSearch = () => {
 
                                                             <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Employment & Education Details</h6>
+                                                                    <h6 className='cli--emploment-detail-head'>Employment & Educational details</h6>
                                                                     {/* <i class="bi bi-chevron-down"></i> */}
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
@@ -2100,7 +2100,7 @@ const TalentsProfileSearch = () => {
                                                                     <div className='expand-area-padding'>
                                                                         <div className="cli-tal-search-filter-form-group">
                                                                             <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="department" className='cli-tal-search-filter-form-label'>Department</label>
+                                                                                <label htmlFor="department" className='cli-tal-search-filter-form-label'>Educational details</label>
                                                                             </div>
 
                                                                             {selectedEducationResults.length > 0 && (
@@ -2115,7 +2115,7 @@ const TalentsProfileSearch = () => {
                                                                             )}
 
                                                                             <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Add Department'
+                                                                                <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Enter education'
                                                                                     value={filters.education}
                                                                                     onChange={handleEducationSearch} />
                                                                                 <div className='search-result-data-area'>
@@ -2220,7 +2220,7 @@ const TalentsProfileSearch = () => {
                                                                             <span className="tal-cand-reg-form-badge">Badge 1</span>
                                                                         </div> */}
                                                                             <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name'
+                                                                                <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add company name'
                                                                                     value={filters.company}
                                                                                     onChange={(e) => setFilters({ ...filters, company: e.target.value })} />
                                                                                 {/* <div className='tal-pro-search-result-data-area'>
@@ -2330,7 +2330,7 @@ const TalentsProfileSearch = () => {
                                                                                         value="newRegistration"
                                                                                         onChange={(e) => setFilters({ ...filters, candidateType: e.target.value })} />
                                                                                     <div className="tal--search-tile">
-                                                                                        <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
+                                                                                        <label for="new_reg" className="tal--search-tile-label">New registrations</label>
                                                                                     </div>
                                                                                 </div>
 
@@ -3053,7 +3053,7 @@ const TalentsProfileSearch = () => {
                                                                 <div className="cli-tal-pro-search-filter-expand-area">
                                                                     <div className='expand-area-padding'>
                                                                         <div className="cli-tal-pro-exp-input-area search-results">
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min Experience' />
+                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Min experience' />
                                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
                                                                             <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' placeholder='Max Experience' />
                                                                             <span className='cli-tal-pro-exp-input-text'>years</span>
@@ -3113,11 +3113,11 @@ const TalentsProfileSearch = () => {
                                                                                     <option value="3">USD</option>
                                                                                     <option value="4">GBP</option>
                                                                                 </select>
-                                                                                <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Lacs' />
+                                                                                <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary' />
                                                                             </div>
                                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max Salary in Lacs' />
-                                                                            <span className='cli-tal-pro-exp-input-text'>lacs</span>
+                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max salary' />
+                                                                            {/* <span className='cli-tal-pro-exp-input-text'>lacs</span> */}
                                                                         </div>
                                                                         <div className="cli--mark-keyword-area">
                                                                             <label className="cli--mark-keyword-check-input">
@@ -3182,7 +3182,7 @@ const TalentsProfileSearch = () => {
                                                                     <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                                                                 </div> */}
                                                                         <div className="cli-tal-pro-search-filter-input-area">
-                                                                            <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add Company name' />
+                                                                            <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add company name' />
                                                                         </div>
                                                                         {/* <div id="containerCompany" className='multi-input-container'>
                                                                             <div className="cli--tal-search-add-input-area mt-3">
@@ -3299,7 +3299,7 @@ const TalentsProfileSearch = () => {
                                                                                 <div className="tal--search-option-container">
                                                                                     <input id="new_reg" className="tal--search-radio" type="radio" name="show" />
                                                                                     <div className="tal--search-tile">
-                                                                                        <label for="new_reg" className="tal--search-tile-label">New Registrations</label>
+                                                                                        <label for="new_reg" className="tal--search-tile-label">New registrations</label>
                                                                                     </div>
                                                                                 </div>
 
