@@ -157,29 +157,29 @@ const ClientSidebar = () => {
                 <ul className="sidebar-menu client">
 
                     {role === "Client" && <li className="dropdown" id='client_staff'>
-                        <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client Staffs</span></a>
+                        <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client staffs</span></a>
                     </li>}
 
                     <li className="dropdown" id='search_candidate'>
-                        <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
+                        <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search candidates</span></a>
                     </li>
 
                     <li className="dropdown" id='post_job'>
-                        <a href={`/post-job/${clientToken}`} className="nav-link"><i data-feather="briefcase"></i><span>Post a Job</span></a>
+                        <a href={`/post-job/${clientToken}`} className="nav-link"><i data-feather="briefcase"></i><span>Post a job</span></a>
                     </li>
 
                     <li className="dropdown" id='manage_job'>
-                        <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage Jobs</span></a>
+                        <a href="/manage-job" className="nav-link"><i data-feather="sliders"></i><span>Manage jobs</span></a>
                     </li>
 
                     <div className='hr-line'></div>
                     <li className="dropdown" id='main'>
-                        <a href="https://skillety-frontend-wcth.onrender.com" className="nav-link"><i data-feather="arrow-left"></i><span>Go to Website</span></a>
+                        <a href="https://skillety-frontend-wcth.onrender.com" className="nav-link"><i data-feather="arrow-left"></i><span>Go to website</span></a>
                     </li>
                     <div className='hr-line'></div>
 
                     <li className="dropdown" id='invoice_payment'>
-                        <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices& Payment</span></a>
+                        <a href="/invoice-payment" className="nav-link"><i data-feather="dollar-sign"></i><span>Invoices & payment</span></a>
                     </li>
 
                     <li className="dropdown" id='client_settings'>
@@ -191,11 +191,11 @@ const ClientSidebar = () => {
                 <div className='live-chat-area'>
                     <img src="../assets/img/home/upgrade-img.png" className='live-chat-img' alt="" />
                     <div className="live-chat-text">
-                        Upgrade to Pro <br />
-                        for Premium Features
+                        Upgrade to pro <br />
+                        for premium features
                     </div>
 
-                    <button className="live-chat-btn client" onClick={() => navigate("/package-plans")}>Upgrade Package</button>
+                    <button className="live-chat-btn client" onClick={() => navigate("/package-plans")}>Upgrade package</button>
                 </div>
 
                 <div className='live-chat-area pt-0'>
@@ -205,7 +205,7 @@ const ClientSidebar = () => {
                             we are there for you 24*7
                     </div>
 
-                    <a className="live-chat-btn client" href="/client-chat-support">Live Chat Support</a>
+                    <a className="live-chat-btn client" href="/client-chat-support">Live chat support</a>
                 </div>
 
             </aside>

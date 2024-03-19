@@ -758,7 +758,7 @@ const JobPostingATS = () => {
                             Post Job
                         </div>
                         <div className="card post-job-card">
-                            <div className="post-job-title">Post a Job </div>
+                            <div className="post-job-title">Post a job </div>
                             {/* <div className="post-job-sub-title">Begin from scratch</div> */}
 
                             <div className="job-post-form-area p-t-40">
@@ -825,7 +825,7 @@ const JobPostingATS = () => {
                                         className="manually-add-btn with-mb"
                                         onClick={handleManualJobRole}
                                         disabled={!isCheckedJobRole}>
-                                        Enter Jobrole Manually
+                                        Enter jobrole manually
                                         </button>
                                     </div>
                                     </div>
@@ -833,7 +833,7 @@ const JobPostingATS = () => {
 
                                 <div className="col-12 col-xl-4 m-t-35 mt-xl-0">
                                     <div className="job-post-form-group">
-                                    <label htmlFor="" className='job-post-form-label'>Employment Type<span className='form-required'>*</span></label>
+                                    <label htmlFor="" className='job-post-form-label'>Employment type<span className='form-required'>*</span></label>
                                     <i class="bi bi-chevron-down"></i>
                                     <select className='job-post-form-input select-input'
                                         id="jobCategory"
@@ -842,8 +842,8 @@ const JobPostingATS = () => {
                                         onChange={handleChange}
                                         required>
                                         <option value="" selected disabled>Please select any one job category.</option>
-                                        <option value="full time">Full Time</option>
-                                        <option value="part time">Part Time</option>
+                                        <option value="full time">Full time</option>
+                                        <option value="part time">Part time</option>
                                         <option value="contract">Contract</option>
                                         <option value="freelancer">Freelancer</option>
                                     </select>
@@ -856,7 +856,7 @@ const JobPostingATS = () => {
                                     <div className="job-post-form-group">
 
                                     <div className='job-post-form-label-with-badge'>
-                                        <label htmlFor="" className='job-post-form-label'>Mandatory Skills<span className='form-required'>*</span></label>
+                                        <label htmlFor="" className='job-post-form-label'>Mandatory skills<span className='form-required'>*</span></label>
                                         {selectedSkills.map(selectSkill => (
                                         <span className="job-post-form-badge"
                                             key={selectSkill}
@@ -932,7 +932,7 @@ const JobPostingATS = () => {
                                         className="manually-add-btn"
                                         onClick={handleManualSkill}
                                         disabled={!isCheckedSkill}
-                                        >Enter Skills Manually</button>
+                                        >Enter skills manually</button>
                                     </div>
                                     </div>
                                 </div>
@@ -1031,8 +1031,8 @@ const JobPostingATS = () => {
                                         value={credentials.workMode}
                                         onChange={handleChange}>
                                         <option value="" selected disabled>select the working mode</option>
-                                        <option value="In office" selected>Work from Office</option>
-                                        <option value="In Home">Work from Home</option>
+                                        <option value="In office" selected>Work from office</option>
+                                        <option value="In Home">Work from home</option>
                                     </select>
                                     </div>
                                 </div>
@@ -1119,7 +1119,7 @@ const JobPostingATS = () => {
 
                                 <div className="row m-b-35">
                                 <div className="col-12">
-                                    <label htmlFor="" className='job-post-form-label mb-1'>Annual Salary Range<span className='form-required'>*</span></label>
+                                    <label htmlFor="" className='job-post-form-label mb-1'>Annual salary range<span className='form-required'>*</span></label>
                                     <div className='job-post-form-sub-label'>Enter the salary offered for this job</div>
                                 </div>
                                 <div className="col-4 col-xl-2 col-lg-2 col-md-2">
@@ -1181,7 +1181,7 @@ const JobPostingATS = () => {
                                 <div className="col-12 col-xl-8">
                                     <div className="job-post-form-group">
                                     <div className='job-post-form-label-with-badge'>
-                                        <label htmlFor="" className='job-post-form-label'>Company industry you are hiring from<span className='form-required'>*</span></label>
+                                        <label htmlFor="" className='job-post-form-label'>Industry you are hiring from<span className='form-required'>*</span></label>
                                         {/* <select className='job-post-form-input select-input'
                                         name="industry"
                                         value={credentials.industry}
@@ -1227,7 +1227,7 @@ const JobPostingATS = () => {
                                 <div className="col-12 col-xl-8">
                                     <div className="job-post-form-group">
                                     <div className='job-post-form-label-with-badge'>
-                                        <label htmlFor="" className='job-post-form-label'>Educational Qualification<span className='form-required'>*</span></label>
+                                        <label htmlFor="" className='job-post-form-label'>Educational qualification<span className='form-required'>*</span></label>
                                         {/* <select className='job-post-form-input select-input'
                                         name="education"
                                         value={credentials.education}
@@ -1302,10 +1302,10 @@ const JobPostingATS = () => {
                                 <div className="col-12 col-xl-8">
                                     <div className="job-post-form-group">
                                     <label htmlFor="" className='job-post-form-label mb-1'>Job description</label>
-                                    <div className='job-post-form-sub-label'>Write a Job description or
-                                        <button className='paste-btn' id="paste-button">
+                                    <div className='job-post-form-sub-label'>Write your Job Description here or Copy and Paste your JD here.
+                                        {/* <button className='paste-btn' id="paste-button">
                                         Paste your JD
-                                        </button>
+                                        </button> */}
                                     </div>
                                     <textarea rows="5" className='job-post-form-input paste-input'
                                         name='jobDescription'
@@ -1400,7 +1400,7 @@ const JobPostingATS = () => {
                             </div>
                         </div>
                         <div className="post-job-btn-area">
-                            {job? <button className='post-job-btn' onClick={handleUpdate}>Update a Job</button> : <button className='post-job-btn' onClick={handleSubmit}>Post a Job</button>}
+                            {job? <button className='post-job-btn' onClick={handleUpdate}>Update a Job</button> : <button className='post-job-btn' onClick={handleSubmit}>Post a job</button>}
                         </div>
                         </div>
                     </section>

@@ -391,7 +391,7 @@ const SettingsCandidate = () => {
                                                         <div className={`change-input-area ${isProfileImageExpanded ? 'expanded' : ''}`}>
                                                             <div className="row">
                                                                 <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                                    <input type='file' className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
+                                                                    <input type='file' accept="image/*" className='change-setting-input file' onChange={e => setImage(e.target.files[0])} />
                                                                     <button className='setting-update-btn' onClick={handlePhotoUpdate}>Update</button>
                                                                 </div>
                                                             </div>

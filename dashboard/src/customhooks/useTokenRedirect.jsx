@@ -27,7 +27,7 @@ const useTokenRedirect = () => {
       // navigate("/");
       localStorage.removeItem("staffToken");
       localStorage.removeItem("atsToken");
-      showErrorMessage("You have been signed out by the previous user.")
+      showErrorMessage("You have been logged out successfully. See you soon.")
     }
 
     

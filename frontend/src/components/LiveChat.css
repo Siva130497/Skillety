@@ -62,7 +62,7 @@
     transform: translateY(-50%);
     right: 0px;
     width: 45px;
-    height:140px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,7 +80,17 @@
     padding: 15px;
 }
 
-.chatbot__button .chat--text{
+.is-employer .chatbot__button {
+    background-color: #F9C833 !important;
+    box-shadow: inset 0px 0px 15px #ffcb2f;
+}
+
+.is-employer .chatbot__button h6 {
+    color: #714F36 !important;
+    font-weight: 600 !important;
+}
+
+.chatbot__button .chat--text {
     transform: rotate(-90deg);
     font-size: 16px;
     font-weight: 500 !important;
@@ -114,7 +124,7 @@
 }
 
 .chatbot__button .chat--icon,
-    .chatbot__button .chat-close-icon {
+.chatbot__button .chat-close-icon {
     position: absolute;
 }
 
@@ -481,12 +491,12 @@
         color: #FFF;
     }
 
-    .chatbot__button{
+    .chatbot__button {
         width: 42px !important;
     }
 
     .chatbot__button .message--count {
-        top:-5px;
+        top: -5px;
         right: 28px;
         font-size: 12px;
         width: 20px;
