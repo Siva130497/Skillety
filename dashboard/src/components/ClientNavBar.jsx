@@ -273,6 +273,24 @@ const ClientNavBar = ({ notification }) => {
     }
   };
 
+  useEffect(()=>{
+    if(loginClientDetail?.companyId){
+        axios.get(`https://skillety-n6r1.onrender.com/checking-package-validity/${loginClientDetail?.companyId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/json'
+            }
+        }).then(res=>{
+            console.log(res.data);
+            // showSuccessMessage(res.data.message);
+        }).catch(err=>{
+            console.log(err);
+            // showErrorMessage(err.response.data.error);
+        })
+    }
+    
+  },[loginClientDetail])
+
   return (
     <nav className="navbar navbar-expand-lg main-navbar sticky">
       <div className="form-inline mr-auto">

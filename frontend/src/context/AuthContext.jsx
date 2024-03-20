@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 

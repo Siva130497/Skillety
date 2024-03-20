@@ -53,8 +53,9 @@ const Packages = ({ companyId }) => {
   }, [clientToken]);
 
   const handleBuy = (packageType, cvViews, logins, activeJobs, validity, amount, realPrice, offerPrice, GST, GSTAmount) => {
-    
+
     const packDetail = {
+      id:loginClientDetail?.companyId,
       packageType,
       logins,
       cvViews,
@@ -66,13 +67,16 @@ const Packages = ({ companyId }) => {
       GST,
       GSTAmount
     }
+  // Serialize packDetail object to a query string
+    const params = new URLSearchParams(packDetail);
 
-    if (clientToken) {
-      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}`;
+    if (clientToken && loginClientDetail?.companyId) {
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
     }
+
   };
 
 
