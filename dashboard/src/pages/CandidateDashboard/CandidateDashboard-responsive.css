@@ -26,4 +26,42 @@
         padding: 5px 20px 0px 20px;
         box-shadow: inset 0px 0px 0px 1px #F9C833;
     }
+
+    .dash-chart-area {
+        padding: 8px;
+    }
+
+    .dash-chart-top-area{
+        padding: 7px 7px 0px 7px;
+    }
+
+    .dash-table-container,
+    .table-top-border{
+        border-top: 1px solid #DDD;
+    }
+
+    .current-page-name-area .current-page-name{
+        font-size: 25px !important;
+    }
+
+    .dash-chart-title {
+        font-size: 20px !important;
+    }
+
+    .dash-chart-filter-input {
+        padding: 12px 22px;
+    }
+
+    .dash-table-area {
+        padding: 15px !important;
+    }
+
+    .dash-table-section,
+    .dash-chart-section {
+        padding-top: 20px !important;
+    }
+
+    .dash-table-title {
+        font-size: 18px;
+    }
 }

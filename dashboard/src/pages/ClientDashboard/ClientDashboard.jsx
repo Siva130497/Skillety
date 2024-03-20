@@ -662,12 +662,12 @@ const ClientDashboard = () => {
                                                         </form>
                                                     </div>
                                                 </div>
-                                                {chartData ? <Line options={options} data={data} /> : <p>No Data</p>}
+                                                {chartData ? <Line options={options} data={data} /> : <p className='text-center pt-3 text-secondary'>No Data</p>}
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-12 col-xl-6 pr-2">
+                                            <div class="col-12 col-xl-6 pr-3 pr-xl-2">
                                                 <div className="dash-table-section">
                                                     <div className="dash-table-area">
                                                         <div className="dash-table-top-area">
@@ -676,7 +676,7 @@ const ClientDashboard = () => {
                                                             </div>
                                                             {/* <a href='#' className="dash-table-see-all-btn">See all</a> */}
                                                         </div>
-                                                        <div class="table-responsive dash-table-container client mt-4">
+                                                        <div class="table-responsive dash-table-container client mt-2 mt-md-4">
                                                             {!contentloading ? (
                                                                 <table class="table table-striped table-hover dash-table">
                                                                     {notifications?.length > 0 ? (
@@ -707,7 +707,7 @@ const ClientDashboard = () => {
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 col-xl-6 pl-2">
+                                            <div class="col-12 col-xl-6 pl-3 pl-xl-2">
                                                 <div className="dash-table-section">
                                                     <div className="dash-table-area">
                                                         <div className="dash-table-top-area">
@@ -717,7 +717,7 @@ const ClientDashboard = () => {
                                                             <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
                                                         </div>
                                                         {!contentloading ? (
-                                                            <div class="table-responsive dash-table-container client mt-4">
+                                                            <div class="table-responsive dash-table-container client mt-2 mt-md-4">
                                                                 {candidateDetail?.length > 0 ? (
                                                                     <table class="table table-striped table-hover dash-table">
                                                                         {
@@ -865,7 +865,7 @@ const ClientDashboard = () => {
                                                             </div>
                                                             <a href='/manage-job' className="dash-table-see-all-btn">See all</a>
                                                         </div>
-                                                        <div class="table-responsive mt-4">
+                                                        <div class="table-responsive table-top-border mt-1 mt-md-4">
                                                             {!contentloading ? (
                                                                 <table className="table table-striped table-hover dash-table">
                                                                     {postedJobs.slice(0, 10).map((job) => {

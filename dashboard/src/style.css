@@ -6899,7 +6899,7 @@ body.layout-3 .main-footer {
     font-weight: 600;
     text-decoration: none;
     flex-shrink: 0;
-    border-radius: 16px;
+    border-radius: 12px;
 }
 
 .main-sidebar .sidebar-menu li a .badge {
@@ -7250,8 +7250,21 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 
 @media (max-width:572px) {
     .main-content {
-        padding-left: 18px;
-        padding-right: 18px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .footer-text,
+    .footer-right-text-area .footer-right-text {
+        font-size: 13px !important;
+    }
+
+    .footer-right-text-area .footer-logo {
+        width: 90px;
+    }
+
+    .main-footer {
+        padding:12px !important;
     }
 }
 
@@ -12047,7 +12060,32 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
     }
 
     .main-sidebar {
-        padding: 0px 15px !important;
+        padding: 0px 12px !important;
+    }
+
+    .main-sidebar .sidebar-menu li a {
+        height: 55px !important;
+    }
+
+    .main-sidebar .sidebar-menu li a .feather {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .main-sidebar .sidebar-menu li a span {
+        font-size: 15px !important;
+    }
+
+    .main-sidebar .sidebar-menu {
+        margin: 10px 0 0 0;
+    }
+
+    .main-sidebar .sidebar-menu li ul.dropdown-menu li a {
+        height: 35px !important;
+    }
+
+    .hr-line {
+        margin: 20px 0 !important;
     }
 
     .main-sidebar .sidebar-menu li {
@@ -12063,7 +12101,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
         width: 110px;
     }
 
-    .live-chat-btn{
+    .live-chat-btn {
         font-size: 15px !important;
         margin-top: 20px !important;
         padding: 15px 40px !important;

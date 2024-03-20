@@ -3649,7 +3649,7 @@ const TalentsProfileSearch = () => {
                         <div className="cli-tal-pro-recent-search-head-area">
                           <i class="ri-history-line"></i>
                           <h4 className="cli-tal-pro-recent-search-head mb-0">
-                            Recent Searches{" "}
+                            Recent searches{" "}
                           </h4>
                         </div>
 

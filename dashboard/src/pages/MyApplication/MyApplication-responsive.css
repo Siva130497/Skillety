@@ -21,4 +21,8 @@
     .application-status-container {
         width: 100% !important;
     }
+
+    .admin-component-name{
+        padding-top: 10px !important;
+    }
 }

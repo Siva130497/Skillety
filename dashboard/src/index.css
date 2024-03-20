@@ -1146,7 +1146,7 @@ p {
 .table-responsive::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: none;
-  background-color: #a8a8a8d3;
+  background-color: #eeeeee !important;
   /* visibility: hidden; */
 }
 

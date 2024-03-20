@@ -98,7 +98,7 @@ const ManageJobs = () => {
                     setEmployeeId(user.id || user.uid);
 
                     // setLoading(false);
-                } catch (error) { 
+                } catch (error) {
                     console.log(error);
                     window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
                     // setLoading(false);
@@ -279,7 +279,7 @@ const ManageJobs = () => {
         }
     }
 
-    
+
     const getOwnjobs = async () => {
         const id = loginClientDetail.role === "Client" ? loginClientDetail.companyId : loginClientDetail.id;
         try {
@@ -529,7 +529,7 @@ const ManageJobs = () => {
     }
 
     const handleViewApplicant = (cands, Job) => {
-       
+
         if (packageSelectionDetail) {
             navigate(`/applied-candidate/${Job.id}`, { state: { cands, Job } })
         } else {
@@ -560,20 +560,22 @@ const ManageJobs = () => {
                                 Manage Jobs
                             </div>
 
-                            {/* <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
-                                        <div className="card-change-status-title">
-                                            From Client
-                                        </div>
-                                        <div className="card-change-status-input-area">
-                                            <div className='select-option-area position-relative w-100'>
+                            {/* <div className="client-transfer-area">
+                                <h6 className='client-transfer-head'>Assign Jobs</h6>
+                                <hr />
+                                <div className='client-transfer-area-sub'>
+                                    <div className='full-width'>
+                                        <label htmlFor="" className='client-transfer-label'>From :</label>
+                                        <div className="card-change-status-input-area full-width">
+                                            <div className='select-option-area position-relative full-width'>
                                                 <i class="bi bi-chevron-down toggle-icon"></i>
-                                                <select className='change-setting-input select'
-                                                  onChange={(e)=>{
-                                                    setSelectedFromClient(e.target.value.split(","))
-                                                  }}  
+                                                <select className='change-setting-input select bg-gray'
+                                                    onChange={(e) => {
+                                                        setSelectedFromClient(e.target.value.split(","))
+                                                    }}
                                                 >
                                                     <option value="" disabled selected>-- Select client name --</option>
-                                                    {allStaff.map((staff)=>{
+                                                    {allStaff.map((staff) => {
                                                         return (
                                                             <option
                                                                 key={staff.id}
@@ -585,21 +587,21 @@ const ManageJobs = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
-                                        <div className="card-change-status-title">
-                                            To Client
-                                        </div>
-                                        <div className="card-change-status-input-area">
+                                    <div className="transfer__icon-area">
+                                        <i class="bi bi-arrow-right transfer__icon"></i>
+                                    </div>
+                                    <div className='full-width'>
+                                        <label htmlFor="" className='client-transfer-label'>To :</label>
+                                        <div className="card-change-status-input-area full-width">
                                             <div className='select-option-area position-relative w-100'>
                                                 <i class="bi bi-chevron-down toggle-icon"></i>
-                                                <select className='change-setting-input select'
-                                                  onChange={(e)=>{
-                                                    setSelectedToClient(e.target.value.split(","))
-                                                  }}  
+                                                <select className='change-setting-input select bg-gray'
+                                                    onChange={(e) => {
+                                                        setSelectedToClient(e.target.value.split(","))
+                                                    }}
                                                 >
                                                     <option value="" disabled selected>-- Select client name --</option>
-                                                    {allStaff.map((staff)=>{
+                                                    {allStaff.map((staff) => {
                                                         return (
                                                             <option
                                                                 key={staff.id}
@@ -611,27 +613,33 @@ const ManageJobs = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div className="text-right mt-4">
                                     <button className="setting-update-btn more-det"
-                                    onClick={()=>{
-                                        axios.patch("https://skillety-n6r1.onrender.com/job-assigning", { fromId:selectedFromClient[0], toId:selectedToClient[0] }, {
-                                            headers:{
-                                                Authorization: `Bearer ${clientToken}`,
-                                                Accept: 'application/json'
-                                            }
-                                        }).then(res=>{
-                                            if(res.data.message === "All the jobs has been assigned successful"){
-                                                showSuccessMessage(`All Jobs From ${selectedFromClient[1]} Assigned to ${selectedToClient[1]}`)
-                                                setTimeout(()=>{
-                                                    {window.location.reload()}
-                                                },3000);
-                                            }else{
-                                                showErrorMessage("Unhandle exception error ocuured while assigning the jobs")
-                                            }
-                                        }).catch(err=>{
-                                            showErrorMessage(err.response.data.error);
-                                        })
-                                    }}>Change</button> */}
+                                        onClick={() => {
+                                            axios.patch("https://skillety-n6r1.onrender.com/job-assigning", { fromId: selectedFromClient[0], toId: selectedToClient[0] }, {
+                                                headers: {
+                                                    Authorization: `Bearer ${clientToken}`,
+                                                    Accept: 'application/json'
+                                                }
+                                            }).then(res => {
+                                                if (res.data.message === "All the jobs has been assigned successful") {
+                                                    showSuccessMessage(`All Jobs From ${selectedFromClient[1]} Assigned to ${selectedToClient[1]}`)
+                                                    setTimeout(() => {
+                                                        { window.location.reload() }
+                                                    }, 3000);
+                                                } else {
+                                                    showErrorMessage("Unhandle exception error ocuured while assigning the jobs")
+                                                }
+                                            }).catch(err => {
+                                                showErrorMessage(err.response.data.error);
+                                            })
+                                        }}>
+                                        Assign
+                                    </button>
+                                </div>
+                            </div> */}
 
                             {loading ? (
                                 <div className="table-skeleton-area">
@@ -728,12 +736,12 @@ const ManageJobs = () => {
                                                         {/* table data */}
 
                                                         {postedJobs.map((job) => {
-                                                            const applicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).map(appCandJob=>appCandJob.candidateId);
+                                                            const applicants = appliedOfPostedJobs.filter(appliedOfPostedJob => appliedOfPostedJob.jobId === job.id).map(appCandJob => appCandJob.candidateId);
 
                                                             const staff = allStaff.find(obj => obj.id === (job.clientId || job.clientStaffId));
 
                                                             const assignedCand = assignedCandidates
-                                                            .filter(cand => cand.jobId === job.id);
+                                                                .filter(cand => cand.jobId === job.id);
 
                                                             return (
                                                                 <tr className='dash-table-row client' key={job.id}>
@@ -742,7 +750,7 @@ const ManageJobs = () => {
                                                                         {`${new Date(job.createdAt).getDate().toString().padStart(2, '0')}/${(new Date(job.createdAt).getMonth() + 1).toString().padStart(2, '0')}/${new Date(job.createdAt).getFullYear() % 100}`}
                                                                     </td>
                                                                     <td className='dash-table-data1 text-center'>
-                                                                        {(job?.active || applicants.length>0) ? <button className='application-btn with-modal' onClick={() => applicants.length > 0 && handleViewApplicant(applicants, job)}>
+                                                                        {(job?.active || applicants.length > 0) ? <button className='application-btn with-modal' onClick={() => applicants.length > 0 && handleViewApplicant(applicants, job)}>
                                                                             <span>{applicants.length}</span>&nbsp;&nbsp;&nbsp;
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
                                                                                 <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1h-4z" fill='#0879bc' />
@@ -760,33 +768,33 @@ const ManageJobs = () => {
                                                                     </td> */}
                                                                     <td className='dash-table-data1 text-center text-capitalized'>
                                                                         <div className='table-select-input-area'>
-                                                                            <select className='table-select-input'
-                                                                                onChange={(e)=>{
-                                                                                    
+                                                                            <select className='table-select-input custom_width'
+                                                                                onChange={(e) => {
+
                                                                                     // Extracting id and name from the selected option value
                                                                                     const [selectedId, selectedName] = e.target.value.split(',');
-                                                                                    
-                                                                                    axios.patch("https://skillety-n6r1.onrender.com/assign-a-job", {fromId: staff?.id, toId: selectedId, changingJobId: job.id}, {
-                                                                                        headers:{
+
+                                                                                    axios.patch("https://skillety-n6r1.onrender.com/assign-a-job", { fromId: staff?.id, toId: selectedId, changingJobId: job.id }, {
+                                                                                        headers: {
                                                                                             Authorization: `Bearer ${clientToken}`,
                                                                                             Accept: 'application/json'
                                                                                         }
-                                                                                    }).then(res=>{
-                                                                                        if(res.data.message === "Job has been assigned successful"){
+                                                                                    }).then(res => {
+                                                                                        if (res.data.message === "Job has been assigned successful") {
                                                                                             showSuccessMessage(`${job.jobRole[0]} Job ownership has been changed from ${staff?.name} to ${selectedName}`);
-                                                                                        }else{
+                                                                                        } else {
                                                                                             showErrorMessage("Error occur in Job assigning");
                                                                                         }
-                                                                                        
-                                                                                    }).catch(err=>{
+
+                                                                                    }).catch(err => {
                                                                                         showErrorMessage(err.response.data.error);
                                                                                     })
 
                                                                                 }}>
                                                                                 <option selected disabled>{staff?.name}</option>
-                                                                                {allStaff.map((indStaff)=>{
-                                                                                    if(indStaff?.name !== staff?.name){
-                                                                                        return(
+                                                                                {allStaff.map((indStaff) => {
+                                                                                    if (indStaff?.name !== staff?.name) {
+                                                                                        return (
                                                                                             <option
                                                                                                 // Encoding both id and name into the value attribute
                                                                                                 value={`${indStaff.id},${indStaff.name}`}
@@ -795,7 +803,7 @@ const ManageJobs = () => {
                                                                                             </option>
                                                                                         )
                                                                                     }
-                                                                                })}          
+                                                                                })}
                                                                             </select>
                                                                         </div>
                                                                     </td>
@@ -819,7 +827,7 @@ const ManageJobs = () => {
                                                                                 </svg>
                                                                             </button>
                                                                             <button className='job-edit-btn' title='Edit job details...' onClick={() => navigate(`/edit-job/${job.id}`)}
-                                                                            disabled={applicants.length>0}>
+                                                                                disabled={applicants.length > 0}>
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                                                     <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                                 </svg>
@@ -835,7 +843,7 @@ const ManageJobs = () => {
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                                                                                         </svg>
-                                                                                    </button> : 
+                                                                                    </button> :
                                                                                     <button className='job-delete-btn' title='Delete job data...' onClick={() => handleDeleteJob(job.id)}>
                                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                                                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />

@@ -297,7 +297,7 @@ const ATSNavBar = () => {
                             <a href="" onClick={() => {
                                 localStorage.removeItem("staffToken");
                                 navigate("/")
-                            }} className="dropdown-logout-btn">
+                            }} className="dropdown-logout-btn mt-0">
                                 <i class="bi bi-box-arrow-right mr-3"></i>
                                 Log Out
                             </a>
