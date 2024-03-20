@@ -1325,9 +1325,9 @@ const TalentsProfileSearch = () => {
         ...filters,
         days: selectedSearchResult?.days,
         minExperienceYr: selectedSearchResult?.minExperienceYr,
-        minExperienceMonth: selectedSearchResult?.minExperienceMonth,
+        // minExperienceMonth: selectedSearchResult?.minExperienceMonth,
         maxExperienceYr: selectedSearchResult?.maxExperienceYr,
-        maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
+        // maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
         minSalary: selectedSearchResult?.minSalary,
         maxSalary: selectedSearchResult?.maxSalary,
         company: selectedSearchResult?.company,
@@ -2112,25 +2112,11 @@ const TalentsProfileSearch = () => {
                             <div className="cli-tal-pro-search-filter-content">
                               <div className="cli-tal-pro-search-filter-title-area">
                                 <h6 className="cli-tal-pro-search-filter-title">
-                                  Experience
+                                  Experience (Years)
                                 </h6>
                               </div>
                               <div className="cli-tal-pro-exp-input-area search-page">
                                 <div className="cli-tal-pro-exp-input-container">
-                                  {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.minExperienceYr}
-                                                                    placeholder='Min Experience Year'/> */}
-                                  {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, minExperienceYr: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                   <select
                                     name=""
                                     className="cli-tal-pro-exp-input text-center numeric-input select"
@@ -2144,7 +2130,7 @@ const TalentsProfileSearch = () => {
                                     }
                                   >
                                     <option value="" selected>
-                                      Min experience
+                                      Minimum experience
                                     </option>
                                     <option value="0">0</option>
                                     <option value="1">1</option>
@@ -2168,24 +2154,48 @@ const TalentsProfileSearch = () => {
                                   </select>
                                 </div>
 
-                                <span className="cli-tal-pro-exp-input-text">
-                                  years
-                                </span>
                                 <div className="cli-tal-pro-exp-input-container">
-                                  {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.maxExperienceYr}
-                                                                    placeholder='Max Experience Year'/> */}
-                                  {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, maxExperienceYr: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
+                                  <select
+                                    name=""
+                                    className="cli-tal-pro-exp-input text-center numeric-input select"
+                                    id=""
+                                    value={filters.maxExperienceYr}
+                                    onChange={(e) =>
+                                      setFilters({
+                                        ...filters,
+                                        maxExperienceYr: e.target.value,
+                                      })
+                                    }
+                                  >
+                                    <option value="" selected>
+                                      Maximum Experience
+                                    </option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="30">30</option>
+                                    <option value="35">35</option>
+                                    <option value="40">40</option>
+                                    <option value="45">45</option>
+                                    <option value="50">50</option>
+                                  </select>
+                                </div>
+
+                                {/* <span className="cli-tal-pro-exp-input-text">
+                                  years
+                                </span> */}
+                                {/* <div className="cli-tal-pro-exp-input-container">
                                   <select
                                     name=""
                                     className="cli-tal-pro-exp-input text-center numeric-input select"
@@ -2218,25 +2228,11 @@ const TalentsProfileSearch = () => {
                                 </div>
                                 <span className="cli-tal-pro-exp-input-text">
                                   months
-                                </span>
+                                </span> */}
                               </div>
 
-                              <div className="cli-tal-pro-exp-input-area search-page mt-3">
+                              {/* <div className="cli-tal-pro-exp-input-area search-page mt-3">
                                 <div className="cli-tal-pro-exp-input-container">
-                                  {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.minExperienceMonth}
-                                                                    placeholder='Min Experience Month'/> */}
-                                  {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, minExperienceMonth: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                   <select
                                     name=""
                                     className="cli-tal-pro-exp-input text-center numeric-input select"
@@ -2278,9 +2274,6 @@ const TalentsProfileSearch = () => {
                                   years
                                 </span>
                                 <div className="cli-tal-pro-exp-input-container">
-                                  {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.maxExperienceMonth}
-                                                                    placeholder='Max Experience Month'/> */}
                                   <select
                                     name=""
                                     className="cli-tal-pro-exp-input text-center numeric-input select"
@@ -2310,22 +2303,11 @@ const TalentsProfileSearch = () => {
                                     <option value="11">11</option>
                                     <option value="12">12</option>
                                   </select>
-                                  {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, maxExperienceMonth: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                 </div>
                                 <span className="cli-tal-pro-exp-input-text">
                                   months
                                 </span>
-                              </div>
+                              </div> */}
                             </div>
                             <div className="cli-tal-pro-search-filter-content">
                               <div className="cli-tal-pro-search-filter-title-area">
@@ -2419,6 +2401,7 @@ const TalentsProfileSearch = () => {
                                       ₹
                                     </option>
                                     <option value="$">$</option>
+                                    <option value="€">€</option>
                                   </select>
                                   <input
                                     type="text"
@@ -3774,36 +3757,18 @@ const TalentsProfileSearch = () => {
                     </div>
                   </div>
                   <button
-                    class="pl--package-btn-sub previous back-to-search-btn mb-5"
+                    className='reg--form-btn-sub candidate back mb-5'
                     data-aos="fade-left"
                     onClick={() => setSearchResult(false)}
                   >
-                    <div class="pl--package-arrow-area prev">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 27 27"
-                        fill="none"
-                      >
-                        <path
-                          d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
-                          stroke="white"
-                          stroke-width="2"
-                        ></path>
-                        <path
-                          d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
-                          stroke="white"
-                          stroke-width="2"
-                        ></path>
-                        <path
-                          d="M1 26L25.1667 1"
-                          stroke="white"
-                          stroke-width="2"
-                        ></path>
+                    <div class="reg--form-arrow-area candidate back">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
+                          <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                          <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                          <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
                       </svg>
                     </div>
-                    <div class="pl--package-btn job">Back to Search</div>
+                    <div className='reg--form-btn candidate back'>Back to Search</div>
                   </button>
                   <div className="row row-border-custom">
                     <div className="col-12 col-lg-4 col-xl-3 col-md-4 custom-right-border-col ps-lg-0 ps-md-1 col-width-lg-30">

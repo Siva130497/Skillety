@@ -112,7 +112,8 @@
     color: #fff !important;
     letter-spacing: 0.5px;
 }
-.about--card:hover .arrow--icon-btn .arrow--icon{
+
+.about--card:hover .arrow--icon-btn .arrow--icon {
     transform: rotate(45deg);
 }
 
@@ -172,7 +173,8 @@
     z-index: 5;
     /* box-shadow: inset 0px 0px 10px #2d1f19; */
 }
-.arrow--icon-btn:hover{
+
+.arrow--icon-btn:hover {
     background-color: #F9C833;
 }
 
@@ -199,8 +201,12 @@
     font-size: 20px !important;
     font-weight: 400;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0;
+}
+
+.about--desc-section p::first-letter {
+    text-transform: uppercase !important;
 }
 
 .about--milestone-section {
@@ -213,7 +219,7 @@
     color: #5C3B2E;
     font-size: 20px !important;
     font-weight: 400 !important;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0px;
 }
 
@@ -352,9 +358,13 @@
     font-size: 20px;
     font-weight: 600;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-top: 25px;
     transition: ease-in-out 0.8s;
+}
+
+.ab--milestone-card-right .ab--milestone-title::first-letter {
+    text-transform: uppercase !important;
 }
 
 .ab--milestone-card-right .ab-milestone-number {
@@ -586,6 +596,10 @@
     font-size: 20px;
     font-weight: 400;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     transition: ease-in-out 0.8s;
+}
+
+.ab-we-off-card-des-area .ab-we-off-card-des::first-letter {
+    text-transform: uppercase !important;
 }

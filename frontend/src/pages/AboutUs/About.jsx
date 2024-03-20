@@ -297,7 +297,7 @@ const About = () => {
                                         <div className="ab-we-off-card-des-area">
                                             <p className='ab-we-off-card-des'>
                                             {talentAboutContent.find(content=>content.id === "content_56")?.content ||
-                                                "India's first ever Global Job Portal. All sectors and regions covered across India, US, UK & EUR."}</p>
+                                                "India's first ever global job portal. All sectors and regions covered across India, US, UK & EUR."}</p>
                                         </div>
                                     </article>
                                     <article className='ab-weoff-card' data-aos="zoom-out-down">

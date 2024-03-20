@@ -167,7 +167,7 @@
     }
 
     .packages--area {
-        margin-top: 60px;
+        margin-top: 40px;
         margin-bottom: 0px;
     }
 
@@ -193,11 +193,15 @@
         justify-content: space-between;
         padding: 0px;
         margin: 0 15px;
-        border-bottom: #714F36 1px solid;
+        border-bottom: #d2cfcc 1px solid;
+    }
+
+    .pl--package-detail-area:hover .pl--package-mobile-flex{
+        border-color: #FFF !important;
     }
 
     .pl--package-detail-area .pl--package-name {
-        margin-top: 30px;
+        margin-top:25px;
         font-size: 22px;
         padding-bottom: 0;
     }
@@ -207,12 +211,15 @@
         color: #714F36;
         font-size: 16px;
         font-weight: 500;
-        margin-top: 40px;
+        margin-top: 25px;
+        margin-bottom: 25px;
     }
 
     .pl--package-detail-area .pl--package-info {
         border-bottom: none;
-        margin-top: 40px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        padding-bottom: 0;
     }
 
     .pl--package-btn-area {
