@@ -5075,9 +5075,9 @@ const TalentsProfileSearch = () => {
                                           >
                                             View Profile
                                           </button>
-                                          <span className="profile-credits-title">
+                                          {/* <span className="profile-credits-title">
                                             &#129031; 01 Credit
-                                          </span>
+                                          </span> */}
                                           {/* <button className='tal--pro-card-contact-btn search'>
                                                                                         <img src="assets/img/talent-profile/call.png" alt="" />
                                                                                         Call Candidate

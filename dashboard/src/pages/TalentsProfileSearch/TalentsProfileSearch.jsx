@@ -3594,7 +3594,7 @@ const TalentsProfileSearch = () => {
                                                                                                 onMouseLeave={handleMouseLeave}>
                                                                                                 View Profile
                                                                                             </button>
-                                                                                            <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                            {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
                                                                                             {/* <button className='tal--pro-card-contact-btn search'>
                                                                                         <img src="assets/img/talent-profile/call.png" alt="" />
                                                                                         Call Candidate
