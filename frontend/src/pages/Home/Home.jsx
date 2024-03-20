@@ -16,6 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import ReactPlayer from 'react-player';
 
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 
 const Home = () => {
 
@@ -23,7 +26,7 @@ const Home = () => {
   const [talentHomeContent, setTalentHomeContent] = useState([]);
   const [clientLogos, setClientLogos] = useState([]);
   const [candidateDetail, setCandidateDetail] = useState([]);
-  const { getCandidateImg, candidateImg } = useContext(AuthContext);
+  const { getCandidateImg, candidateImg, getProtectedData } = useContext(AuthContext);
   const [clientToken, setClientToken] = useState("");
 
   const [skillArray, setSkillArray] = useState([]);
@@ -38,6 +41,55 @@ const Home = () => {
   const [playerType, setPlayerType] = useState(null);
 
   const searchBtnRef = useRef(null);
+
+  const [employeeId, setEmployeeId] = useState("");
+  const [loginClientDetail, setLoginClientDetail] = useState();
+
+  useEffect(() => {
+    if (employeeId) {
+      getLoginClientDetail();
+      
+    }
+  }, [employeeId]);
+
+  useEffect(() => {
+    if (clientToken) {
+      const fetchData = async () => {
+        try {
+          const user = await getProtectedData(clientToken);
+          console.log(user);
+          setEmployeeId(user.id || user.uid);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [clientToken]);
+
+  const getLoginClientDetail = async () => {
+    try {
+      const res = await axios.get(
+        `https://skillety-n6r1.onrender.com/client/${employeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${clientToken}`,
+            Accept: "application/json",
+          },
+        }
+      );
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setLoginClientDetail(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
 
@@ -69,6 +121,62 @@ const Home = () => {
   useEffect(() => {
     setClientToken(JSON.parse(localStorage.getItem("clientToken")))
   }, [clientToken])
+
+  const viewCandidateDetail = async (id) => {
+    try {
+        if (clientToken) {
+            const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", {
+                candidateId: id,
+                companyId: loginClientDetail.companyId,
+            }, {
+              headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: `application/json`
+              }
+            });
+
+            if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
+                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
+                // if (!isNaN(percentage)) {
+                //     url += `&percentage=${percentage}`;
+                // }
+
+                window.open(url, "_blank");
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: '',
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK',
+                });
+            }
+        } else {
+            navigate("/client-login");
+        }
+    } catch (error) {
+        console.error(error);
+        if (error.response.data.error === "Customized CV Views package expired!" || error.response.data.error === "No CV views remaining in the active package!" || error.response.data.error === "No active package found!") {
+            Swal.fire({
+                title: 'Buy Package Plan',
+                text: error.response.data.error,
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                navigate("/packages");
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: '',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK',
+            });
+        }
+    }
+};
 
   useEffect(() => {
     // Function to animate the numbers
@@ -1085,7 +1193,12 @@ const Home = () => {
                         </div>
                       </div>
                     </div> */}
-                    <a href="##" className="candidate--arrow-icon">
+                    <a href="##" className="candidate--arrow-icon"
+                    onClick={() =>
+                      viewCandidateDetail(
+                        candidate.candidateId
+                      )
+                    }>
                       <img src="assets/img/home-images/arrow-dark.png" alt="" />
                     </a>
                     <div className="candidate-blob"></div>
