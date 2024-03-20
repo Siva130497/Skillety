@@ -4,6 +4,8 @@ import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOActive, contactActive, postJobActive }) => {
     const { getProtectedData } = useContext(AuthContext);
@@ -14,6 +16,31 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
     const clientToken = JSON.parse(localStorage.getItem('clientToken'));
 
     const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    const [employeeId, setEmployeeId] = useState("");
+    const [loginClientDetail, setLoginClientDetail] = useState();
+
+    //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: "Success!",
+      text: message,
+      icon: "success",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "OK",
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: "Payment failed. Please try again!",
+      text: message,
+      icon: "error",
+      confirmButtonColor: "#d33",
+      confirmButtonText: "OK",
+    });
+  }
 
     useEffect(() => {
         axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_32,content_34,content_36,content_38,content_40,content_2")
@@ -30,6 +57,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                     const userData = await getProtectedData(clientToken);
                     console.log(userData);
                     setUserName(userData.name);
+                    setEmployeeId(userData.id);
                 } catch (error) {
                     console.error(error);
                 }
@@ -38,6 +66,53 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
             fetchData();
         }
     }, [clientToken]);
+
+    const getLoginClientDetail = async () => {
+        try {
+          const res = await axios.get(
+            `https://skillety-n6r1.onrender.com/client/${employeeId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: "application/json",
+              },
+            }
+          );
+          const result = res.data;
+          if (!result.error) {
+            console.log(result);
+            setLoginClientDetail(result);
+          } else {
+            console.log(result);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    
+      useEffect(() => {
+        if (employeeId) {
+          getLoginClientDetail();
+        }
+      }, [employeeId]);
+
+    useEffect(()=>{
+        if(loginClientDetail?.companyId){
+            axios.get(`http://localhost:5002/checking-package-validity/${loginClientDetail?.companyId}`, {
+                headers: {
+                    Authorization: `Bearer ${clientToken}`,
+                    Accept: 'application/json'
+                }
+            }).then(res=>{
+                console.log(res.data);
+                // showSuccessMessage(res.data.message);
+            }).catch(err=>{
+                console.log(err);
+                // showErrorMessage(err.response.data.error);
+            })
+        }
+        
+      },[loginClientDetail])
 
     useEffect(() => {
         $(document).ready(function () {
