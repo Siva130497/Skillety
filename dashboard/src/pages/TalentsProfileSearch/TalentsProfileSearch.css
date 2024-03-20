@@ -75,7 +75,7 @@
     color: #714F36;
     font-size: 15px;
     font-weight: 500;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0;
 }
 
@@ -796,7 +796,7 @@
     color: #714F36;
     font-size: 16px;
     font-weight: 600;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     margin-bottom: 0px;
 }
 
@@ -911,11 +911,11 @@
 }
 
 .select-options li {
-    padding: 8px 10px;
+    padding: 3px 10px;
     white-space: nowrap;
     cursor: pointer;
     color: #FFF;
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 400;
     text-transform: capitalize;
 }

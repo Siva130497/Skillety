@@ -196,7 +196,7 @@ const ForgotPassword = () => {
                 return (
                     <div>
                         <h5 className="cli--signup-title" data-aos="fade-left">Forgot your password</h5>
-                        <h6 className='cli--signup-sub-title' data-aos="fade-right">Welcome back! Plz enter your details</h6>
+                        <h6 className='cli--signup-sub-title' data-aos="fade-right">Please enter the email address associated with your account and we'll send you an OTP to reset your password</h6>
 
                         <form action="" className='cli--signup-form' onSubmit={handleRequest}>
                             <div className='cli--signup-form-group' data-aos="fade-up">
@@ -308,8 +308,8 @@ const ForgotPassword = () => {
                             </div>
                             <div className="col-12 col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                 <div className="cli--signup-img-area">
-                                    {window.location.pathname == "/forgot-password/Client" ? (
-                                        <img src="../assets/img/signup/signup-img.webp" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
+                                    {window.location.pathname === "/forgot-password/Client" ? (
+                                        <img src="../assets/img/signup/signup-img.jpg" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
                                     ) : (
                                         <img src="../assets/img/signup/candidate-login-img.jpeg" loading='lazy' data-aos="fade" data-aos-delay="300" className='cli--signup-img' alt="" />
                                     )

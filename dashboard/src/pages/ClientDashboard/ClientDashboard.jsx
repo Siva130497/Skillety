@@ -542,25 +542,25 @@ const ClientDashboard = () => {
                                         {contentloading ? (
                                             <div className='dash-tile-skeleton'>
                                                 <div className="row">
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6 text-center">
                                                         <div className='m-b-30'>
                                                             <Skeleton height={15} width={100} />
                                                         </div>
                                                         <Skeleton height={40} width={60} />
                                                     </div>
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6 text-center">
                                                         <div className='m-b-30'>
                                                             <Skeleton height={15} width={100} />
                                                         </div>
                                                         <Skeleton height={40} width={60} />
                                                     </div>
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6 text-center">
                                                         <div className='m-b-30'>
                                                             <Skeleton height={15} width={100} />
                                                         </div>
                                                         <Skeleton height={40} width={60} />
                                                     </div>
-                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6">
+                                                    <div className="col-12 col-xxl-3 col-xl-3 col-md-6 text-center">
                                                         <div className='m-b-30'>
                                                             <Skeleton height={15} width={100} />
                                                         </div>

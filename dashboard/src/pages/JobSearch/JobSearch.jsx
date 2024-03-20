@@ -1858,11 +1858,11 @@ const JobSearch = () => {
                                                                                 <option value="3">USD</option>
                                                                                 <option value="4">GBP</option>
                                                                             </select>
-                                                                            <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Lacs' />
+                                                                            <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary' />
                                                                         </div>
                                                                         <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max Salary in Lacs' />
-                                                                        <span className='cli-tal-pro-exp-input-text'>lacs</span>
+                                                                        <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max salary in lacs' />
+                                                                        {/* <span className='cli-tal-pro-exp-input-text'>lacs</span> */}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2263,7 +2263,7 @@ const JobSearch = () => {
                                                                         )}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter job titles'
+                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter Job title'
                                                                                 value={filters.jobTitle}
                                                                                 onChange={handleJobTitleSearch}
                                                                             />
@@ -2357,15 +2357,15 @@ const JobSearch = () => {
                                                                                     <option value="₹" >₹</option>
                                                                                     <option value="$">$</option>
                                                                                 </select>
-                                                                                <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min Salary in Laks'
+                                                                                <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary'
                                                                                     value={filters.minSalary}
                                                                                     onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                             </div>
                                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max Salary in Laks'
+                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max salary'
                                                                                 value={filters.maxSalary}
                                                                                 onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
-                                                                            <span className='cli-tal-pro-exp-input-text'>laks</span>
+                                                                            {/* <span className='cli-tal-pro-exp-input-text'>laks</span> */}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2597,7 +2597,7 @@ const JobSearch = () => {
                                                                         </div>
                                                             }
                                                             <div className="tal--pro-paginate-btn-area" data-aos="fade-up">
-                                                                <h6 className='tal--pro-total-result-text'>Total Items : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : "0"}</span></h6>
+                                                                <h6 className='tal--pro-total-result-text'>Total jobs : <span>{filteredSearchResultsMsg ? "0" : filteredSearchResults.length > 0 ? filteredSearchResults.length : matchJobs.length > 0 ? matchJobs.length : "0"}</span></h6>
                                                                 <div className='tal--pro-slider-btn-sub'>
                                                                     {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 3, x[1] - 3])}>
                                                                         <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">

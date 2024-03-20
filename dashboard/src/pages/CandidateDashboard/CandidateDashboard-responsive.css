@@ -8,4 +8,22 @@
     .dash-chart-filter-area {
         width: 40%;
     }
+
+    .dash-num-count-section .dash-num-count-area {
+        border-bottom: 1px solid #ffffff;
+        padding: 12px 0;
+    }
+
+    /* .dash-num-count-section .dash-num-count-area:last-child{
+        border-bottom: 0px;
+    } */
+
+    .dash-num-count-area .dash-num-title {
+        margin-bottom: 10px;
+    }
+
+    .dash-num-count-section {
+        padding: 5px 20px 0px 20px;
+        box-shadow: inset 0px 0px 0px 1px #F9C833;
+    }
 }

@@ -80,7 +80,7 @@ const AssignedCandidate = () => {
                     type: "text",
                     name: "company",
                     class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Add Company name",
+                    placeholder: "Add company name",
                 });
 
                 // Create a close button
@@ -123,7 +123,7 @@ const AssignedCandidate = () => {
                     type: "text",
                     name: "company",
                     class: "cli-tal-pro-search-filter-input",
-                    placeholder: "Add Company name",
+                    placeholder: "Add company name",
                 });
 
                 // Create a close button
@@ -791,7 +791,7 @@ const AssignedCandidate = () => {
                                 })}
 
                                 <div className="tal--pro-paginate-btn-area" >
-                                    <h6 className='tal--pro-total-result-text'>Total Items : <span>{assignedCandidates?.length}</span></h6>
+                                    <h6 className='tal--pro-total-result-text'>No of applicants : <span>{assignedCandidates?.length}</span></h6>
                                     <div className='tal--pro-slider-btn-sub'>
                                         {x[0] > 0 && <button className="tal--pro-slider-btn" onClick={() => setX([x[0] - 4, x[1] - 4])}>
                                             <svg className='arrow-left' xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 27 27" fill="none">

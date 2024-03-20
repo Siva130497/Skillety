@@ -166,7 +166,7 @@ const About = () => {
                                             <div className="ab--milestone-card-right">
                                                 <h6 className='ab--milestone-title'>
                                                 {talentAboutContent.find(content=>content.id === "content_44")?.content ||
-                                                    "New Registrations per day"}</h6>
+                                                    "New registrations per day"}</h6>
                                                 <h2 className='ab-milestone-number' data-target=
                                                 {talentAboutContent.find(content=>content.id === "content_45")?.content ||
                                                 "450"}>0</h2>
