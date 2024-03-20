@@ -1540,7 +1540,12 @@ const TalentsProfileSearch = () => {
             {
                 candidateId: id,
                 companyId: loginClientDetail.companyId,
-            });
+            }, {
+                headers: {
+                  Authorization: `Bearer ${clientToken}`,
+                  Accept: `application/json`
+                }
+              });
 
             if(response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!"){
                 navigate(`/talents/${id}`, { state: { percentage } });
@@ -3584,11 +3589,12 @@ const TalentsProfileSearch = () => {
                                                                                         <div className="tal--pro-card-contact-btn-area search">
                                                                                             <button className='tal--pro-card-contact-btn search'
                                                                                                 onClick={() => viewCandidateDetail(candidate.id, percentage)}
-                                                                                                onMouseEnter={handleMouseEnter}
-                                                                                                onMouseLeave={handleMouseLeave}>
+                                                                                                // onMouseEnter={handleMouseEnter}
+                                                                                                // onMouseLeave={handleMouseLeave}
+                                                                                                >
                                                                                                 View Profile
                                                                                             </button>
-                                                                                            <span className="profile-credits-title">&#129031; 01 Credit</span>
+                                                                                            {/* <span className="profile-credits-title">&#129031; 01 Credit</span> */}
                                                                                             {/* <button className='tal--pro-card-contact-btn search'>
                                                                                         <img src="assets/img/talent-profile/call.png" alt="" />
                                                                                         Call Candidate
