@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import $ from 'jquery';
 import './ForgotPassword.css';
 import './Verification.css';
@@ -25,6 +25,22 @@ const ForgotPassword = () => {
     const [step, setStep] = useState(1);
 
     let updatedCredentials;
+
+    useEffect(() => {
+    
+        const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
+        const clientToken = JSON.parse(localStorage.getItem('clientToken'));
+        // const staffToken = JSON.parse(localStorage.getItem('staffToken'));
+    
+    
+        if (clientToken) {
+          navigate("/client-home");
+         
+        }else if (candidateToken){
+          navigate("/")
+          
+        }
+      }, [navigate]);
 
     const requestTemporaryPassword = async (userData) => {
         try {

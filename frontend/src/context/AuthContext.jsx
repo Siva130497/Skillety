@@ -287,20 +287,25 @@ export const AuthContextProvider = ({children}) => {
         .catch(err=>console.log(err))
     }
 
-    const getClientChoosenPlan = async(id) => {
-        try{
-            const res = await axios.get(`https://skillety-n6r1.onrender.com/client-package-plan/${id}`
-            );
-            const result = res.data;
-            if (!result.message) {
-              console.log(result);
-              setPackageSelectionDetail(result);
-              return result;
-            } else {
-              console.log(result);
-              return null;
+    const getClientChoosenPlan = async (id, token) => {
+        try {
+          const res = await axios.get(`https://skillety-n6r1.onrender.com/client-package-plan/${id}`,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/json'
             }
-        }catch(err){
+          }
+          );
+          const result = res.data;
+          if (!result.message) {
+            console.log(result);
+            setPackageSelectionDetail(result);
+            return result;
+          } else {
+            console.log(result);
+            return null;
+          }
+        } catch (err) {
           console.log(err);
           return null;
         }
