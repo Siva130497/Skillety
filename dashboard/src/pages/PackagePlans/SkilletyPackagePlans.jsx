@@ -12,7 +12,8 @@ import axios from "axios";
 
 
 const SkilletyPackagePlans = () => {
-  const token = new URLSearchParams(window.location.search).get('token') || JSON.parse(localStorage.getItem('clientToken'));
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token') || JSON.parse(localStorage.getItem('clientToken'));
   const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
@@ -572,6 +573,25 @@ const SkilletyPackagePlans = () => {
     }
   }, [packageSelectionDetail]);
 
+  useEffect(()=>{
+    if(urlParams){
+      switchTab(2);
+      setPackageInfo({
+        id: urlParams.get('id'),
+        packageType: urlParams.get('packageType'),
+        logins: urlParams.get('logins'),
+        cvViews: urlParams.get('cvViews'),
+        activeJobs: urlParams.get('activeJobs'),
+        validity: urlParams.get('validity'),
+        amount: urlParams.get('amount'),
+        realPrice: urlParams.get('realPrice'),
+        offerPrice: urlParams.get('offerPrice'),
+        GST: urlParams.get('GST'),
+        GSTAmount: urlParams.get('GSTAmount')
+      });
+    }
+  },[])
+
   const handleBuying = (packageType, cvViews, logins, activeJobs, validity, amount, realPrice, offerPrice, GST, GSTAmount) => {
     setPackageInfo({
       id: loginClientDetail?.companyId,
@@ -923,7 +943,7 @@ const SkilletyPackagePlans = () => {
                                     <div className="pl--package-btn-area test-btn-area">
                                       <button
                                         className="pl--package-btn-sub buy-now"
-                                        onClick={() => handleBuying(pack.packageType, pack.cvViews, pack.logins, pack.activeJobs, pack.validity, pack.amount, pack.realPrice, pack.offerPrice, pack.GST, pack.offerPrice * (pack.GST / 100))}
+                                        onClick={() => handleBuying(pack.packageType, pack.cvViews, pack.logins, pack.activeJobs, pack.validity, pack.amount, pack.realPrice, pack.offerPrice, pack.GST, (pack.offerPrice * (pack.GST / 100)).toFixed(2))}
                                       >
                                         <div className="pl--package-btn buy-now">
                                           Buy Now
@@ -981,7 +1001,7 @@ const SkilletyPackagePlans = () => {
                                 <div className="col-6">
                                   <div className="pl-package-detail-view-area">
                                     <div className="pl-package-detail-title">
-                                      {packageInfo?.packageType}
+                                      {packageInfo?.packageType || urlParams.get('packageType')}
                                     </div>
                                     <button
                                       type="button"
@@ -1004,7 +1024,7 @@ const SkilletyPackagePlans = () => {
                                 </div>
                                 <div className="col-6">
                                   <div className="pl-package-detail-title line-through">
-                                    {packageInfo?.realPrice}
+                                    {packageInfo?.realPrice || urlParams.get('realPrice')}
                                   </div>
                                 </div>
                               </div>
@@ -1017,7 +1037,7 @@ const SkilletyPackagePlans = () => {
                                 </div>
                                 <div className="col-6">
                                   <div className="pl-package-detail-title">
-                                    {packageInfo?.offerPrice}
+                                    {packageInfo?.offerPrice || urlParams.get('offerPrice')}
                                   </div>
                                 </div>
                               </div>
@@ -1025,12 +1045,12 @@ const SkilletyPackagePlans = () => {
                               <div className="row pl-package-row no-border">
                                 <div className="col-6">
                                   <div className="pl-package-detail-title">
-                                    GST - {packageInfo?.GST}%
+                                    GST - {packageInfo?.GST || urlParams.get('GST')}%
                                   </div>
                                 </div>
                                 <div className="col-6">
                                   <div className="pl-package-detail-title">
-                                    INR {packageInfo?.GSTAmount}
+                                    INR {packageInfo?.GSTAmount || urlParams.get('GSTAmount')}
                                   </div>
                                 </div>
                               </div>
@@ -1043,7 +1063,7 @@ const SkilletyPackagePlans = () => {
                                 </div>
                                 <div className="col-6">
                                   <div className="pl-package-detail-title">
-                                    {packageInfo?.amount}
+                                    {packageInfo?.amount || urlParams.get('amount')}
                                   </div>
                                 </div>
                               </div>
