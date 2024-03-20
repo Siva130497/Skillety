@@ -98,7 +98,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
 
     useEffect(()=>{
         if(loginClientDetail?.companyId){
-            axios.get(`http://localhost:5002/checking-package-validity/${loginClientDetail?.companyId}`, {
+            axios.get(`https://skillety-n6r1.onrender.com/checking-package-validity/${loginClientDetail?.companyId}`, {
                 headers: {
                     Authorization: `Bearer ${clientToken}`,
                     Accept: 'application/json'

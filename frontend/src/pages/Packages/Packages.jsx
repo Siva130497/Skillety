@@ -71,7 +71,7 @@ const Packages = ({ companyId }) => {
     const params = new URLSearchParams(packDetail);
 
     if (clientToken && loginClientDetail?.companyId) {
-      const url = `http://localhost:3000/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
