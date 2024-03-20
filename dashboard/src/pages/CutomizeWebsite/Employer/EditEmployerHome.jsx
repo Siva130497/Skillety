@@ -365,7 +365,7 @@ const EditEmployerHome = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="admin-lg-table-section pt-3">
-                                    <div className='admin-lg-table-area man-app p-4'>
+                                    <div className='admin-lg-table-area man-app p-3 p-sm-4'>
 
                                         <div className='man-app-title-area candidate pb-2'>
                                             <div className="man-app-title">
@@ -404,7 +404,7 @@ const EditEmployerHome = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="admin-lg-table-section pt-5">
-                                    <div className='admin-lg-table-area man-app p-4'>
+                                    <div className='admin-lg-table-area man-app p-3 p-sm-4'>
 
                                         <div className='man-app-title-area candidate pb-2'>
                                             <div className="man-app-title">
@@ -435,7 +435,7 @@ const EditEmployerHome = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="admin-lg-table-section pt-5">
-                                    <div className='admin-lg-table-area man-app p-4'>
+                                    <div className='admin-lg-table-area man-app p-3 p-sm-4'>
 
                                         <div className='man-app-title-area candidate pb-2'>
                                             <div className="man-app-title">
@@ -570,7 +570,7 @@ const EditEmployerHome = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="admin-lg-table-section pt-5">
-                                    <div className='admin-lg-table-area man-app p-4'>
+                                    <div className='admin-lg-table-area man-app p-3 p-sm-4'>
 
                                         <div className='man-app-title-area candidate pb-2'>
                                             <div className="man-app-title">
@@ -659,7 +659,7 @@ const EditEmployerHome = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="admin-lg-table-section pt-5">
-                                    <div className='admin-lg-table-area man-app p-4'>
+                                    <div className='admin-lg-table-area man-app p-3 p-sm-4'>
 
                                         <div className='man-app-title-area candidate pb-2'>
                                             <div className="man-app-title">

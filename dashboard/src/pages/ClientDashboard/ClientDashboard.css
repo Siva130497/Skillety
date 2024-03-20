@@ -5,7 +5,7 @@
 .dash-table-container.client::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.086);
-    background-color: #714F36;
+    /* background-color: #714F36; */
 }
 
 .dash-table-view-btn.client {
@@ -29,6 +29,7 @@
     font-weight: 700;
     margin-bottom: 20px;
 }
+
 
 .dash-right-divider {
     border-bottom: #714F36 1px solid;

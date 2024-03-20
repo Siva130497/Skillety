@@ -151,14 +151,12 @@ const ClientSidebar = () => {
                     <li className="dropdown" id='client_dashboard'>
                         <a href={`/client-dashboard/${clientToken}`} className="nav-link"><i data-feather="home"></i><span>Dashboard</span></a>
                     </li>
-                </ul>
 
-
-                <ul className="sidebar-menu client">
-
-                    {role === "Client" && <li className="dropdown" id='client_staff'>
-                        <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client staffs</span></a>
-                    </li>}
+                    {role === "Client" &&
+                        <li className="dropdown" id='client_staff'>
+                            <a href="/client-staff" className="nav-link"><i data-feather="user-check"></i><span>Client staffs</span></a>
+                        </li>
+                    }
 
                     <li className="dropdown" id='search_candidate'>
                         <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search candidates</span></a>
@@ -202,7 +200,7 @@ const ClientSidebar = () => {
                     <img src="../assets/img/home/live-chat-dark.png" className='live-chat-img' alt="" />
                     <div className="live-chat-text">
                         Have any query ? <br />
-                            we are there for you 24*7
+                        we are there for you 24*7
                     </div>
 
                     <a className="live-chat-btn client" href="/client-chat-support">Live chat support</a>

@@ -334,7 +334,7 @@
 
 .dash-table-container {
     max-height: 320px;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-right: 10px;
 }
 
@@ -347,7 +347,7 @@
 .dash-table-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: none;
-    background-color: #F9C833;
+    background-color: #eeeeee !important;
 }
 
 .dash-table-container::-webkit-scrollbar-track {

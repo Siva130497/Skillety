@@ -253,7 +253,7 @@ const ATSNavBar = () => {
                             <a href="" onClick={() => {
                                 localStorage.removeItem("atsToken");
                                 navigate("/ats")
-                            }} className="dropdown-logout-btn">
+                            }} className="dropdown-logout-btn mt-0">
                                 <i class="bi bi-box-arrow-right mr-3"></i>
                                 Log Out
                             </a>

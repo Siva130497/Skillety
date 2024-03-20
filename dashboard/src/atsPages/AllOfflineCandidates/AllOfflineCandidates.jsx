@@ -168,7 +168,7 @@ const AllOfflineCandidates = () => {
                 <div class="main-content">
                     <section class="section">
                         <div className="my-app-section">
-                            <div className='d-flex align-items-end justify-content-between pt-4'>
+                            <div className='d-flex align-items-end justify-content-between pt-0 pt-sm-4'>
                                 <div className="admin-component-name pt-0">
                                     All Candidates
                                 </div>
