@@ -7,6 +7,7 @@ import useTokenRedirect from '../../customhooks/useTokenRedirect';
 
 const AtsLogin = () => {
     const navigate = useNavigate();
+
     useTokenRedirect();
     const { loginUser } = useContext(AuthContext)
     const [credentials, setcredentials] = useState({
@@ -188,7 +189,7 @@ const AtsLogin = () => {
             <footer className="main-footer no-sidebar">
                 <div className="footer-left">
                     <p className='footer-text'>
-                        © 2023 - <a href="#">Skillety</a> Technologies Private Limited, All Rights Reserved.
+                        © {new Date().getFullYear()} - <a href="#">Skillety</a> Technologies Private Limited, All Rights Reserved.
                     </p>
                 </div>
                 <div className="footer-right">

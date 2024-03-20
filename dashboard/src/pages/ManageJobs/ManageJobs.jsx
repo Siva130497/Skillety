@@ -560,7 +560,7 @@ const ManageJobs = () => {
                                 Manage Jobs
                             </div>
 
-                            <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
+                            {/* <div className="change-status-card pt-3 pl-4 pb-3 pr-4">
                                         <div className="card-change-status-title">
                                             From Client
                                         </div>
@@ -631,7 +631,7 @@ const ManageJobs = () => {
                                         }).catch(err=>{
                                             showErrorMessage(err.response.data.error);
                                         })
-                                    }}>Change</button>
+                                    }}>Change</button> */}
 
                             {loading ? (
                                 <div className="table-skeleton-area">
