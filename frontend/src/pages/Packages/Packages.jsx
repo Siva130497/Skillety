@@ -14,12 +14,34 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const Packages = ({ companyId }) => {
   const navigate = useNavigate();
-  const [clientToken, setClientToken] = useState("");
+  const [clientToken, setclientToken] = useState("");
 
   const [allPackages, setAllPackages] = useState([]);
 
+  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+  const [employeeId, setEmployeeId] = useState("");
+  const [loginClientDetail, setLoginClientDetail] = useState();
+  const [currentPackage, setCurrentPackage] = useState();
+
   useEffect(() => {
-    setClientToken(JSON.parse(localStorage.getItem("clientToken")));
+    setclientToken(JSON.parse(localStorage.getItem("clientToken")));
+  }, [clientToken]);
+
+  useEffect(() => {
+    if (clientToken) {
+      const fetchData = async () => {
+        try {
+          const user = await getProtectedData(clientToken);
+          console.log(user);
+          setEmployeeId(user.id);
+        } catch (error) {
+          console.log(error);
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
+        }
+      };
+
+      fetchData();
+    }
   }, [clientToken]);
 
   useEffect(() => {
@@ -30,14 +52,71 @@ const Packages = ({ companyId }) => {
       }).catch(err => console.log(err));
   }, [clientToken]);
 
-  const handleBuy = () => {
+  const handleBuy = (packageType, cvViews, logins, activeJobs, validity, amount, realPrice, offerPrice, GST, GSTAmount) => {
+    
+    const packDetail = {
+      packageType,
+      logins,
+      cvViews,
+      activeJobs,
+      validity,
+      amount,
+      realPrice,
+      offerPrice,
+      GST,
+      GSTAmount
+    }
+
     if (clientToken) {
-      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?token=${encodeURIComponent(clientToken)}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
     }
   };
+
+
+  const getLoginClientDetail = async () => {
+    try {
+      const res = await axios.get(
+        `https://skillety-n6r1.onrender.com/client/${employeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${clientToken}`,
+            Accept: "application/json",
+          },
+        }
+      );
+      const result = res.data;
+      if (!result.error) {
+        console.log(result);
+        setLoginClientDetail(result);
+      } else {
+        console.log(result);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (employeeId) {
+      getLoginClientDetail();
+    }
+  }, [employeeId]);
+
+  useEffect(() => {
+    if (loginClientDetail?.companyId) {
+      getClientChoosenPlan(loginClientDetail?.companyId, clientToken);
+    }
+  }, [loginClientDetail?.companyId]);
+
+  useEffect(() => {
+    if (packageSelectionDetail) {
+      console.log(packageSelectionDetail);
+      setCurrentPackage(packageSelectionDetail);
+    }
+  }, [packageSelectionDetail]);
   
 
   return (
@@ -60,7 +139,7 @@ const Packages = ({ companyId }) => {
                 <div className="plans--container">
                   <div className="plans--head-area">
                     <h4 className='plans--heading' data-aos="fade-down">PICK YOUR PLAN</h4>
-                    <div className="plans--sub-head" data-aos="fade-up">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </div>
+                    {/* <div className="plans--sub-head" data-aos="fade-up">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </div> */}
                   </div>
 
                   <div className="packages--area tab-content">
@@ -134,9 +213,9 @@ const Packages = ({ companyId }) => {
                           return (
                             <div className="col-12 col-xl-2 col-lg-2 col-md-2 custom-width1"
                               key={pack.id} data-aos="fade-left">
-                              <div className="pl--package-detail-area">
+                              <div className={(currentPackage?.packageType === pack.packageType) ? "pl--package-detail-area active" : "pl--package-detail-area"}>
                                 <div
-                                  className={`pl--package-info-area`}
+                                  className={(currentPackage?.packageType === pack.packageType) ? "pl--package-info-area active" : `pl--package-info-area`}
                                 >
                                   <img
                                     src={`${pack.packageType === 'Test' ? "../assets/img/packages/test.png" :
@@ -188,8 +267,8 @@ const Packages = ({ companyId }) => {
                                       Inaugural Offer Price
                                     </h6>
                                     <h6 className="pl--package-info">
-                                      <span className="line-through">{pack.realPrice}</span><br />
-                                      {pack.offerPrice}
+                                      <span className="line-through">INR {pack.realPrice}</span><br />
+                                      INR {pack.offerPrice}
                                     </h6>
                                   </div>
 
@@ -216,7 +295,7 @@ const Packages = ({ companyId }) => {
                                 <div className="pl--package-btn-area test-btn-area">
                                   <button
                                     className="pl--package-btn-sub buy-now"
-                                    onClick={handleBuy}
+                                    onClick={()=>handleBuy(pack.packageType, pack.cvViews, pack.logins, pack.activeJobs, pack.validity, pack.amount, pack.realPrice, pack.offerPrice, pack.GST, pack.offerPrice * (pack.GST / 100))}
                                   >
                                     <div className="pl--package-btn buy-now">
                                       Buy Now

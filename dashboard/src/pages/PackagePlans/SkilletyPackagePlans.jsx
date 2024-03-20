@@ -738,13 +738,13 @@ const SkilletyPackagePlans = () => {
                     <div className="plans--container">
                       <div className="plans--head-area">
                         <h4 className="plans--heading">UPGRADE YOUR PLAN</h4>
-                        <div className="plans--sub-head">
+                        {/* <div className="plans--sub-head">
                           Lorem Ipsum is simply dummy text of the printing and
                           typesetting industry. Lorem Ipsum has been the
                           industry's standard dummy text ever since the 1500s,
                           when an unknown printer took a galley of type and
                           scrambled it to make a type specimen book.{" "}
-                        </div>
+                        </div> */}
 
                         <div className="plan--purchase-track-area">
                           <div className="pl--track-circle-area">
@@ -895,8 +895,8 @@ const SkilletyPackagePlans = () => {
                                           Inaugural Offer Price
                                         </h6>
                                         <h6 className="pl--package-info">
-                                          <span className="line-through">{pack.realPrice}</span><br />
-                                          {pack.offerPrice}
+                                          <span className="line-through">INR {pack.realPrice}</span><br />
+                                          INR {pack.offerPrice}
                                         </h6>
                                       </div>
 
