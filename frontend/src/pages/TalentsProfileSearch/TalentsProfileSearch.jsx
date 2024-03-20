@@ -932,8 +932,12 @@ const TalentsProfileSearch = () => {
       checkBoxfilters.length > 0 ||
       selectedResults.length > 0 ||
       selectedLocationResults.length > 0 ||
-      (filters.minExperienceYr && filters.minExperienceMonth) ||
-      (filters.maxExperienceYr && filters.maxExperienceMonth) ||
+      (filters.minExperienceYr 
+        // && filters.minExperienceMonth
+        ) ||
+      (filters.maxExperienceYr 
+        // && filters.maxExperienceMonth
+        ) ||
       (filters.currencyType && (filters.minSalary || filters.maxSalary)) ||
       selectedEducationResults.length > 0 ||
       // || selectedRoleResults.length > 0
@@ -951,15 +955,15 @@ const TalentsProfileSearch = () => {
         ...(filters.minExperienceYr && {
           minExperienceYr: filters.minExperienceYr,
         }),
-        ...(filters.minExperienceMonth && {
-          minExperienceMonth: filters.minExperienceMonth,
-        }),
+        // ...(filters.minExperienceMonth && {
+        //   minExperienceMonth: filters.minExperienceMonth,
+        // }),
         ...(filters.maxExperienceYr && {
           maxExperienceYr: filters.maxExperienceYr,
         }),
-        ...(filters.maxExperienceMonth && {
-          maxExperienceMonth: filters.maxExperienceMonth,
-        }),
+        // ...(filters.maxExperienceMonth && {
+        //   maxExperienceMonth: filters.maxExperienceMonth,
+        // }),
         ...(filters.minSalary && { minSalary: filters.minSalary }),
         ...(filters.maxSalary && { maxSalary: filters.maxSalary }),
         ...(selectedEducationResults.length > 0 && {
@@ -1150,43 +1154,53 @@ const TalentsProfileSearch = () => {
         .filter((candidate) => {
           if (
             filters.minExperienceYr &&
-            filters.minExperienceMonth &&
-            filters.maxExperienceYr &&
-            filters.maxExperienceMonth
+            // filters.minExperienceMonth &&
+            filters.maxExperienceYr 
+            // &&
+            // filters.maxExperienceMonth
           ) {
             return (
               candidate.year >= filters.minExperienceYr &&
-              candidate.year <= filters.maxExperienceYr &&
-              candidate.month >= filters.minExperienceMonth &&
-              candidate.month <= filters.maxExperienceMonth
+              candidate.year <= filters.maxExperienceYr 
+              // &&
+              // candidate.month >= filters.minExperienceMonth &&
+              // candidate.month <= filters.maxExperienceMonth
             );
           }
           return true;
         })
         .filter((candidate) => {
           if (
-            filters.minExperienceYr &&
-            filters.minExperienceMonth &&
-            !filters.maxExperienceYr &&
-            !filters.maxExperienceMonth
+            filters.minExperienceYr
+            //  &&
+            // filters.minExperienceMonth 
+            &&
+            !filters.maxExperienceYr 
+            // &&
+            // !filters.maxExperienceMonth
           ) {
             return (
-              candidate.year >= filters.minExperienceYr &&
-              candidate.month >= filters.minExperienceMonth
+              candidate.year >= filters.minExperienceYr 
+              // &&
+              // candidate.month >= filters.minExperienceMonth
             );
           }
           return true;
         })
         .filter((candidate) => {
           if (
-            !filters.minExperienceYr &&
-            !filters.minExperienceMonth &&
-            filters.maxExperienceYr &&
-            filters.maxExperienceMonth
+            !filters.minExperienceYr 
+            // &&
+            // !filters.minExperienceMonth 
+            &&
+            filters.maxExperienceYr 
+            // &&
+            // filters.maxExperienceMonth
           ) {
             return (
-              candidate.year <= filters.maxExperienceYr &&
-              candidate.month <= filters.maxExperienceMonth
+              candidate.year <= filters.maxExperienceYr
+              //  &&
+              // candidate.month <= filters.maxExperienceMonth
             );
           }
           return true;
@@ -1697,6 +1711,11 @@ const TalentsProfileSearch = () => {
             const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", {
                 candidateId: id,
                 companyId: loginClientDetail.companyId,
+            }, {
+              headers: {
+                Authorization: `Bearer ${clientToken}`,
+                Accept: `application/json`
+              }
             });
 
             if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
@@ -5070,8 +5089,8 @@ const TalentsProfileSearch = () => {
                                                 percentage
                                               )
                                             }
-                                            onMouseEnter={handleMouseEnter}
-                                            onMouseLeave={handleMouseLeave}
+                                            // onMouseEnter={handleMouseEnter}
+                                            // onMouseLeave={handleMouseLeave}
                                           >
                                             View Profile
                                           </button>

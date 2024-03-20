@@ -35,7 +35,7 @@ const employeeAuth = async (req, res, next) => {
 
     if (!authHeader) {
         return res.status(403).json({
-            message: "Please provide an auth token"
+            error: "Please provide an auth token"
         });
     }
 
@@ -51,7 +51,7 @@ const employeeAuth = async (req, res, next) => {
             } catch (e) {
                 console.error(e);
                 return res.status(401).json({
-                    message: "Invalid Firebase token"
+                    error: "Invalid Firebase token"
                 });
             }
         } else {
@@ -59,7 +59,7 @@ const employeeAuth = async (req, res, next) => {
             jwt.verify(token, process.env.APP_SECRET, (err, decoded) => {
                 if (err) {
                     return res.status(401).json({
-                        message: "Invalid JWT token"
+                        error: "Invalid JWT token"
                     });
                 }
                 req.user = decoded;
@@ -68,7 +68,7 @@ const employeeAuth = async (req, res, next) => {
         }
     } else {
         return res.status(403).json({
-            message: "Invalid auth token format"
+            error: "Invalid auth token format"
         });
     }
 };

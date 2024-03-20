@@ -13,6 +13,8 @@ import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from "uuid";
 import ErrorPage from '../../404/404'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
  
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import AuthContext from '../../context/AuthContext';
@@ -263,7 +265,217 @@ const Talents = () => {
 
     return (
         <div>
-            {loading && <div >Loading...</div>}
+            {loading &&
+                                <div className="dash-talent--profile-card-section">
+                                    <div className="card change-status-card">
+                                        <div className="card-change-status-title w-20">
+                                            <Skeleton height={20} />
+                                        </div>
+                                        <div className="card-change-status-input-area">
+                                            <div className='select-option-area position-relative w-100'>
+                                                <Skeleton height={45} />
+                                            </div>
+                                            <Skeleton height={45} width={100} />
+                                        </div>
+                                    </div>
+
+                                    <article className="talent--profile-card applied">
+                                        <div className="tal--pro-card-left-area applied">
+                                            <div className='card-split-line applied'></div>
+                                            <div className="tal--pro-card-name-area">
+                                                <Skeleton height={25} width={25} />
+                                                <h6 className='tal--pro-card-name'>
+                                                    <Skeleton height={20} width={150} />
+                                                </h6>
+                                            </div>
+                                            <div className="tal--pro-card-tags applied">
+                                                <h6 className='tal--pro-card-exp'>
+                                                    <Skeleton height={10} width={100} />
+                                                </h6>
+                                                <h6 className='tal--pro-card-location'>
+                                                    <Skeleton height={10} width={100} />
+                                                </h6>
+                                            </div>
+                                            <div className="tal--pro-card-desc-area applied">
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={100} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={200} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={50} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={150} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'>
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} width={200} />
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title font-weight-700'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc font-weight-700'><Skeleton height={10} width={100} /></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="tal--pro-card-right-area applied">
+                                            <div className="tal--pro-card-right-cover-area applied">
+                                                <div className='tal--pro-card-profile-img-role-area'>
+                                                    <Skeleton circle={true} height={90} width={90} />
+                                                    <p className='tal--pro-card-role-name mb-0'><Skeleton height={10} width={100} /></p>
+                                                </div>
+                                                <div className="tal--pro-card-contact-btn-area">
+                                                    <Skeleton height={40} width={100} />
+                                                </div>
+                                                <div className="tal--pro-card-ability-number-area applied">
+                                                    <div className="tal--pro-card-ability-number-left applied">
+                                                        <h6 className='tal--pro-card-ability'><Skeleton height={10} width={50} /></h6>
+                                                        <h2 className='tal--pro-card-percentage custom'><Skeleton height={15} width={20} /></h2>
+                                                    </div>
+                                                    <div className="tal--pro-card-ability-number-right applied">
+                                                        <h6 className='tal--pro-card-ability'><Skeleton height={10} width={50} /></h6>
+                                                        <h2 className='tal--pro-card-days custom'><span><Skeleton height={15} width={70} /></span></h2>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                    <article className="talent--profile-card applied">
+                                        <div className="tal--pro-card-left-area applied">
+                                            <div className='card-split-line applied'></div>
+                                            <div className="tal--pro-card-name-area">
+                                                <Skeleton height={25} width={25} />
+                                                <h6 className='tal--pro-card-name'>
+                                                    <Skeleton height={20} width={150} />
+                                                </h6>
+                                            </div>
+                                            <div className="tal--pro-card-tags applied">
+                                                <h6 className='tal--pro-card-exp'>
+                                                    <Skeleton height={10} width={100} />
+                                                </h6>
+                                                <h6 className='tal--pro-card-location'>
+                                                    <Skeleton height={10} width={100} />
+                                                </h6>
+                                            </div>
+                                            <div className="tal--pro-card-desc-area applied">
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={100} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={200} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={50} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'><Skeleton height={10} width={150} /></p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc'>
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} />
+                                                            <Skeleton height={10} width={200} />
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="row tal--pro-card-desc-row">
+                                                    <div className="col-12 col-lg-3 col-md-3 custom-padd-right">
+                                                        <h6 className='tal--pro-card-desc-title font-weight-700'><Skeleton height={10} width={100} /></h6>
+                                                    </div>
+                                                    <div className="col-12 col-lg-9 col-md-9 custom-padd-left">
+                                                        <p className='tal--pro-card-desc font-weight-700'><Skeleton height={10} width={100} /></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="tal--pro-card-right-area applied">
+                                            <div className="tal--pro-card-right-cover-area applied">
+                                                <div className='tal--pro-card-profile-img-role-area'>
+                                                    <Skeleton circle={true} height={90} width={90} />
+                                                    <p className='tal--pro-card-role-name mb-0'><Skeleton height={10} width={100} /></p>
+                                                </div>
+                                                <div className="tal--pro-card-contact-btn-area">
+                                                    <Skeleton height={40} width={100} />
+                                                </div>
+                                                <div className="tal--pro-card-ability-number-area applied">
+                                                    <div className="tal--pro-card-ability-number-left applied">
+                                                        <h6 className='tal--pro-card-ability'><Skeleton height={10} width={50} /></h6>
+                                                        <h2 className='tal--pro-card-percentage custom'><Skeleton height={15} width={20} /></h2>
+                                                    </div>
+                                                    <div className="tal--pro-card-ability-number-right applied">
+                                                        <h6 className='tal--pro-card-ability'><Skeleton height={10} width={50} /></h6>
+                                                        <h2 className='tal--pro-card-days custom'><span><Skeleton height={15} width={70} /></span></h2>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            }
             {loginCandidate &&
                 <div>
                     <div class="main-wrapper main-wrapper-1">
