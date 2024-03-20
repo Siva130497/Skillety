@@ -2117,7 +2117,7 @@ const JobSearch = () => {
                                                                                 value={filters.minExperience}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperience: e.target.value })}
                                                                             >
-                                                                                <option value="" selected >Min Experience</option>
+                                                                                <option value="" selected >Minimum Experience</option>
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
@@ -2143,7 +2143,7 @@ const JobSearch = () => {
                                                                                 value={filters.maxExperience}
                                                                                 onChange={(e) => setFilters({ ...filters, maxExperience: e.target.value })}
                                                                             >
-                                                                                <option value="" selected >Max Experience</option>
+                                                                                <option value="" selected >Maximum Experience</option>
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>

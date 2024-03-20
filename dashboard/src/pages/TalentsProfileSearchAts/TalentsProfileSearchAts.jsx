@@ -775,7 +775,11 @@ const TalentsProfileSearchAts = () => {
     };
 
     const handleSkillSearch = () => {
-        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr && filters.minExperienceMonth) || (filters.maxExperienceYr && filters.maxExperienceMonth) || filters.currencyType && (filters.minSalary || filters.maxSalary)
+        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr 
+            // && filters.minExperienceMonth
+            ) || (filters.maxExperienceYr 
+                // && filters.maxExperienceMonth
+                ) || filters.currencyType && (filters.minSalary || filters.maxSalary)
             || selectedEducationResults.length > 0
             // || selectedRoleResults.length > 0 
             // || filters.industry 
@@ -791,9 +795,9 @@ const TalentsProfileSearchAts = () => {
                 ...(selectedResults.length > 0 && { selectedResults }),
                 ...(selectedLocationResults.length > 0 && { selectedLocationResults }),
                 ...(filters.minExperienceYr && { minExperienceYr: filters.minExperienceYr }),
-                ...(filters.minExperienceMonth && { minExperienceMonth: filters.minExperienceMonth }),
+                // ...(filters.minExperienceMonth && { minExperienceMonth: filters.minExperienceMonth }),
                 ...(filters.maxExperienceYr && { maxExperienceYr: filters.maxExperienceYr }),
-                ...(filters.maxExperienceMonth && { maxExperienceMonth: filters.maxExperienceMonth }),
+                // ...(filters.maxExperienceMonth && { maxExperienceMonth: filters.maxExperienceMonth }),
                 ...(filters.minSalary && { minSalary: filters.minSalary }),
                 ...(filters.maxSalary && { maxSalary: filters.maxSalary }),
                 ...(selectedEducationResults.length > 0 && { selectedEducationResults }),
@@ -981,21 +985,38 @@ const TalentsProfileSearchAts = () => {
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.minExperienceYr && filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
-                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr &&
-                            candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth);
+                    if (filters.minExperienceYr 
+                        // && filters.minExperienceMonth
+                        && filters.maxExperienceYr 
+                        // && filters.maxExperienceMonth
+                        ) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr 
+                            // && candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth
+                            );
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.minExperienceYr && filters.minExperienceMonth && !filters.maxExperienceYr && !filters.maxExperienceMonth) {
-                        return (candidate.year >= filters.minExperienceYr && candidate.month >= filters.minExperienceMonth);
+                    if (filters.minExperienceYr 
+                        // && filters.minExperienceMonth 
+                        && !filters.maxExperienceYr 
+                        // && !filters.maxExperienceMonth
+                        ) {
+                        return (candidate.year >= filters.minExperienceYr 
+                            // && candidate.month >= filters.minExperienceMonth
+                            );
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (!filters.minExperienceYr && !filters.minExperienceMonth && filters.maxExperienceYr && filters.maxExperienceMonth) {
-                        return (candidate.year <= filters.maxExperienceYr && candidate.month <= filters.maxExperienceMonth);
+                    if (!filters.minExperienceYr 
+                        // && !filters.minExperienceMonth 
+                        && filters.maxExperienceYr 
+                        // && filters.maxExperienceMonth
+                        ) {
+                        return (candidate.year <= filters.maxExperienceYr 
+                            // && candidate.month <= filters.maxExperienceMonth
+                            );
                     }
                     return true;
                 })
@@ -1101,9 +1122,9 @@ const TalentsProfileSearchAts = () => {
                 ...filters,
                 days: selectedSearchResult?.days,
                 minExperienceYr: selectedSearchResult?.minExperienceYr,
-                minExperienceMonth: selectedSearchResult?.minExperienceMonth,
+                // minExperienceMonth: selectedSearchResult?.minExperienceMonth,
                 maxExperienceYr: selectedSearchResult?.maxExperienceYr,
-                maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
+                // maxExperienceMonth: selectedSearchResult?.maxExperienceMonth,
                 minSalary: selectedSearchResult?.minSalary,
                 maxSalary: selectedSearchResult?.maxSalary,
                 company: selectedSearchResult?.company,
@@ -1651,29 +1672,15 @@ const TalentsProfileSearchAts = () => {
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Experience</h6>
+                                                                        <h6 className='cli-tal-pro-search-filter-title'>Experience (Years)</h6>
                                                                     </div>
                                                                     <div className="cli-tal-pro-exp-input-area search-page">
                                                                         <div className='cli-tal-pro-exp-input-container'>
-                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.minExperienceYr}
-                                                                    placeholder='Min Experience Year'/> */}
-                                                                            {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, minExperienceYr: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                                                             <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                                 value={filters.minExperienceYr}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceYr: e.target.value })}
                                                                             >
-                                                                                <option value="" selected >Min experience</option>
+                                                                                <option value="" selected >Minimum experience</option>
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
@@ -1696,22 +1703,36 @@ const TalentsProfileSearchAts = () => {
                                                                             </select>
                                                                         </div>
 
-                                                                        <span className='cli-tal-pro-exp-input-text'>years</span>
                                                                         <div className='cli-tal-pro-exp-input-container'>
-                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.maxExperienceYr}
-                                                                    placeholder='Max Experience Year'/> */}
-                                                                            {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, maxExperienceYr: number })}
+                                                                            <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
+                                                                                value={filters.maxExperienceYr}
+                                                                                onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
                                                                             >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
+                                                                                <option value="" selected >Maximum Experience</option>
+                                                                                <option value="0">0</option>
+                                                                                <option value="1">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                                <option value="5">5</option>
+                                                                                <option value="6">6</option>
+                                                                                <option value="7">7</option>
+                                                                                <option value="8">8</option>
+                                                                                <option value="9">9</option>
+                                                                                <option value="10">10</option>
+                                                                                <option value="15">15</option>
+                                                                                <option value="20">20</option>
+                                                                                <option value="25">25</option>
+                                                                                <option value="30">30</option>
+                                                                                <option value="35">35</option>
+                                                                                <option value="40">40</option>
+                                                                                <option value="45">45</option>
+                                                                                <option value="50">50</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                        {/* <span className='cli-tal-pro-exp-input-text'>years</span>
+                                                                        <div className='cli-tal-pro-exp-input-container'>
                                                                             <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                                 value={filters.minExperienceMonth}
                                                                                 onChange={(e) => setFilters({ ...filters, minExperienceMonth: e.target.value })}
@@ -1732,31 +1753,16 @@ const TalentsProfileSearchAts = () => {
                                                                                 <option value="12">12</option>
                                                                             </select>
                                                                         </div>
-                                                                        <span className='cli-tal-pro-exp-input-text'>months</span>
+                                                                        <span className='cli-tal-pro-exp-input-text'>months</span> */}
                                                                     </div>
 
-                                                                    <div className="cli-tal-pro-exp-input-area search-page mt-3">
+                                                                    {/* <div className="cli-tal-pro-exp-input-area search-page mt-3">
                                                                         <div className='cli-tal-pro-exp-input-container'>
-                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.minExperienceMonth}
-                                                                    placeholder='Min Experience Month'/> */}
-                                                                            {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, minExperienceMonth: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                                                             <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                                 value={filters.maxExperienceYr}
                                                                                 onChange={(e) => setFilters({ ...filters, maxExperienceYr: e.target.value })}
                                                                             >
                                                                                 <option value="" selected >Max Experience</option>
-                                                                                {/* <option value="0">0</option> */}
                                                                                 <option value="0">0</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
@@ -1781,9 +1787,6 @@ const TalentsProfileSearchAts = () => {
 
                                                                         <span className='cli-tal-pro-exp-input-text'>years</span>
                                                                         <div className='cli-tal-pro-exp-input-container'>
-                                                                            {/* <input type="number" className='cli-tal-pro-exp-input text-center numeric-input' 
-                                                                    value={filters.maxExperienceMonth}
-                                                                    placeholder='Max Experience Month'/> */}
                                                                             <select name="" className='cli-tal-pro-exp-input text-center numeric-input select' id=""
                                                                                 value={filters.maxExperienceMonth}
                                                                                 onChange={(e) => setFilters({ ...filters, maxExperienceMonth: e.target.value })}
@@ -1803,20 +1806,9 @@ const TalentsProfileSearchAts = () => {
                                                                                 <option value="11">11</option>
                                                                                 <option value="12">12</option>
                                                                             </select>
-                                                                            {/* <div className='tal-pro-search-result-data-area'>
-                                                                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
-                                                                            <div
-                                                                                key={number}
-                                                                                className='tal-pro-search-result-data'
-                                                                                onClick={() => setFilters({ ...filters, maxExperienceMonth: number })}
-                                                                            >
-                                                                                {number}
-                                                                            </div>
-                                                                            ))}
-                                                                        </div> */}
                                                                         </div>
                                                                         <span className='cli-tal-pro-exp-input-text'>months</span>
-                                                                    </div>
+                                                                    </div> */}
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
@@ -1879,6 +1871,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 <option value="" disabled>Select</option>
                                                                                 <option value="₹" selected>₹</option>
                                                                                 <option value="$">$</option>
+                                                                                <option value="€">€</option>
                                                                             </select>
                                                                             <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary'
                                                                                 value={filters.minSalary}

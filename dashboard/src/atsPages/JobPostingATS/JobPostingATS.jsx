@@ -1131,6 +1131,7 @@ const JobPostingATS = () => {
                                         onChange={handleChange}>
                                         <option value="₹" selected>₹</option>
                                         <option value="$">$</option>
+                                        <option value="€">€</option>
                                         {/* <option value="">€</option>
                                         <option value="">¥</option> */}
                                     </select>

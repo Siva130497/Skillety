@@ -1135,6 +1135,7 @@ function showErrorMessage() {
                             onChange={handleChange}>
                             <option value="₹" selected>₹</option>
                             <option value="$">$</option>
+                            <option value="€">€</option>
                             {/* <option value="">€</option>
                             <option value="">¥</option> */}
                           </select>
