@@ -361,11 +361,35 @@ const createClientStaff = async (req, res) => {
             from: "demoemail1322@gmail.com",
             to: `${newTempClient.email}`,
             subject: `Mail from ${companyName}!`,
-            text:
-              "These are your account details, use the temporary URL and temporary password to create your account",
-            html: `<p>Temporary URL: ${newTempClient.url}</p>
-                   <p>User Name: ${req.body.name}</p>
-                   <p>Phone No: ${req.body.phone}</p>`,
+            html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+                <div style="text-align: center;">
+                    <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+                </div>
+                <div style="margin-top: 40px; font-size:15px;">
+                    <p>Dear [Candidate Name],</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
+                        setup of your account, we kindly ask you to create a password.</p>
+        
+                    <div style="text-align: center; margin: 40px 0px;">
+                        <a href="" style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                            Create your Password
+                        </a>
+                    </div>
+        
+                    <div>
+                        <p><b>To create your password, please follow these simple steps:</b></p>
+                        <ul style="padding-left: 15px; list-style:decimal;">
+                            <li>Click on [Create your password].</li>
+                            <li>Enter the password in the designated field.</li>
+                            <li>Confirm your password by retyping it in the designated field.</li>
+                            <li>Click on Create password button.</li>
+                            <li>Then, your account is now successfully set up, and you can begin enjoying our services.</li>
+                        </ul>
+                        <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                        <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+                    </div>
+                </div>
+            </div>`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
