@@ -361,35 +361,11 @@ const createClientStaff = async (req, res) => {
             from: "demoemail1322@gmail.com",
             to: `${newTempClient.email}`,
             subject: `Mail from ${companyName}!`,
-            html: `<div style="position: relative; padding:20px; font-family:Calibri;">
-                <div style="text-align: center;">
-                    <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
-                </div>
-                <div style="margin-top: 40px; font-size:15px;">
-                    <p>Dear [Candidate Name],</p>
-                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
-                        setup of your account, we kindly ask you to create a password.</p>
-        
-                    <div style="text-align: center; margin: 40px 0px;">
-                        <a href="" style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
-                            Create your Password
-                        </a>
-                    </div>
-        
-                    <div>
-                        <p><b>To create your password, please follow these simple steps:</b></p>
-                        <ul style="padding-left: 15px; list-style:decimal;">
-                            <li>Click on [Create your password].</li>
-                            <li>Enter the password in the designated field.</li>
-                            <li>Confirm your password by retyping it in the designated field.</li>
-                            <li>Click on Create password button.</li>
-                            <li>Then, your account is now successfully set up, and you can begin enjoying our services.</li>
-                        </ul>
-                        <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
-                        <p>Thank you for choosing Skillety. We look forward to serving you.</p>
-                    </div>
-                </div>
-            </div>`,
+            text:
+              "These are your account details, use the temporary URL and temporary password to create your account",
+            html: `<p>Temporary URL: ${newTempClient.url}</p>
+                   <p>User Name: ${req.body.name}</p>
+                   <p>Phone No: ${req.body.phone}</p>`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
@@ -573,7 +549,7 @@ const finalClientRegister = async (req, res) => {
       to: updatedUser.email,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations!</p><p>We are happy to have you with us.</p>`,
+      html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -697,7 +673,7 @@ const candidateReg = async(req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations! </p><p>We are happy to have you with us.</p>`
+      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -2193,9 +2169,6 @@ const newPassword = async(req, res) => {
   const {password, role} = req.body;
   console.log(password);
   try{
-    if(password.length<8){
-      return res.status(401).json({error:"Password must be minimum 8 characters long"})
-    }
         const hashPassword = await bcrypt.hash(password, 12);
         console.log(hashPassword);
         const updatedUser = await allUsers.findOneAndUpdate(
@@ -2575,7 +2548,7 @@ const clientPackageSelection = async (req, res) => {
 
     if (currentActivePackage) {
       if(isTestPackageBought && req.body.packageType === "Test"){
-        return res.status(400).json({ error: "You can buy Test package only once!" });
+        return res.status.json({error:"You can buy Test package only once!"})
       }
       // Calculate the days since the package was created
       const createdAtDate = new Date(currentActivePackage.createdAt);
@@ -4190,15 +4163,10 @@ const updatingCandidatePassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    if(newPassword.length<8){
-      return res.status(401).json({ error: 'Password must be minimum 8 characters long' });
-    }
-
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Current password does not match' });
     }
-    
     const hashPassword = await bcrypt.hash(newPassword, 12);
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
@@ -4437,7 +4405,35 @@ const createCandidate = async (req, res) => {
         to: email,
         subject: 'Mail from SKILLITY!',
         text: '',
-        html: `<p>Temporary URL: ${tempUrl}</p>`
+        html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear [Candidate Name],</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
+                setup of your account, we kindly ask you to create a password.</p>
+
+            <div style="text-align: center; margin: 40px 0px;">
+                <a href="" style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                    Create your Password
+                </a>
+            </div>
+
+            <div>
+                <p><b>To create your password, please follow these simple steps:</b></p>
+                <ul style="padding-left: 15px; list-style:decimal;">
+                    <li>Click on [Create your password].</li>
+                    <li>Enter the password in the designated field.</li>
+                    <li>Confirm your password by retyping it in the designated field.</li>
+                    <li>Click on Create password button.</li>
+                    <li>Then, your account is now successfully set up, and you can begin enjoying our services.</li>
+                </ul>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -4542,7 +4538,7 @@ const finalCandRegister = async (req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations! </p><p>We are happy to have you with us.</p>`
+      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -4562,16 +4558,10 @@ const finalCandRegister = async (req, res) => {
 
 const updateCand = async (req, res) => {
   const { id } = req.params;
-  const {email, phone} = req.body;
-  try {
-    const clientAvailable = await candidateCreate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
-    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
-    const candAvailable = await candidate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
 
-    if (clientAvailable || allUserAvailable || candAvailable) {
-      return res.status(404).json({ error: "The email address or phone number already exists" });
-    }
+  try {
     const candToUpdate = await candidateCreate.findOne({ id });
+
     if (candToUpdate) {
       const updatedCand = await candidateCreate.findOneAndUpdate(
         { id },
@@ -5083,13 +5073,6 @@ const candidateUpdateDetail = async (req, res) => {
   const { fName, sName, email, phone, location, experience_years, experience_month, joinDaysPeriod } = req.body;
 
   try {
-
-    const clientAvailable = await candidate.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
-    const allUserAvailable = await allUsers.findOne({ $and: [{ id: { $ne: id } }, { $or: [{ email: { $regex: new RegExp(email.toLowerCase(), "i") } }, { phone }] }] });
-
-    if (clientAvailable || allUserAvailable) {
-      return res.status(404).json({ error: "The email address or phone number already exists" });
-    }
     const allUsersDoc = await allUsers.findOneAndUpdate(
       { id: id },
       {
