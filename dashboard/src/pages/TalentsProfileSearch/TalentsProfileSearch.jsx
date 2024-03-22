@@ -1548,7 +1548,13 @@ const TalentsProfileSearch = () => {
               });
 
             if(response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!"){
-                navigate(`/talents/${id}`, { state: { percentage } });
+                // navigate(`/talents/${id}`, { state: { percentage } });
+                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}`;
+                if (!isNaN(percentage)) {
+                    url += `?percentage=${percentage}`;
+                }
+
+                window.open(url, "_blank");
             } else {
                 Swal.fire({
                     title: 'Error!',

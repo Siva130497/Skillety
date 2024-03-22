@@ -186,7 +186,7 @@ export const AuthContextProvider = ({ children }) => {
         console.log(error);
         await new Promise(() => {
             Swal.fire({
-                title: '!',
+                title: 'Error in creating new candidate',
                 text: error.response.data.error,
                 icon: 'error',
                 confirmButtonColor: '#3085d6',
