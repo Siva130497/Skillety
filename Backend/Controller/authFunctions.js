@@ -275,7 +275,35 @@ const createClient = async (req, res) => {
         to: `${newTempClient.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Your details have been verified successfully. Please use the temporary URL to create your account.',
-        html: `<p>Temporary URL: ${newTempClient.url}</p>`
+        html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${newTempClient.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
+                setup of your account, we kindly ask you to create a password.</p>
+
+            <div style="text-align: center; margin: 40px 0px;">
+                <a href=${tempUrl} style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                    Create your Password
+                </a>
+            </div>
+
+            <div>
+                <p><b>To create your password, please follow these simple steps:</b></p>
+                <ul style="padding-left: 15px; list-style:decimal;">
+                    <li>Click on [Create your password].</li>
+                    <li>Enter the password in the designated field.</li>
+                    <li>Confirm your password by retyping it in the designated field.</li>
+                    <li>Click on Create password button.</li>
+                    <li>Then, your account is now successfully set up, and you can begin enjoying our services.</li>
+                </ul>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -363,9 +391,38 @@ const createClientStaff = async (req, res) => {
             subject: `Mail from ${companyName}!`,
             text:
               "These are your account details, use the temporary URL and temporary password to create your account",
-            html: `<p>Temporary URL: ${newTempClient.url}</p>
-                   <p>User Name: ${req.body.name}</p>
-                   <p>Phone No: ${req.body.phone}</p>`,
+            // html: `<p>Temporary URL: ${newTempClient.url}</p>
+            //        <p>User Name: ${req.body.name}</p>
+            //        <p>Phone No: ${req.body.phone}</p>`,
+            html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${req.body.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to complete the
+                setup of your account, we kindly ask you to create a password.</p>
+
+            <div style="text-align: center; margin: 40px 0px;">
+                <a href=${newTempClient.url} style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                    Create your Password
+                </a>
+            </div>
+
+            <div>
+                <p><b>To create your password, please follow these simple steps:</b></p>
+                <ul style="padding-left: 15px; list-style:decimal;">
+                    <li>Click on [Create your password].</li>
+                    <li>Enter the password in the designated field.</li>
+                    <li>Confirm your password by retyping it in the designated field.</li>
+                    <li>Click on Create password button.</li>
+                    <li>Then, your account is now successfully set up, and you can begin enjoying our services.</li>
+                </ul>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
           };
 
           transporter.sendMail(mailOptions, function (error, info) {
@@ -549,7 +606,21 @@ const finalClientRegister = async (req, res) => {
       to: updatedUser.email,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
+      // html: `<p>Congratulations!</p><p>We are happy to have you with us. Please find your Login details below:</p>`,
+      html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${updatedUser.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. We are happy to have you with us.</p>
+            <div>
+                
+                <p>If you encounter any issues or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -768,7 +839,20 @@ const candidateRegAfterGoogleLogin = async(req, res) => {
         to: `${updatedUser.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Welcome to Skillety!',
-        html: `<p>Congratulations! </p><p>We are happy to have you with us. Please complete your profile</p>`
+        // html: `<p>Congratulations! </p><p>We are happy to have you with us. Please complete your profile</p>`
+        html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${updatedUser.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. Please complete your profile by visiting your dashboard.</p>
+            <div>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
       };
   
       transporter.sendMail(mailOptions, function (error, info) {
@@ -1095,17 +1179,30 @@ const activateJob = async (req, res) => {
           }
         });
 
-        for (const candidateEmail of candidateEmails) {
+        for (const candidate of matchingCandidates) {
           const mailOptions = {
             from: 'demoemail1322@gmail.com',
-            to: candidateEmail,
+            to: candidate.email,
             subject: 'Mail from SKILLITY!',
             text: `Welcome to Skillety! Your skill match found`,
-            html: `<p>Your skill match found for the job with role ${newActiveJob.jobRole[0]}</p>`
+            // html: `<p>Your skill match found for the job with role ${newActiveJob.jobRole[0]}</p>`
+            html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${candidate.firstName+" "+candidate.lastName},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your skill match found for the job with role ${newActiveJob.jobRole[0]}.</p>
+            <div>
+                <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
           };
 
           await transporter.sendMail(mailOptions);
-          console.log('Email sent to ' + candidateEmail);
+          console.log('Email sent to ' + candidate.email);
         }
 
         res.status(200).json({ message: 'Job alerts sent successfully!', newActiveJob });
@@ -2118,8 +2215,28 @@ const forgotPassword = async(req, res) => {
         from: 'demoemail1322@gmail.com',
         to: `${userWithTempPass.email}`,
         subject: 'Mail from SKILLITY!',
-        text: 'Your temporary password!',
-        html: `<p>Verification Code: ${verificationCode}</p>`
+        text: 'Your Temporary Code!',
+        // html: `<p>Verification Code: ${verificationCode}</p>`
+        html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${userWithTempPass.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to recover your account, we kindly ask you to use the following verification code.</p>
+
+            <div style="text-align: center; margin: 40px 0px;">
+                <a href="#" style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                    ${verificationCode}
+                </a>
+            </div>
+
+            <div>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
       };
 
       transporter.sendMail(mailOptions, function (error, info) {
@@ -4410,12 +4527,12 @@ const createCandidate = async (req, res) => {
             <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
         </div>
         <div style="margin-top: 40px; font-size:15px;">
-            <p>Dear [Candidate Name],</p>
+            <p>Dear ${newCreateCandidate.firstName+" "+newCreateCandidate.lastName},</p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
                 setup of your account, we kindly ask you to create a password.</p>
 
             <div style="text-align: center; margin: 40px 0px;">
-                <a href="" style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
+                <a href=${tempUrl} style="background-color: #714F36; padding: 10px; font-size: 15px; font-weight: 500; color: #F9C833; text-decoration:none;">
                     Create your Password
                 </a>
             </div>
@@ -4538,7 +4655,20 @@ const finalCandRegister = async (req, res) => {
       to: `${updatedUser.email}`,
       subject: 'Mail from SKILLITY!',
       text: 'Welcome to Skillety!',
-      html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
+      // html: `<p>Congratulations! </p><p>We are happy to have you with us. Please find your Login details below :</p>`
+      html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${updatedUser.name},</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. We are happy to have you with us.</p>
+            <div>
+                <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -6720,11 +6850,29 @@ const updateOfflineCand = async (req, res) => {
         to: `${updatedOfflineCand.emailId}`,
         subject: 'Mail from SKILLITY!',
         text: 'Welcome to Skillety!, You are invited to create an account with the updated detail to search job....',
-        html: `<p>First Name: ${updatedOfflineCand.firstName}</p>
-                  <p>Last Name: ${updatedOfflineCand.lastName}</p>
-                  <p>Email Id: ${updatedOfflineCand.emailId}</p>
-                  <p>Phone No: ${updatedOfflineCand.mobileNumber}</p>
-                  <p>Register Link: https://skillety-frontend-wcth.onrender.com/candiate-register</p>`
+        // html: `<p>First Name: ${updatedOfflineCand.firstName}</p>
+        //           <p>Last Name: ${updatedOfflineCand.lastName}</p>
+        //           <p>Email Id: ${updatedOfflineCand.emailId}</p>
+        //           <p>Phone No: ${updatedOfflineCand.mobileNumber}</p>
+        //           <p>Register Link: https://skillety-frontend-wcth.onrender.com/candiate-register</p>`
+        html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>Dear ${updatedOfflineCand.firstName+" "+updatedOfflineCand.lastName},</p>
+            <div>
+                <ul style="padding-left: 15px; list-style:decimal;">
+                    <li>First Name: ${updatedOfflineCand.firstName}.</li>
+                    <li>Last Name: ${updatedOfflineCand.lastName}.</li>
+                    <li>Phone No: ${updatedOfflineCand.mobileNumber}.</li>
+                    <li>Register Link: https://skillety-frontend-wcth.onrender.com/candiate-register.</li>
+                </ul>
+                <p>If you encounter any issues during this process or have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>Thank you for choosing Skillety. We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
       };
   
       transporter.sendMail(mailOptions, function (error, info) {

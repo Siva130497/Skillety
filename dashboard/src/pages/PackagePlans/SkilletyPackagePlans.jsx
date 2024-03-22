@@ -574,7 +574,7 @@ const SkilletyPackagePlans = () => {
   }, [packageSelectionDetail]);
 
   useEffect(()=>{
-    if(urlParams){
+    if(urlParams.get('id')){
       switchTab(2);
       setPackageInfo({
         id: urlParams.get('id'),
