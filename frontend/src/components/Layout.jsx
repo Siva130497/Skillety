@@ -263,18 +263,19 @@ const Layout = ({ newNavBarClientRegister, newNavBarClientLogin, newNavBarCandid
         <span>Back</span>
       </button> */}
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) &&
+      {/* {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) && */}
+      {!(window.location.pathname === '/client-home') &&
         <button className="go-back-button-style-2 employer" onClick={handleBackButtonClick}>
           <i className="bi bi-chevron-double-left"></i>
           <span>Back</span>
         </button>
       }
 
-      {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) &&
+      {/* {!(window.location.pathname === '/client-login' || window.location.pathname === '/client-register' || window.location.pathname === '/candidate-login' || window.location.pathname === '/forgot-password/Client' || window.location.pathname === '/forgot-password/Candidate' || window.location.pathname === `/verification/${id}`) && */}
         <div className='is-employer'>
           <RandomChat />
         </div>
-      }
+      {/* } */}
 
       <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-chevron-double-up back-to-top-icon"></i>

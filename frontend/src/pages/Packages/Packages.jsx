@@ -55,7 +55,7 @@ const Packages = ({ companyId }) => {
   const handleBuy = (packageType, cvViews, logins, activeJobs, validity, amount, realPrice, offerPrice, GST, GSTAmount) => {
 
     const packDetail = {
-      id:loginClientDetail?.companyId,
+      id: loginClientDetail?.companyId,
       packageType,
       logins,
       cvViews,
@@ -67,7 +67,7 @@ const Packages = ({ companyId }) => {
       GST,
       GSTAmount
     }
-  // Serialize packDetail object to a query string
+    // Serialize packDetail object to a query string
     const params = new URLSearchParams(packDetail);
 
     if (clientToken && loginClientDetail?.companyId) {
@@ -121,7 +121,7 @@ const Packages = ({ companyId }) => {
       setCurrentPackage(packageSelectionDetail);
     }
   }, [packageSelectionDetail]);
-  
+
 
   return (
     <>
@@ -193,7 +193,7 @@ const Packages = ({ companyId }) => {
                                     </div> */}
 
                               <div>
-                                <h6 className="pl--package-title">
+                                <h6 className="pl--package-title no-wrap-false">
                                   Inaugural Offer Price
                                 </h6>
                               </div>
@@ -299,7 +299,7 @@ const Packages = ({ companyId }) => {
                                 <div className="pl--package-btn-area test-btn-area">
                                   <button
                                     className="pl--package-btn-sub buy-now"
-                                    onClick={()=>handleBuy(pack.packageType, pack.cvViews, pack.logins, pack.activeJobs, pack.validity, pack.amount, pack.realPrice, pack.offerPrice, pack.GST, pack.offerPrice * (pack.GST / 100))}
+                                    onClick={() => handleBuy(pack.packageType, pack.cvViews, pack.logins, pack.activeJobs, pack.validity, pack.amount, pack.realPrice, pack.offerPrice, pack.GST, pack.offerPrice * (pack.GST / 100))}
                                   >
                                     <div className="pl--package-btn buy-now">
                                       Buy Now
@@ -341,218 +341,406 @@ const Packages = ({ companyId }) => {
                     </div>
                   </div>
 
-                </div>
-              </div>
+                  <div className="sol-price-area">
+                    <h5 className="sol-price-heading">
+                      CUSTOMIZE YOUR PACKAGE
+                    </h5>
 
-              {/* skillety solution price area here*/}
-              {/* <div className="sol-price-container">
-                <div className='term-con-area'>
-                  <p className='term-con'>
-                    By clicking on the Buy Now you are agreeing to the&nbsp;
-                    <a href="#">Terms & Conditions</a>
-                  </p>
-                </div>
-                <div className="sol-price-area">
-                  <h5 className="sol-price-heading">SKILLETY SOLUTIONS PRICES</h5>
+                    <div className="table-responsive">
+                      <table className="table sol-price-table">
+                        <thead>
+                          <tr className="sol-price-table-head-row">
+                            <th className="sol-price-table-head text-start">
+                              Services
+                            </th>
+                            <th className="sol-price-table-head text-center">
+                              Select Quantity
+                            </th>
+                            <th className="sol-price-table-head text-center">
+                              Total Price (INR)
+                            </th>
+                            <th className="sol-price-table-head text-center"></th>
+                          </tr>
+                        </thead>
 
-                  <div className="table-responsive">
-                    <table className='table sol-price-table'>
-                      <thead>
-                        <tr className='sol-price-table-head-row'>
-                          <th className='sol-price-table-head text-start'>Solutions</th>
-                          <th className='sol-price-table-head text-center'>Unit Price (Rs.)</th>
-                          <th className='sol-price-table-head text-center'>Select Quantity</th>
-                          <th className='sol-price-table-head text-center'>Total Price (Rs.)</th>
-                          <th className='sol-price-table-head text-center'></th>
-                        </tr>
-                      </thead>
+                        <tbody>
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              CV Views
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input" />
+                            </td>
 
-                      <tbody>
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>Screening calls by Bot</td>
-                          <td className='sol-price-table-data text-center'>1.5</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} value={20} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                            </td>
+                          </tr>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>Assessments</td>
-                          <td className='sol-price-table-data text-center'>120</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} value={20} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              Login IDs
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input" />
+                            </td>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>Interviews (0-8 yrs)</td>
-                          <td className='sol-price-table-data text-center'>1500</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                            </td>
+                          </tr>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>Interviews (8.1-15 yrs)</td>
-                          <td className='sol-price-table-data text-center'>2000</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              Job Postings
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input" />
+                            </td>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>Interviews (>15 yrs)</td>
-                          <td className='sol-price-table-data text-center'>2500</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                            </td>
+                          </tr>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>BGV Lite</td>
-                          <td className='sol-price-table-data text-center'>1250</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              Validity (In months)
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <select className="sol-price-table-qty-input">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                              </select>
+                            </td>
 
-                        <tr className='sol-price-table-row'>
-                          <td className='sol-price-table-data first-data text-start'>BGV 360</td>
-                          <td className='sol-price-table-data text-center'>3000</td>
-                          <td className='sol-price-table-data text-center sol-price-table-qty-area'>
-                            <button className='sol-price-table-qty-button decrement'>-</button>
-                            <input type="number" className='sol-price-table-qty-input' min={0} />
-                            <button className='sol-price-table-qty-button increment'>+</button>
-                          </td>
-                          <td className='sol-price-table-data price text-center'>0</td>
-                          <td className='text-center last-data sol-price-buy-now-btn-area'>
-                            <button className='sol-price-buy-now-btn'>
-                              <div className='sol-price-buy-now-btn-sub'>
-                                Buy Now
-                              </div>
-                              <div className='sol-price-buy-now-arrow-area'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                                  <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                                  <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                                  <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
-                                </svg>
-                              </div>
-                            </button>
-                          </td>
-                        </tr>
+                            <td className="sol-price-table-data price text-center">
+                              30
+                            </td>
 
-                      </tbody>
-                    </table>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
 
-                  <h6 className='sol-price-information'>
-                    Beyond this, please contact the Sales department.
-                  </h6>
+                  <div className="sol-price-area for-mobile">
+                    <h5 className="sol-price-heading">
+                      SKILLETY VALUE ADDED SERVICES PRICES
+                    </h5>
+
+                    <div className="table-responsive">
+                      <table className="table sol-price-table">
+                        <thead>
+                          <tr className="sol-price-table-head-row">
+                            <th className="sol-price-table-head text-start">
+                              Value Added Services
+                            </th>
+                            <th className="sol-price-table-head text-center">
+                              Select Quantity
+                            </th>
+                            <th className="sol-price-table-head text-center">
+                              Total Price (INR)
+                            </th>
+                            <th className="sol-price-table-head text-center"></th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              Online Technical Assessment
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input"/>
+                            </td>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              L1 Interview (0-8 yrs)
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input"/>
+                            </td>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              L1 Interview (8-15 yrs)
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input"/>
+                            </td>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              L1 Interview (above 15 yrs)
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input"/>
+                            </td>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="sol-price-table-row">
+                            <td className="sol-price-table-data first-data text-start">
+                              BGV Comprehensive
+                            </td>
+                            <td className="sol-price-table-data text-center sol-price-table-qty-area">
+                              <input
+                                type="number"
+                                className="sol-price-table-qty-input"/>
+                            </td>
+                            <td className="sol-price-table-data price text-center">
+                              10
+                            </td>
+                            <td className="text-center last-data sol-price-buy-now-btn-area">
+                              <button className="sol-price-buy-now-btn">
+                                <div className="sol-price-buy-now-btn-sub">
+                                  Buy Now
+                                </div>
+                                <div className="sol-price-buy-now-arrow-area">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#714F36"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <h6 className="sol-price-information">
+                      Beyond this, please contact the Sales department.
+                    </h6>
+                  </div>
+
                 </div>
-              </div> */}
-              {/*  */}
+              </div>
             </div>
           </div>
         </div>
