@@ -6,6 +6,7 @@ import { io } from "socket.io-client";
 import { data } from 'jquery';
 
 const ClientNavBar = ({ notification }) => {
+  const loginId = new URLSearchParams(window.location.search).get('loginId');
   const [token, setToken] = useState("");
   const { getProtectedData } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
@@ -114,6 +115,23 @@ const ClientNavBar = ({ notification }) => {
       
     })
 
+  }, [socket]);
+
+  useEffect(() => {
+    if (loginId) {
+      socket?.emit('join_room', loginId)
+    }
+  }, [loginId, socket]);
+
+  useEffect(() => {
+    socket?.on('receive_message', (data) => {
+      console.log(data);
+      if(data.roomId === loginId){
+        localStorage.removeItem("clientToken");
+        window.location.href = 'https://skillety-frontend-wcth.onrender.com/client-login'
+      }
+      
+    });
   }, [socket]);
 
   const handleClick = (notificationIdArray, redirect) => {

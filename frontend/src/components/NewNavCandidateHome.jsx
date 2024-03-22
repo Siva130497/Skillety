@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { auth } from '../firebase/firebaseConfig';
 import axios from 'axios';
+import io from 'socket.io-client';
+import { v4 as uuidv4 } from "uuid";
 
 export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive, eventsActive, contactActive}) => {
 
@@ -17,6 +19,52 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
     const candidateToken = JSON.parse(localStorage.getItem('candidateToken'));
 
     const [talentJobPostContent, setTalentJobPostContent] = useState([]);
+
+    const [socket, setSocket] = useState(null);
+    const [loginId, setLoginId] = useState("");
+
+
+    useEffect(()=>{
+        if(candidateToken || token){
+            setSocket(io("https://skillety-n6r1.onrender.com"));
+        }
+        
+    },[candidateToken, token]);
+    
+    useEffect(() => {
+        if ((candidateToken || token) && socket) {
+            const id = uuidv4();
+            setLoginId(id);
+          socket?.emit('join_room', id)
+        }
+      }, [candidateToken, token, socket]);
+    
+      const handleLogout = (e) => {
+        e.preventDefault(); // Prevent default anchor tag behavior
+
+        const logoutMsg = {
+            roomId: loginId,
+            message: `Logging out as ${userName}`
+        }
+        socket.emit('send_message', logoutMsg);
+
+
+        if(token){
+          auth.signOut()
+            .then(() => {
+              console.log('User logged out successfully');
+              navigate("/candidate-login")
+            })
+            .catch((error) => {
+              console.error('Error logging out:', error);
+              // Handle logout error if needed
+            });
+        }else{
+          localStorage.removeItem("candidateToken");
+          navigate("/candidate-login")
+        }
+        
+    }
 
     useEffect(()=>{
         axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_2")
@@ -118,25 +166,8 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul className='loged-in'>
-                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/${candidateToken || `firebase:${token}`}`} target='_blank'>Dashboard</a></li>
-                                    <li onClick={(e) => {
-                                        e.preventDefault(); // Prevent default anchor tag behavior
-                                        if(token){
-                                          auth.signOut()
-                                            .then(() => {
-                                              console.log('User logged out successfully');
-                                              navigate("/candidate-login")
-                                            })
-                                            .catch((error) => {
-                                              console.error('Error logging out:', error);
-                                              // Handle logout error if needed
-                                            });
-                                        }else{
-                                          localStorage.removeItem("candidateToken");
-                                          navigate("/candidate-login")
-                                        }
-                                        
-                                    }}><a href='#'>Logout</a></li>
+                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/${candidateToken || `firebase:${token}`}?loginId=${loginId}`} target='_blank'>Dashboard</a></li>
+                                    <li onClick={handleLogout}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> :
                             <li><a href="/candidate-login" className="nav-link scrollto login--btn"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>

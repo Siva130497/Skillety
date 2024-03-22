@@ -32,7 +32,6 @@ export const AuthContextProvider = ({ children }) => {
         setSocket(io("https://skillety-n6r1.onrender.com"));
     },[]);
 
-
     //for show success message for payment
   function showSuccessMessage(message) {
     Swal.fire({

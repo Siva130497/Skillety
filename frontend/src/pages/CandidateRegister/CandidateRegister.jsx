@@ -464,6 +464,7 @@ const CandidateRegister = () => {
 
     const handleManualDesignation = () => {
         setSearchDesignationInput("");
+        setDesignationAlert("")
         const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
         if (foundObject) {
             setDesignationAlert(`Designation "${newDesignation}" already in list, please search`);
