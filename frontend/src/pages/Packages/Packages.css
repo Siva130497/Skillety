@@ -379,10 +379,15 @@
     margin-bottom: 40px;
 }
 
-.sol-price-container .sol-price-area {
+.sol-price-area {
+    margin-top: 100px;
     border-radius: 16px;
-    background-color: #ffffff;
+    background-color: #eeeeee;
     padding: 40px 20px;
+}
+
+.sol-price-table-head-row {
+    background-color: #FFF;
 }
 
 .sol-price-heading {
@@ -391,7 +396,20 @@
     font-size: 30px;
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 0px;
+    margin: 10px 0;
+}
+
+.sol-price-table-qty-input {
+    border: 1px solid #714F36 !important;
+    outline: none !important;
+    background-color: #FFF !important;
+    width: 70px;
+    text-align: center;
+    color: #714F36;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 5px 0;
 }
 
 .sol-price-table {
@@ -461,17 +479,6 @@
 
 .sol-price-table-qty-button:active {
     transform: scale(0.95);
-}
-
-.sol-price-table-qty-input {
-    border: none !important;
-    outline: none !important;
-    background-color: transparent !important;
-    width: 50px;
-    text-align: center;
-    color: #714F36;
-    font-size: 16px;
-    font-weight: 500;
 }
 
 .sol-price-table-qty-area {
@@ -913,5 +920,9 @@
 
 .pl--package-info-area.active {
     border: 3px solid #F9C833;
-    border-bottom-width: 8px;
+    /* border-bottom-width: 8px; */
+}
+
+.no-wrap-false {
+    white-space: unset !important;
 }

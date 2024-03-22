@@ -336,7 +336,7 @@
 }
 
 .tab {
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: display 0.5s ease-in-out;
     display: none;
 }

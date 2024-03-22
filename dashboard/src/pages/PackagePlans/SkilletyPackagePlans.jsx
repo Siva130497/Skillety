@@ -1601,9 +1601,10 @@ const SkilletyPackagePlans = () => {
                                 </select>
                               </td>
 
-                              {/* <td className="sol-price-table-data price text-center">
-                                120
-                              </td> */}
+                              <td className="sol-price-table-data price text-center">
+                                {/* 120 */}
+                                {total.cvViews + total.logins + total.activeJobs}
+                              </td>
 
                               <td className="text-center last-data sol-price-buy-now-btn-area">
                                 <button className="sol-price-buy-now-btn"

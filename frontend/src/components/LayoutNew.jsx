@@ -243,16 +243,17 @@ const LayoutNew = ({ home, aboutUs, searchJob, events, contact }) => {
         <span>Back</span>
       </button> */}
 
-      {!(window.location.pathname === '/candidate-login' || window.location.pathname === '/candiate-register' || window.location.pathname === '/forgot-password/Candidate') &&
+      {/* {!(window.location.pathname === '/candidate-login' || window.location.pathname === '/candiate-register' || window.location.pathname === '/forgot-password/Candidate') && */}
+      {!(window.location.pathname === '/') &&
         <button className="go-back-button-style-2" onClick={handleBackButtonClick}>
           <i className="bi bi-chevron-double-left"></i>
           <span>Back</span>
         </button>
       }
 
-      {!(window.location.pathname === '/candidate-login' || window.location.pathname === '/candiate-register' || window.location.pathname === '/forgot-password/Candidate') &&
+      {/* {!(window.location.pathname === '/candidate-login' || window.location.pathname === '/candiate-register' || window.location.pathname === '/forgot-password/Candidate') && */}
         <RandomChat />
-      }
+      {/* } */}
 
       <a href="#" className="back-to-top candidate d-flex align-items-center justify-content-center">
         <i className="bi bi-chevron-double-up back-to-top-icon"></i>
