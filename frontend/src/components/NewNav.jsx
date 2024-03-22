@@ -6,6 +6,8 @@ import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import io from 'socket.io-client';
+import { v4 as uuidv4 } from "uuid";
 
 const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOActive, contactActive, postJobActive }) => {
     const { getProtectedData } = useContext(AuthContext);
@@ -19,6 +21,9 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
 
     const [employeeId, setEmployeeId] = useState("");
     const [loginClientDetail, setLoginClientDetail] = useState();
+
+    const [socket, setSocket] = useState(null);
+    const [loginId, setLoginId] = useState("");
 
     //for show success message for payment
   function showSuccessMessage(message) {
@@ -41,6 +46,32 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
       confirmButtonText: "OK",
     });
   }
+
+  useEffect(()=>{
+    if(clientToken){
+        setSocket(io("https://skillety-n6r1.onrender.com"));
+    }
+    
+},[clientToken]);
+
+useEffect(() => {
+    if (clientToken && socket) {
+        const id = uuidv4();
+        setLoginId(id);
+      socket?.emit('join_room', id)
+    }
+  }, [clientToken, socket]);
+
+  const handleLogout = () => {
+    const logoutMsg = {
+        roomId: loginId,
+        message: `Logging out as ${userName}`
+    }
+    socket.emit('send_message', logoutMsg);
+
+    localStorage.removeItem("clientToken");
+    navigate("/client-login")
+}
 
     useEffect(() => {
         axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_32,content_34,content_36,content_38,content_40,content_2")
@@ -229,12 +260,8 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
                         {userName ?
                             <li className="dropdown"><a href='#'><span>{extractLastName()}</span><i className="bi bi-chevron-down"></i></a>
                                 <ul className='loged-in'>
-                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${clientToken}`} target='_blank'>Dashboard</a></li>
-                                    <li onClick={() => {
-                                        localStorage.removeItem("clientToken");
-                                        // window.location.reload();
-                                        navigate("/client-login")
-                                    }}><a href='#'>Logout</a></li>
+                                    <li><a href={`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${clientToken}?loginId=${loginId}`} target='_blank'>Dashboard</a></li>
+                                    <li onClick={handleLogout}><a href='#'>Logout</a></li>
                                 </ul>
                             </li> :
                             <li><a className="nav-link scrollto login--btn client" href="/client-login"><i class='bx bx-log-in-circle login--icon me-2'></i>Login</a></li>

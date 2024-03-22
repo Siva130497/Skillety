@@ -86,7 +86,7 @@ const Events = () => {
                                     <h2 data-aos="fade-left">Webinars, Job Fairs, Walk-in Interviews, etc.</h2>
                                 </div>
                             </div>
-                            <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                            {!candidateToken && <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                 <div className="about--card-area">
                                     <div className="card about--card candidate" data-aos="fade-right">
                                         <div className="card--imgicon-area">
@@ -103,7 +103,7 @@ const Events = () => {
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     </div>
 

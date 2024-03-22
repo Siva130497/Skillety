@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { io } from "socket.io-client";
 
 const NavBar = ({ notification }) => {
+  const loginId = new URLSearchParams(window.location.search).get('loginId');
   const navigate = useNavigate()
   const [candToken, setCandToken] = useState("");
   const token = JSON.parse(localStorage.getItem('candidateToken'));
@@ -35,6 +36,35 @@ const NavBar = ({ notification }) => {
       
     })
 
+  }, [socket]);
+
+  useEffect(() => {
+    if (loginId) {
+      socket?.emit('join_room', loginId)
+    }
+  }, [loginId, socket]);
+
+  useEffect(() => {
+    socket?.on('receive_message', (data) => {
+      console.log(data);
+      if(data.roomId === loginId){
+        if(candToken){
+          auth.signOut()
+            .then(() => {
+              console.log('User logged out successfully');
+              window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+            })
+            .catch((error) => {
+              console.error('Error logging out:', error);
+              // Handle logout error if needed
+            });
+        }else{
+          localStorage.removeItem("candidateToken");
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+        }
+      }
+      
+    });
   }, [socket]);
 
   // useEffect(() => {
