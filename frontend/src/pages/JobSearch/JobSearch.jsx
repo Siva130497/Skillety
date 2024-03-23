@@ -403,7 +403,7 @@ const JobSearch = () => {
     // }, [])
 
     useEffect(() => {
-        if (candidateToken) {
+        
             const fetchData = async () => {
                 try {
                     const user = await getProtectedData(candidateToken);
@@ -418,7 +418,7 @@ const JobSearch = () => {
 
             fetchData();
 
-        }
+        
     }, [candidateToken]);
 
     const getPostedjobs = async () => {
@@ -445,7 +445,7 @@ const JobSearch = () => {
         try {
             const response = await axios.get(`https://skillety-n6r1.onrender.com/skill-match-job-Detail/${candidateId}`, {
                 headers: {
-                    Authorization: `Bearer ${candidateToken}`,
+                    Authorization: `Bearer ${candidateToken || candToken}`,
                     Accept: 'application/json'
                 }
             });
@@ -1672,7 +1672,7 @@ const JobSearch = () => {
                                                                             })}
                                                                         </div>
                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                            <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
+                                                                            <a href={(candidateToken || candToken) ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                         </div>
                                                                     </div>
                                                                 </article>
@@ -1736,7 +1736,7 @@ const JobSearch = () => {
                                                                                 })}
                                                                             </div>
                                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                                <a href={candidateToken ? `/job-detail/${job.jobId}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
+                                                                                <a href={(candidateToken || candToken) ? `/job-detail/${job.jobId}` : "/candidate-login"} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
                                                                             </div>
                                                                         </div>
                                                                     </article>
@@ -1792,7 +1792,7 @@ const JobSearch = () => {
                                                                                 })}
                                                                             </div>
                                                                             <div className="job--detail-card-know-more-btn-area">
-                                                                                <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
+                                                                                <a href={(candidateToken || candToken) ? `/job-detail/${job.id}` : "/candidate-login"} className='job--detail-card-know-more-btn'>Know more</a>
                                                                             </div>
                                                                         </div>
                                                                     </article>

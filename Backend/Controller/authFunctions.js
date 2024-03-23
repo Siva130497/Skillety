@@ -2250,7 +2250,7 @@ const forgotPassword = async(req, res) => {
       });
     }else{
       return res.status(404).json({
-        message: "user not found!",
+        error: "user not found!",
       });
     }
   }catch(err) {
@@ -2269,10 +2269,10 @@ const verifying = async(req, res) => {
       if(isMatch){
         return res.status(200).json({ message: 'verification code match' });
       }else{
-        return res.status(404).json({ message: 'verification code failed!' });
+        return res.status(404).json({ error: 'verification code failed!' });
       }
     }else{
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ error: 'User not found' });
     }
   }catch(err) {
     res.status(500).json({error: err.message})
@@ -2320,7 +2320,7 @@ const newPassword = async(req, res) => {
           }
           return res.status(200).json({ message: 'Password updated successfully' });
         }else{
-          return res.status(404).json({ message: 'User not found' });
+          return res.status(404).json({ error: 'User not found' });
         }
   }catch(err) {
     res.status(500).json({error: err.message})
@@ -2665,7 +2665,7 @@ const clientPackageSelection = async (req, res) => {
 
     if (currentActivePackage) {
       if(isTestPackageBought && req.body.packageType === "Test"){
-        return res.status.json({error:"You can buy Test package only once!"})
+        return res.status(400).json({error:"You can buy Test package only once!"})
       }
       // Calculate the days since the package was created
       const createdAtDate = new Date(currentActivePackage.createdAt);
@@ -6091,11 +6091,11 @@ const getDataForClientGraph = async (req, res) => {
             categories: categories,
             series: [
               {
-                name: "PostedActiveJobs",
+                name: "Posted active jobs",
                 data: activePostedJobCounts,
               },
               {
-                name: "AppliedJobs",
+                name: "No of applicants",
                 data: appliedJobCounts,
               },
             ],

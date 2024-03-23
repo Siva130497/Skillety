@@ -11,13 +11,28 @@ import EventPosting from '../../components/EventPosting';
 
 const Events = () => {
     const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
-        videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, } = useContext(AuthContext);
+        videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getProtectedData } = useContext(AuthContext);
 
-    const [candidateToken, setcandidateToken] = useState("");
+        const [candToken, setCandToken] = useState("");
+        const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
 
-    useEffect(() => {
-        setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    }, [candidateToken]);
+        useEffect(() => {
+            
+                const fetchData = async () => {
+                    try {
+                        const user = await getProtectedData();
+                        console.log(user);
+                        setCandToken(user.userToken);
+                    } catch (error) {
+                        console.log(error);
+    
+                    }
+                };
+    
+                fetchData();
+    
+            
+        }, []);
 
     useEffect(() => {
         getEventDetail();
@@ -86,7 +101,7 @@ const Events = () => {
                                     <h2 data-aos="fade-left">Webinars, Job Fairs, Walk-in Interviews, etc.</h2>
                                 </div>
                             </div>
-                            {!candidateToken && <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                            {!(candidateToken || candToken) && <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                 <div className="about--card-area">
                                     <div className="card about--card candidate" data-aos="fade-right">
                                         <div className="card--imgicon-area">
@@ -351,7 +366,7 @@ const Events = () => {
                         }
 
                         {/* let's gets started */}
-                        {!candidateToken &&
+                        {!(candidateToken || candToken) &&
                             <div className="cand--event-login-card pb-4 pb-sm-0 custom-card-mb">
                                 <div className='company-demo-card'>
                                     <div className="company-demo-card-desc-area">

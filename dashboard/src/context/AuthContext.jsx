@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged  } from 'firebase/auth';
@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+  const location = useLocation();
+  // const token = location.state && location.state.accessToken;
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
   const [eventDetail, setEventDetail] = useState([]);

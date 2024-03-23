@@ -15,7 +15,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomeCandidate = () => {
-  const [candidateToken, setcandidateToken] = useState("");
+  const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
+    const { getProtectedData } = useContext(AuthContext);
   const navigate = useNavigate();
   const [candidateHomeContent, setCandidateHomeContent] = useState([]);
   const { eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,
@@ -41,8 +43,22 @@ const HomeCandidate = () => {
   },[])
 
   useEffect(() => {
-    setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-  }, [candidateToken]);
+   
+        const fetchData = async () => {
+            try {
+                const user = await getProtectedData();
+                console.log(user);
+                setCandToken(user.userToken);
+            } catch (error) {
+                console.log(error);
+
+            }
+        };
+
+        fetchData();
+
+    
+}, []);
 
   const getPostedjobs = async () => {
     try {
@@ -434,7 +450,7 @@ const HomeCandidate = () => {
                   </div>
                 </div>
 
-                {!candidateToken &&
+                {!(candidateToken || candToken) &&
                   <div className="home--card-area">
                     <div className="row">
                       <div className="col-xl-9 col-xxl-9 col-lg-12 col-md-12 offset-xl-3 offset-xxl-3">
@@ -752,7 +768,7 @@ const HomeCandidate = () => {
                         Scroll to view more...
                       </span> */}
                     </div>
-                    <a href={candidateToken ? `/job-detail/${job.id}` : `/candidate-login`} className="cand--job-card-bottom-area">
+                    <a href={(candidateToken || candToken) ? `/job-detail/${job.id}` : `/candidate-login`} className="cand--job-card-bottom-area">
                       <span className='cand--job-know-more'>KNOW MORE</span>
                       <span className='cand--job-card-arrow-area'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
@@ -1215,7 +1231,7 @@ const HomeCandidate = () => {
         </section>
       }
 
-      {!candidateToken &&
+      {!(candidateToken || candToken) &&
         <div className='container-fluid home--section candidate register'>
           <div className='container-fluid container-section'>
             <section className='register--section candidate'>

@@ -11,7 +11,10 @@ import axios from 'axios'
 import { useState } from 'react';
 
 const Company = () => {
-    const [candidateToken, setcandidateToken] = useState("");
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
+    const { getProtectedData } = useContext(AuthContext);
+
     const { getClientImg, clientImg } = useContext(AuthContext);
     const [allJobs, setAllJobs] = useState([]);
     const [allCompany, setAllCompany] = useState([])
@@ -53,8 +56,23 @@ const Company = () => {
     }, []);
 
     useEffect(() => {
-        setcandidateToken(JSON.parse(localStorage.getItem('candidateToken')))
-    }, [candidateToken]);
+       
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData();
+                    console.log(user);
+                    setCandToken(user.userToken);
+                } catch (error) {
+                    console.log(error);
+
+                }
+            };
+
+            fetchData();
+
+        
+    }, []);
+
 
     return (
         <div>
@@ -154,7 +172,7 @@ const Company = () => {
                             </div>
                         </div>
 
-                        {!candidateToken &&
+                        {!(candidateToken || candToken) &&
                             <div className="company-demo-card-area">
                                 <div className='company-demo-card'>
                                     <div className="company-demo-card-desc-area">

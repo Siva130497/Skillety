@@ -6,6 +6,8 @@ import './Verification.css';
 import './Verification-responsive.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 const ForgotPassword = () => {
     let { role } = useParams();
@@ -25,6 +27,28 @@ const ForgotPassword = () => {
     const [step, setStep] = useState(1);
 
     let updatedCredentials;
+
+      //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: 'Error!',
+      text: message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+    });
+  }
 
     useEffect(() => {
     
@@ -61,6 +85,7 @@ const ForgotPassword = () => {
             }
         } catch (error) {
             console.log(error);
+            showErrorMessage(error.response.data.error);
         }
     };
 
@@ -79,9 +104,11 @@ const ForgotPassword = () => {
                 setStep(3);
             } else {
                 console.log(result);
+                showErrorMessage(result);
             }
         } catch (error) {
             console.log(error);
+            showErrorMessage(error.response.data.error);
         }
     };
 
@@ -97,12 +124,22 @@ const ForgotPassword = () => {
 
             if (result.message === "Password updated successfully") {
                 console.log(result);
-                role === "Client" ? navigate("/client-login") : role === "Candidate" ? navigate("/candidate-login") : navigate("/admin-login")
+                await new Promise(() => {
+                    Swal.fire({
+                        title: '',
+                        text: 'Your password has been reset',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'OK',
+                    }).then(() => {
+                        role === "Client" ? navigate("/client-login") : role === "Candidate" ? navigate("/candidate-login") : navigate("/admin-login")
+                    });
+                })
             } else {
                 console.log(result);
             }
         } catch (error) {
-            console.log(error);
+            showErrorMessage(error.response.data.error);
         }
     };
 
@@ -187,10 +224,10 @@ const ForgotPassword = () => {
             if (credentials.password === credentials.confirmPassword) {
                 changePassword(updatedCredentials);
             } else {
-                alert("confirm password doesn't match with your new password")
+                showErrorMessage("confirm password doesn't match with your new password")
             }
         } else {
-            alert("Password must be 8 characters long")
+            showErrorMessage("Password must be 8 characters long")
         }
     }
 
