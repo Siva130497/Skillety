@@ -172,7 +172,7 @@ const ClientSidebar = () => {
 
                     <div className='hr-line'></div>
                     <li className="dropdown" id='main'>
-                        <a href="https://skillety-frontend-wcth.onrender.com" className="nav-link"><i data-feather="arrow-left"></i><span>Go to website</span></a>
+                        <a href="https://skillety-frontend-wcth.onrender.com/client-home" className="nav-link"><i data-feather="arrow-left"></i><span>Go to website</span></a>
                     </li>
                     <div className='hr-line'></div>
 

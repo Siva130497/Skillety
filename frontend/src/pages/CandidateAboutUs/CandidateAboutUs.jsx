@@ -7,9 +7,15 @@ import { CandidateFooter } from '../../components/CandidateFooter';
 import LayoutNew from '../../components/LayoutNew';
 import axios from 'axios';
 import { useState } from 'react';
+import { useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 const CandidateAboutUs = () => {
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
     const [candidateAboutContent, setCandidateAboutContent] = useState([]);
+    const { getProtectedData } = useContext(AuthContext);
+
     useEffect(()=>{
         axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_13,content_14,content_15,content_16")
         .then(res=>{
@@ -17,6 +23,24 @@ const CandidateAboutUs = () => {
           setCandidateAboutContent(res.data);
         }).catch(err=>console.log(err));
       },[])
+
+      useEffect(() => {
+        
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData(candidateToken);
+                    console.log(user);
+                    setCandToken(user.userToken);
+                } catch (error) {
+                    console.log(error);
+
+                }
+            };
+
+            fetchData();
+
+        
+    }, [candidateToken]);
 
     return (
         <div>
@@ -41,7 +65,7 @@ const CandidateAboutUs = () => {
                                             "It’s Time to Make Skillety Work for You"}</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                {!(candToken || candidateToken) && <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
                                     <div className="about--card-area">
                                         <div className="card about--card candidate" data-aos="fade-right">
                                             <div className="card--imgicon-area">
@@ -58,7 +82,7 @@ const CandidateAboutUs = () => {
                                             </a>
                                         </div>
                                     </div>
-                                </div>
+                                </div>}
                             </div>
                         </div>
                         <div className='con--where-section'>

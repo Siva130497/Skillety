@@ -30,13 +30,13 @@ const SettingsClient = () => {
         confirmPassword: "",
     })
 
-    useEffect(() => {
-        setUserInfo({
-            ...userInfo,
-            email: loginClientDetail?.email,
-            phone: loginClientDetail?.phone,
-        })
-    }, [loginClientDetail])
+    // useEffect(() => {
+    //     setUserInfo({
+    //         ...userInfo,
+    //         email: loginClientDetail?.email,
+    //         phone: loginClientDetail?.phone,
+    //     })
+    // }, [loginClientDetail])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -305,7 +305,7 @@ const SettingsClient = () => {
                 console.log(res.data)
                 if (!res.data.error) {
                     showSuccessMessage("Phone number has been successfully updated.");
-                    setUserInfo(prevUserInfo => ({ ...prevUserInfo, phone: "" }));
+                    setUserInfo({ ...userInfo, phone: "" });
                     getLoginClientDetail();
                 }
             })
@@ -527,7 +527,9 @@ const SettingsClient = () => {
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' name='phone' value={userInfo.phone} onChange={handleInputChange} />
+                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' name='phone'
+                                                             value={userInfo.phone} 
+                                                             onChange={handleInputChange} />
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>

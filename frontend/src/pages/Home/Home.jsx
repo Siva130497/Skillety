@@ -21,7 +21,7 @@ import "sweetalert2/dist/sweetalert2.css";
 
 
 const Home = () => {
-
+  // const fromLogout = new URLSearchParams(window.location.search).get('param');
   const navigate = useNavigate();
   const [talentHomeContent, setTalentHomeContent] = useState([]);
   const [clientLogos, setClientLogos] = useState([]);
@@ -44,6 +44,12 @@ const Home = () => {
 
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
+
+  // useEffect(()=>{
+  //   if(fromLogout){
+  //     navigate("/client-login");
+  //   }
+  // },[fromLogout])
 
   useEffect(() => {
     if (employeeId) {
@@ -375,7 +381,7 @@ const Home = () => {
 
     const skills = skillsObj.map(skill=>skill.skill);
     const jobRoles = jobRolesObj.map(jobRole=>jobRole.designation);
-
+    
     function combineArraysUnique(arr1, arr2) {
         const combinedSet = new Set([...arr1, ...arr2]);
         return Array.from(combinedSet);

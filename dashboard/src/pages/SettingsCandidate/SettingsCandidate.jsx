@@ -200,6 +200,16 @@ const SettingsCandidate = () => {
             })
     }
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "phone" && value.length === 13) {
+            return;
+        }
+
+        setUserInfo({ ...userInfo, [name]: value });
+    };
+
     const handlePhoneUpdate = () => {
         const userData = {
             id: candidateDetail.id,
@@ -437,7 +447,17 @@ const SettingsCandidate = () => {
                                                 <div className={`change-input-area ${isMobileExpanded ? 'expanded' : ''}`}>
                                                     <div className="row">
                                                         <div className="col-12 col-xl-5 col-lg-5 col-md-6 d-flex align-items-center gap-10 mt-4 mb-2">
-                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
+                                                            <input type="number" className='change-setting-input' placeholder='Change Mobile Number' 
+                                                            // onChange={(e) => {
+                                                            //     const inputValue = e.target.value;
+                                                            //     if (inputValue.length <= 12) {
+                                                            //         setUserInfo({ ...userInfo, phone: inputValue });
+                                                            //     }
+                                                            // }}  
+                                                            name='phone'
+                                                            value={userInfo.phone}
+                                                            onChange={handleInputChange}
+                                                            /> 
                                                             <button className='setting-update-btn' onClick={handlePhoneUpdate}>Update</button>
                                                         </div>
                                                     </div>

@@ -9,19 +9,37 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ErrorPage from '../../404/404';
+import { useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 const CompanyDetails = () => {
     const { id } = useParams()
     const [jobs, setJobs] = useState([]);
-    const [candidateToken, setCandidateToken] = useState("");
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
+    const { getProtectedData } = useContext(AuthContext);
     const [companyDetail, setCompanyDetail] = useState();
 
     const [loading, setLoading] = useState(true);
     const [pageNotFound, setPageNotFound] = useState(false);
 
     useEffect(() => {
-        setCandidateToken(JSON.parse(localStorage.getItem("candidateToken")))
-    }, [candidateToken])
+       
+            const fetchData = async () => {
+                try {
+                    const user = await getProtectedData();
+                    console.log(user);
+                    
+                    setCandToken(user.userToken);
+                } catch (error) {
+                    console.log(error);
+
+                }
+            };
+
+            fetchData();
+
+    }, []);
 
     useEffect(() => {
         axios.get(`https://skillety-n6r1.onrender.com/my-active-jobs/${id}`)
@@ -243,7 +261,7 @@ const CompanyDetails = () => {
                                                         </div>
                                                     </div> */}
                                                                 <div className="company--detail-card-apply-btn-area">
-                                                                    <a href={candidateToken ? `/job-detail/${job.id}` : "/candidate-login"} className='company--detail-card-apply-btn'>
+                                                                    <a href={(candidateToken || candToken) ? `/job-detail/${job.id}` : "/candidate-login"} className='company--detail-card-apply-btn'>
                                                                         <div className='company--detail-card-apply-btn-sub'>
                                                                             Apply Now
                                                                         </div>

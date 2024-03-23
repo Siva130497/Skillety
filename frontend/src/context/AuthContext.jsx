@@ -10,6 +10,7 @@ import { useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
+  const fromLogout = new URLSearchParams(window.location.search).get('param');
     const navigate = useNavigate();
     const location = useLocation()
     const [errorMsg, setErrorMsg] = useState("");
@@ -69,12 +70,12 @@ export const AuthContextProvider = ({children}) => {
                 } else if (userData[1] === "login-Candidate") {
                     localStorage.setItem("candidateToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/${result.accessToken}`, '_blank');
-                    location.state ? navigate("/") : navigate(-1);
+                    (location.state || fromLogout) ? navigate("/") : navigate(-1);
                 } else if (userData[1] === "login-Client") {
                     localStorage.setItem("clientToken",  JSON.stringify(result.accessToken));
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/client-dashboard/${result.accessToken}`, '_blank');
                     // window.open(`https://skillety-dashboard-tk2y.onrender.com/post-job/${result.accessToken}`, '_blank');
-                    location.state ? navigate("/client-home") : navigate(-1);
+                    (location.state || fromLogout) ? navigate("/client-home") : navigate(-1);
                     
                 }
                 

@@ -242,7 +242,7 @@ const NavBar = ({ notification }) => {
       auth.signOut()
         .then(() => {
           console.log('User logged out successfully');
-          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+          window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login?param=logout'
         })
         .catch((error) => {
           console.error('Error logging out:', error);
@@ -250,7 +250,7 @@ const NavBar = ({ notification }) => {
         });
     }else{
       localStorage.removeItem("candidateToken");
-      window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
+      window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login?param=logout'
     }
   } 
 
