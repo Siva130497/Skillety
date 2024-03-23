@@ -32,6 +32,12 @@
     color: #FFF !important;
 }
 
+.send-email-btn:disabled {
+    border-color: #797979 !important;
+    background: #eeeeee !important;
+    cursor: not-allowed !important;
+  }
+
 .view-det-head {
     color: #714F36;
     font-size: 14px;

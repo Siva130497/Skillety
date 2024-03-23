@@ -416,6 +416,7 @@ const AllClients = () => {
             }
         } catch (error) {
             console.log(error);
+            showErrorMessage(error.response.data.error);
         }
     };
 
@@ -695,9 +696,10 @@ const AllClients = () => {
                                                                             }
                                                                         </td>}
                                                                         {selectedColumns?.includes("Send Email") && <td className='dash-table-data1 text-left'>
-                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client.id)}>
+                                                                            <button className='send-email-btn' onClick={() => handleGeneratePasswordAndTempUrl(client.id)}
+                                                                            disabled={RegisteredUser}>
                                                                                 <i class="bi bi-send-fill send-icon"></i>
-                                                                                {commonEmails.includes(client.email) ? "Resend" : "Send"}
+                                                                                {(commonEmails.includes(client.email) && RegisteredUser) ? "User Registered" : commonEmails.includes(client.email) ? "Resend" : "Send"}
                                                                             </button>
                                                                         </td>}
                                                                         {selectedColumns?.includes("Mobile Number") &&
