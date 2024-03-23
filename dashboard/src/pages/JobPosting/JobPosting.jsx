@@ -1378,7 +1378,7 @@ const JobPosting = () => {
                       <div className="col-12 col-xl-8">
                         <div className="job-post-form-group">
                           <label htmlFor="" className='job-post-form-label mb-1'>Job description</label>
-                          <div className='job-post-form-sub-label'>Write your Job Description here or Copy and Paste your JD here.
+                          <div className='job-post-form-sub-label'>Write your job description here or copy and paste your JD here.
                             {/* <button className='paste-btn' id="paste-button">
                               Paste your JD
                             </button> */}

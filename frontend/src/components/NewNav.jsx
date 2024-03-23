@@ -71,6 +71,7 @@ useEffect(() => {
 
     localStorage.removeItem("clientToken");
     navigate("/client-login")
+    showSuccessMessage("You have been logged out successfully. See you soon")
 }
 
     useEffect(() => {

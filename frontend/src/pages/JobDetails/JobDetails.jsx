@@ -18,7 +18,8 @@ const JobDetails = () => {
   const [job, setJob] = useState();
   const [clientCompanyName, setClientCompanyName] = useState("");
   const [applicants, setApplicants] = useState("");
-  const [candidateToken, setCandidateToken] = useState("");
+  const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
   const { getProtectedData, getClientImg, clientImg } = useContext(AuthContext);
   const [candidateId, setCandidateId] = useState("");
   const [companyImg, setCompanyImg] = useState();
@@ -71,26 +72,25 @@ const JobDetails = () => {
     });
   }
 
+  
   useEffect(() => {
-    setCandidateToken(JSON.parse(localStorage.getItem("candidateToken")));
-  }, [candidateToken]);
+    
+        const fetchData = async () => {
+            try {
+                const user = await getProtectedData(candidateToken);
+                console.log(user);
+                setCandidateId(user.id || user?.responseData.uid);
+                setCandToken(user.userToken);
+            } catch (error) {
+                console.log(error);
 
-  useEffect(() => {
-    if (candidateToken) {
-      const fetchData = async () => {
-        try {
-          const user = await getProtectedData(candidateToken);
-          console.log(user);
-          setCandidateId(user.id || user.uid);
-          getClientImg();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+            }
+        };
 
-      fetchData();
-    }
-  }, [candidateToken]);
+        fetchData();
+
+    
+}, [candidateToken]);
 
   //get candidate applied jobs
   const getAppliedjobs = async () => {
@@ -99,7 +99,7 @@ const JobDetails = () => {
         `https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`,
         {
           headers: {
-            Authorization: `Bearer ${candidateToken}`,
+            Authorization: `Bearer ${candidateToken || candToken}`,
             Accept: "application/json",
           },
         }
@@ -121,7 +121,7 @@ const JobDetails = () => {
     try {
       const res = await axios.post("https://skillety-n6r1.onrender.com/job-applying", job, {
         headers: {
-          Authorization: `Bearer ${candidateToken}`,
+          Authorization: `Bearer ${candidateToken || candToken}`,
           Accept: "application/json",
         },
       });
@@ -154,7 +154,7 @@ const JobDetails = () => {
         `https://skillety-n6r1.onrender.com/delete-job/${candidateId}/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${candidateToken}`,
+            Authorization: `Bearer ${candidateToken || candToken}`,
             Accept: "application/json",
           },
         }

@@ -7,6 +7,8 @@ import { auth } from '../firebase/firebaseConfig';
 import axios from 'axios';
 import io from 'socket.io-client';
 import { v4 as uuidv4 } from "uuid";
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive, eventsActive, contactActive}) => {
 
@@ -23,6 +25,28 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
     const [socket, setSocket] = useState(null);
     const [loginId, setLoginId] = useState("");
 
+
+        //for show success message for payment
+  function showSuccessMessage(message) {
+    Swal.fire({
+      title: "Success!",
+      text: message,
+      icon: "success",
+      confirmButtonColor: "#3085d6",
+      confirmButtonText: "OK",
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: "",
+      text: message,
+      icon: "error",
+      confirmButtonColor: "#d33",
+      confirmButtonText: "OK",
+    });
+  }
 
     useEffect(()=>{
         if(candidateToken || token){
@@ -54,6 +78,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
             .then(() => {
               console.log('User logged out successfully');
               navigate("/candidate-login")
+              showSuccessMessage("You have been logged out successfully. See you soon")
             })
             .catch((error) => {
               console.error('Error logging out:', error);
@@ -62,6 +87,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
         }else{
           localStorage.removeItem("candidateToken");
           navigate("/candidate-login")
+          showSuccessMessage("You have been logged out successfully. See you soon")
         }
         
     }
