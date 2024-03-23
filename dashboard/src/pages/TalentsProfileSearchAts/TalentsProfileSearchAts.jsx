@@ -775,11 +775,11 @@ const TalentsProfileSearchAts = () => {
     };
 
     const handleSkillSearch = () => {
-        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr 
+        if (checkBoxfilters.length > 0 || selectedResults.length > 0 || selectedLocationResults.length > 0 || (filters.minExperienceYr
             // && filters.minExperienceMonth
-            ) || (filters.maxExperienceYr 
+        ) || (filters.maxExperienceYr
                 // && filters.maxExperienceMonth
-                ) || filters.currencyType && (filters.minSalary || filters.maxSalary)
+            ) || filters.currencyType && (filters.minSalary || filters.maxSalary)
             || selectedEducationResults.length > 0
             // || selectedRoleResults.length > 0 
             // || filters.industry 
@@ -985,38 +985,38 @@ const TalentsProfileSearchAts = () => {
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.minExperienceYr 
+                    if (filters.minExperienceYr
                         // && filters.minExperienceMonth
-                        && filters.maxExperienceYr 
+                        && filters.maxExperienceYr
                         // && filters.maxExperienceMonth
-                        ) {
-                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr 
+                    ) {
+                        return (candidate.year >= filters.minExperienceYr && candidate.year <= filters.maxExperienceYr
                             // && candidate.month >= filters.minExperienceMonth && candidate.month <= filters.maxExperienceMonth
-                            );
+                        );
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (filters.minExperienceYr 
+                    if (filters.minExperienceYr
                         // && filters.minExperienceMonth 
-                        && !filters.maxExperienceYr 
+                        && !filters.maxExperienceYr
                         // && !filters.maxExperienceMonth
-                        ) {
-                        return (candidate.year >= filters.minExperienceYr 
+                    ) {
+                        return (candidate.year >= filters.minExperienceYr
                             // && candidate.month >= filters.minExperienceMonth
-                            );
+                        );
                     }
                     return true;
                 })
                 .filter(candidate => {
-                    if (!filters.minExperienceYr 
+                    if (!filters.minExperienceYr
                         // && !filters.minExperienceMonth 
-                        && filters.maxExperienceYr 
+                        && filters.maxExperienceYr
                         // && filters.maxExperienceMonth
-                        ) {
-                        return (candidate.year <= filters.maxExperienceYr 
+                    ) {
+                        return (candidate.year <= filters.maxExperienceYr
                             // && candidate.month <= filters.maxExperienceMonth
-                            );
+                        );
                     }
                     return true;
                 })
@@ -1415,7 +1415,7 @@ const TalentsProfileSearchAts = () => {
                                             <div className="cli-tal-pro-search-container">
                                                 <div className="row">
                                                     <div className="col-12 col-lg-12 col-xl-6 col-md-12">
-                                                        <h4 className='cli-tal-pro-search-heading'>Search Candidate</h4>
+                                                        <h4 className='cli-tal-pro-search-heading'>Search Talent</h4>
                                                     </div>
                                                     <p className='tal-head-desc'>Welcome to the Talent Search page at Skillety! Dive into a realm where exceptional talent meets opportunity. Our algorithms are tuned in a different way that it gives you accuracy by match percentage and Notice Period duration. Explore, discover, and connect with the talent that transforms visions into realities. Your journey to extraordinary possibilities begins here! </p>
                                                 </div>
@@ -1434,10 +1434,10 @@ const TalentsProfileSearchAts = () => {
                                                                     <div class="cli-tal-pro-search-filter-title-area">
                                                                         <div class='info-icon-area'>
                                                                             <h6 class='cli-tal-pro-search-filter-title'>Notice period / Availability to join</h6>
-                                                                            <button class='info-icon-button'>
+                                                                            {/* <button class='info-icon-button'>
                                                                                 <i class="bi bi-info-circle info-icon"></i>
                                                                             </button>
-                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div>
+                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div> */}
                                                                         </div>
                                                                     </div>
                                                                     <div className="tal--search-options-area">
@@ -1692,13 +1692,45 @@ const TalentsProfileSearchAts = () => {
                                                                                 <option value="8">8</option>
                                                                                 <option value="9">9</option>
                                                                                 <option value="10">10</option>
+                                                                                <option value="11">11</option>
+                                                                                <option value="12">12</option>
+                                                                                <option value="13">13</option>
+                                                                                <option value="14">14</option>
                                                                                 <option value="15">15</option>
+                                                                                <option value="16">16</option>
+                                                                                <option value="17">17</option>
+                                                                                <option value="18">18</option>
+                                                                                <option value="19">19</option>
                                                                                 <option value="20">20</option>
+                                                                                <option value="21">21</option>
+                                                                                <option value="22">22</option>
+                                                                                <option value="23">23</option>
+                                                                                <option value="24">24</option>
                                                                                 <option value="25">25</option>
+                                                                                <option value="26">26</option>
+                                                                                <option value="27">27</option>
+                                                                                <option value="28">28</option>
+                                                                                <option value="29">29</option>
                                                                                 <option value="30">30</option>
+                                                                                <option value="31">31</option>
+                                                                                <option value="32">32</option>
+                                                                                <option value="33">33</option>
+                                                                                <option value="34">34</option>
                                                                                 <option value="35">35</option>
+                                                                                <option value="36">36</option>
+                                                                                <option value="37">37</option>
+                                                                                <option value="38">38</option>
+                                                                                <option value="39">39</option>
                                                                                 <option value="40">40</option>
+                                                                                <option value="41">41</option>
+                                                                                <option value="42">42</option>
+                                                                                <option value="43">43</option>
+                                                                                <option value="44">44</option>
                                                                                 <option value="45">45</option>
+                                                                                <option value="46">46</option>
+                                                                                <option value="47">47</option>
+                                                                                <option value="48">48</option>
+                                                                                <option value="49">49</option>
                                                                                 <option value="50">50</option>
                                                                             </select>
                                                                         </div>
@@ -1720,13 +1752,45 @@ const TalentsProfileSearchAts = () => {
                                                                                 <option value="8">8</option>
                                                                                 <option value="9">9</option>
                                                                                 <option value="10">10</option>
+                                                                                <option value="11">11</option>
+                                                                                <option value="12">12</option>
+                                                                                <option value="13">13</option>
+                                                                                <option value="14">14</option>
                                                                                 <option value="15">15</option>
+                                                                                <option value="16">16</option>
+                                                                                <option value="17">17</option>
+                                                                                <option value="18">18</option>
+                                                                                <option value="19">19</option>
                                                                                 <option value="20">20</option>
+                                                                                <option value="21">21</option>
+                                                                                <option value="22">22</option>
+                                                                                <option value="23">23</option>
+                                                                                <option value="24">24</option>
                                                                                 <option value="25">25</option>
+                                                                                <option value="26">26</option>
+                                                                                <option value="27">27</option>
+                                                                                <option value="28">28</option>
+                                                                                <option value="29">29</option>
                                                                                 <option value="30">30</option>
+                                                                                <option value="31">31</option>
+                                                                                <option value="32">32</option>
+                                                                                <option value="33">33</option>
+                                                                                <option value="34">34</option>
                                                                                 <option value="35">35</option>
+                                                                                <option value="36">36</option>
+                                                                                <option value="37">37</option>
+                                                                                <option value="38">38</option>
+                                                                                <option value="39">39</option>
                                                                                 <option value="40">40</option>
+                                                                                <option value="41">41</option>
+                                                                                <option value="42">42</option>
+                                                                                <option value="43">43</option>
+                                                                                <option value="44">44</option>
                                                                                 <option value="45">45</option>
+                                                                                <option value="46">46</option>
+                                                                                <option value="47">47</option>
+                                                                                <option value="48">48</option>
+                                                                                <option value="49">49</option>
                                                                                 <option value="50">50</option>
                                                                             </select>
                                                                         </div>
@@ -1812,7 +1876,7 @@ const TalentsProfileSearchAts = () => {
                                                                 </div>
                                                                 <div className="cli-tal-pro-search-filter-content">
                                                                     <div className="cli-tal-pro-search-filter-title-area">
-                                                                        <h6 className='cli-tal-pro-search-filter-title'>Current or Preferred location of candidate</h6>
+                                                                        <h6 className='cli-tal-pro-search-filter-title'>Current or Preferred location of talent</h6>
                                                                     </div>
 
                                                                     {selectedLocationResults.length > 0 && (
@@ -1877,25 +1941,49 @@ const TalentsProfileSearchAts = () => {
                                                                                 value={filters.minSalary}
                                                                                 onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                         </div>
-                                                                        <span className='cli-tal-pro-exp-input-text'>to</span>
+                                                                        {/* <span className='cli-tal-pro-exp-input-text'>to</span> */}
                                                                         <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max salary'
                                                                             value={filters.maxSalary}
                                                                             onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
                                                                         {/* <span className='cli-tal-pro-exp-input-text'>laks</span> */}
                                                                     </div>
-                                                                    <div className="cli--mark-keyword-area">
+                                                                    {/* <div className="cli--mark-keyword-area">
                                                                         <label className="cli--mark-keyword-check-input">
                                                                             <input type="checkbox" />
                                                                             <span className="cli--mark-keyword-checkmark"></span>
                                                                             Include candidate  who did not mention their current salary
                                                                         </label>
+                                                                    </div> */}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="cli-tal-pro-search-filter-content-section">
+                                                                <div className="cli-tal-pro-search-filter-toggle-area">
+                                                                    <h6 className='cli--emploment-detail-head'>Employment details</h6>
+                                                                    {/* <i class="bi bi-chevron-down"></i> */}
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
+                                                                        <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
+                                                                    </svg>
+                                                                </div>
+                                                                <div className="cli-tal-pro-search-filter-expand-area">
+                                                                    <div className='expand-area-padding'>
+                                                                        <div className="cli-tal-search-filter-form-group">
+                                                                            <div className="cli-tal-search-filter-form-label-area">
+                                                                                <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
+                                                                            </div>
+                                                                            <div className="cli-tal-pro-search-filter-input-area">
+                                                                                <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add company name'
+                                                                                    value={filters.company}
+                                                                                    onChange={(e) => setFilters({ ...filters, company: e.target.value })} />
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
                                                             <div className="cli-tal-pro-search-filter-content-section">
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
-                                                                    <h6 className='cli--emploment-detail-head'>Employment & Educational details</h6>
+                                                                    <h6 className='cli--emploment-detail-head'>Educational details</h6>
                                                                     {/* <i class="bi bi-chevron-down"></i> */}
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
                                                                         <path d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1" stroke="#714F36" stroke-width="2" stroke-linecap="round" />
@@ -1920,7 +2008,7 @@ const TalentsProfileSearchAts = () => {
                                                                             )}
 
                                                                             <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Enter education'
+                                                                                <input type="search" name='department' className='cli-tal-pro-search-filter-input' placeholder='Enter educational details'
                                                                                     value={filters.education}
                                                                                     onChange={handleEducationSearch} />
                                                                                 <div className='search-result-data-area'>
@@ -1938,116 +2026,6 @@ const TalentsProfileSearchAts = () => {
                                                                             </div>
                                                                         </div>
 
-                                                                        {/* <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
-                                                                            </div>
-
-                                                                            {selectedRoleResults.length > 0 && (
-                                                                                <div className='job-post-form-badge-area'>
-                                                                                    {selectedRoleResults.map(selectResult => (
-                                                                                        <span className="job-post-form-badge tal-search"
-                                                                                            key={selectResult}
-                                                                                            onClick={() => handleDeselectRole(selectResult)}
-                                                                                        >{selectResult}</span>
-                                                                                    ))}
-                                                                                </div>
-                                                                            )}
-
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="search" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
-                                                                                    value={filters.role}
-                                                                                    onChange={handleRoleSearch} />
-                                                                                <div className='search-result-data-area'>
-                                                                                    {filteredRole.length > 0 &&
-                                                                                        filteredRole.map((filterResult) => (
-                                                                                            <div
-                                                                                                className='search-result-data'
-                                                                                                key={filterResult._id}
-                                                                                                onClick={() => handleFilteredRoleClick(filterResult.role)}
-                                                                                            >
-                                                                                                {filterResult.role}
-                                                                                            </div>
-                                                                                        ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
-                                                                            </div>
-
-                                                                            {selectedIndustryResults.length > 0 && (
-                                                                                <div className='job-post-form-badge-area'>
-                                                                                    {selectedIndustryResults.map(selectResult => (
-                                                                                        <span className="job-post-form-badge tal-search"
-                                                                                            key={selectResult}
-                                                                                            onClick={() => handleDeselectIndustry(selectResult)}
-                                                                                        >{selectResult}</span>
-                                                                                    ))}
-                                                                                </div>
-                                                                            )}
-
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="search" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
-                                                                                    value={filters.industry}
-                                                                                    onChange={handleIndustrySearch} />
-                                                                                <div className='search-result-data-area'>
-                                                                                    {filteredIndustry.length > 0 &&
-                                                                                        filteredIndustry.map((filterResult) => (
-                                                                                            <div
-                                                                                                className='search-result-data'
-                                                                                                key={filterResult._id}
-                                                                                                onClick={() => handleFilteredIndustryClick(filterResult.industry)}
-                                                                                            >
-                                                                                                {filterResult.industry}
-                                                                                            </div>
-                                                                                        ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        </div> */}
-                                                                        <div className="cli-tal-search-filter-form-group">
-                                                                            <div className="cli-tal-search-filter-form-label-area">
-                                                                                <label htmlFor="company" className='cli-tal-search-filter-form-label'>Company</label>
-                                                                                {/* <div class="cl-toggle-switch">
-                                                                            <label class="cl-switch">
-                                                                                <input type="checkbox" id="toggletoSwitch1" />
-                                                                                <span></span>
-                                                                            </label>
-                                                                            <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
-                                                                        </div> */}
-                                                                            </div>
-                                                                            {/* <div className='cli--tal-pro-badge-area mb-4'>
-                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                            <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        </div> */}
-                                                                            <div className="cli-tal-pro-search-filter-input-area">
-                                                                                <input type="text" name='company' className='cli-tal-pro-search-filter-input' placeholder='Add company name'
-                                                                                    value={filters.company}
-                                                                                    onChange={(e) => setFilters({ ...filters, company: e.target.value })} />
-                                                                                {/* <div className='tal-pro-search-result-data-area'>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 1</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 2</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 3</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 4</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 5</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 6</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 7</div>
-                                                                                <div className='tal-pro-search-result-data'>Search Result 8</div>
-                                                                            </div> */}
-                                                                            </div>
-                                                                            {/* <div id="container" className='multi-input-container'>
-                                                                                <div className="cli--tal-search-add-input-area mt-3">
-                                                                                    <button className='cli--tal-search-add-input-button'>
-                                                                                        <i class="bi bi-plus add-input-icon"></i>
-                                                                                        Add Exclude Company
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div> */}
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2735,10 +2713,10 @@ const TalentsProfileSearchAts = () => {
                                                                 <div className="cli-tal-pro-search-filter-toggle-area">
                                                                     <div class='info-icon-area'>
                                                                         <h6 className='cli--emploment-detail-head'>Notice period / Availability to join
-                                                                            <button class='info-icon-button ml-2'>
+                                                                            {/* <button class='info-icon-button ml-2'>
                                                                                 <i class="bi bi-info-circle info-icon"></i>
                                                                             </button>
-                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div>
+                                                                            <div class="tooltip">This is the information about the notice period & availability to join.</div> */}
                                                                         </h6>
                                                                     </div>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" className='' width="15" height="9" viewBox="0 0 15 9" fill="none">
@@ -2826,7 +2804,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 Mark all keywords as mandatory
                                                                             </label>
                                                                         </div>
-                                                                        <div id="container1" className='multi-input-container'>
+                                                                        {/* <div id="container1" className='multi-input-container'>
                                                                             <div className="cli--tal-search-add-input-area mt-3">
                                                                                 <button className='cli--tal-search-keyword-add-input-button'>
                                                                                     <i class="bi bi-plus add-input-icon"></i>
@@ -2841,7 +2819,7 @@ const TalentsProfileSearchAts = () => {
                                                                                     Add IT Skills
                                                                                 </button>
                                                                             </div>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2879,7 +2857,7 @@ const TalentsProfileSearchAts = () => {
                                                                         <div className="cli-tal-pro-search-filter-input-area">
                                                                             <input type="text" className='cli-tal-pro-search-filter-input' placeholder='Add location' />
                                                                         </div>
-                                                                        <div className="cli--mark-keyword-area search-results">
+                                                                        {/* <div className="cli--mark-keyword-area search-results">
                                                                             <label className="cli--mark-keyword-check-input">
                                                                                 <input type="checkbox" />
                                                                                 <span className="cli--mark-keyword-checkmark"></span>
@@ -2893,7 +2871,7 @@ const TalentsProfileSearchAts = () => {
                                                                                 <span className="cli--mark-keyword-checkmark"></span>
                                                                                 Exclude candidate  who have mentioned Anywhere in ...
                                                                             </label>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2923,13 +2901,13 @@ const TalentsProfileSearchAts = () => {
                                                                             <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-results' placeholder='Max salary' />
                                                                             {/* <span className='cli-tal-pro-exp-input-text'>lacs</span> */}
                                                                         </div>
-                                                                        <div className="cli--mark-keyword-area">
+                                                                        {/* <div className="cli--mark-keyword-area">
                                                                             <label className="cli--mark-keyword-check-input">
                                                                                 <input type="checkbox" />
                                                                                 <span className="cli--mark-keyword-checkmark"></span>
                                                                                 Include candidate  who did not mention their current salary
                                                                             </label>
-                                                                        </div>
+                                                                        </div> */}
                                                                     </div>
                                                                 </div>
                                                             </div>

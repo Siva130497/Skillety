@@ -179,7 +179,7 @@ const ATSSideBar = () => {
                         <a href="/created-candidates" className="nav-link"><i data-feather="users"></i><span>Created Candidates</span></a>
                     </li>
                     <li className="dropdown" id='search_candidates'>
-                        <a href="/talent-profile-search-ats" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>
+                        <a href="/talent-profile-search-ats" className="nav-link"><i data-feather="search"></i><span>Search Talent</span></a>
                     </li>
                     {/* <li className="dropdown" id='search_candidate'>
                         <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Candidates</span></a>

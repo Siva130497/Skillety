@@ -452,7 +452,7 @@
 
 /* about-section */
 .home--about-section {
-    padding: 100px 36px 40px 36px;
+    padding: 80px 36px 0px 36px;
 }
 
 .home--about-toparea {
@@ -607,7 +607,7 @@
 }
 
 .home--about-para {
-    margin-top: 60px;
+    margin-top: 40px;
     width: 80%;
 }
 
@@ -954,7 +954,7 @@
 }
 
 .milestone--section {
-    margin-top: 40px;
+    margin-top: 20px;
     border-radius: 48px;
     padding: 70px 54px 50px 54px;
     --dot-bg1: #714F36;
@@ -1191,14 +1191,14 @@
 }
 
 .candidate--section {
-    padding-top: 60px;
+    padding-top: 20px;
     padding-left: 60px;
     padding-right: 60px;
     overflow: hidden !important;
 }
 
 .candidate--slider-area {
-    margin-top: 120px;
+    margin-top: 60px;
     padding: 0 0 0 60px;
 }
 
@@ -1626,11 +1626,11 @@
 }
 
 .home--testimonial-section {
-    padding: 60px 36px 0 36px;
+    padding: 0px 36px 0 36px;
 }
 
 .testimonial--card-area {
-    margin-top: 78px;
+    margin-top: 60px;
 }
 
 .testimonial--card-lg {
@@ -1885,14 +1885,14 @@
 }
 
 .connect--section {
-    padding-top: 120px;
+    padding-top: 80px;
     padding-left: 36px;
     padding-right: 36px;
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 
 .connect--content-area {
-    margin-top: 124px;
+    margin-top: 80px;
 }
 
 .connect--img-area {

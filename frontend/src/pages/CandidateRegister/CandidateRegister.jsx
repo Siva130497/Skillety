@@ -700,7 +700,7 @@ const CandidateRegister = () => {
                                                 className="form-check-input imediate-switch-input"
                                                 type="checkbox"
                                                 id='imediate_joiner'
-                                                checked={credentials.checkbox}
+                                                checked={credentials.checkbox && credentials.days === "0 to 7 days"}
                                                 onChange={handleInputChange}
                                                 disabled={credentials.days !== "0 to 7 days"}
                                             />
@@ -875,7 +875,7 @@ const CandidateRegister = () => {
                                 <div className="col-12 col-lg-6 custom-padding-right2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="text" name='searchDesignationInput'
+                                            <input type="search" name='searchDesignationInput'
                                                 id='searchDesignationInput'
                                                 placeholder='Search designation'
                                                 value={searchDesignationInput}
@@ -989,7 +989,7 @@ const CandidateRegister = () => {
                                     </div> */}
                                     <div className='cand--reg-form-group cand--reg-custom-padding form-no-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="text"
+                                            <input type="search"
                                                 placeholder='Search locations'
                                                 value={searchLocationInput}
                                                 onChange={handleLocationSearch} className='cand--reg-form-input' />
@@ -1045,7 +1045,7 @@ const CandidateRegister = () => {
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text" id='skills' name='skills'
+                                                <input type="search" id='skills' name='skills'
                                                     value={searchSkillInput}
                                                     onChange={handleSkillSearch}
                                                     className='cand--reg-flex-input'
@@ -1190,7 +1190,7 @@ const CandidateRegister = () => {
                                             </div> */}
 
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text"
+                                                <input type="search"
                                                     id='searchEducationInput'
                                                     name='searchEducationInput'
                                                     value={searchEducationInput}
