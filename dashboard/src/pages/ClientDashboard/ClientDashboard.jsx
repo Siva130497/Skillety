@@ -707,82 +707,90 @@ const ClientDashboard = () => {
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 col-xl-6 pl-3 pl-xl-2">
-                                                <div className="dash-table-section">
-                                                    <div className="dash-table-area">
-                                                        <div className="dash-table-top-area">
-                                                            <div className="dash-table-title">
-                                                                New Candidates
+                                            {candidateDetail && candidateDetail.length > 0 && postedJobs && postedJobs.length > 0 && (
+                                                <div className="col-12 col-xl-6 pl-3 pl-xl-2">
+                                                    <div className="dash-table-section">
+                                                        <div className="dash-table-area">
+                                                            <div className="dash-table-top-area">
+                                                                <div className="dash-table-title">
+                                                                    New Candidates having matching skills with your posted jobs
+                                                                </div>
+                                                                <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
                                                             </div>
-                                                            <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
+                                                            {!contentloading ? (
+                                                                <div className="table-responsive dash-table-container client mt-2 mt-md-4">
+                                                                    {candidateDetail.filter(cand => {
+                                                                        const postedJobsSkills = new Set(postedJobs.flatMap(job => job.skills));
+                                                                        return cand.skills.some(skill => postedJobsSkills.has(skill));
+                                                                    }).length > 0 ? (
+                                                                        <table className="table table-striped table-hover dash-table">
+                                                                            <tbody>
+                                                                                {candidateDetail.filter(cand => {
+                                                                                    const postedJobsSkills = new Set(postedJobs.flatMap(job => job.skills));
+                                                                                    return cand.skills.some(skill => postedJobsSkills.has(skill));
+                                                                                }).slice(0, 10).map(filteredCand => {
+                                                                                    const matchingImg = candidateImg ? candidateImg.find(img => img.id === filteredCand.id) : null;
+                                                                                    const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "../assets/img/talents-images/avatar.jpg";
+                                                                                    return (
+                                                                                        <tr className='dash-table-row' key={filteredCand.id}>
+                                                                                            <td>
+                                                                                                <img src={imgSrc} className='dash-table-avatar-img' alt="" />
+                                                                                            </td>
+                                                                                            <td className='dash-table-sub client text-capitalized'>
+                                                                                                {filteredCand.firstName + ' ' + filteredCand.lastName}<br />
+                                                                                                <span className='dash-table-sub-data'>{filteredCand.date}</span>
+                                                                                            </td>
+                                                                                            <td className='dash-table-sub-data'>{filteredCand.profileHeadline}</td>
+                                                                                        </tr>
+                                                                                    );
+                                                                                })}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    ) : (
+                                                                        <table className="table table-striped table-hover dash-table">
+                                                                            <tbody>
+                                                                                <tr className='dash-table-row text-center'>
+                                                                                    <td colSpan={3} className='text-secondary'>No candidates found for your posted jobs skills.</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <div className="table-responsive dash-table-container client mt-4">
+                                                                    <table className="table table-striped table-hover dash-table">
+                                                                        <tbody>
+                                                                            <tr className='dash-table-row'>
+                                                                                <td>
+                                                                                    <Skeleton height={30} circle={true} width={30} />
+                                                                                </td>
+                                                                                <td className='dash-table-sub w-50'>
+                                                                                    <Skeleton height={10} />
+                                                                                </td>
+                                                                                <td className='dash-table-sub w-25'>
+                                                                                    <Skeleton height={10} />
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr className='dash-table-row'>
+                                                                                <td>
+                                                                                    <Skeleton height={30} circle={true} width={30} />
+                                                                                </td>
+                                                                                <td className='dash-table-sub w-50'>
+                                                                                    <Skeleton height={10} />
+                                                                                </td>
+                                                                                <td className='dash-table-sub w-25'>
+                                                                                    <Skeleton height={10} />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            )}
                                                         </div>
-                                                        {!contentloading ? (
-                                                            <div class="table-responsive dash-table-container client mt-2 mt-md-4">
-                                                                {candidateDetail?.length > 0 ? (
-                                                                    <table class="table table-striped table-hover dash-table">
-                                                                        {
-                                                                            candidateDetail.slice(0, 10).map((cand) => {
-                                                                                const matchingImg = candidateImg ? candidateImg.find(img => img.id === cand.id) : null;
-                                                                                const imgSrc = matchingImg ? (matchingImg.image.startsWith('https') ? matchingImg.image : `data:image/jpeg;base64,${matchingImg.image}`) : "../assets/img/talents-images/avatar.jpg";
-                                                                                return (
-                                                                                    <tr className='dash-table-row' key={cand.id}>
-                                                                                        <td>
-                                                                                            <img src={imgSrc} className='dash-table-avatar-img' alt="" />
-                                                                                        </td>
-                                                                                        <td className='dash-table-sub client text-capitalized'>
-                                                                                            {cand.firstName + ' ' + cand.lastName}<br />
-                                                                                            <span className='dash-table-sub-data'>{cand.date}</span>
-                                                                                        </td>
-                                                                                        <td className='dash-table-sub-data'>{cand.profileHeadline}</td>
-                                                                                        {/* <td className='text-right dash-table-view-btn-area'>
-                                                                                        <button className='dash-table-view-btn client' data-toggle="modal">View CV</button>
-                                                                                    </td> */}
-                                                                                    </tr>
-                                                                                )
-                                                                            })
-                                                                        }
-
-                                                                    </table>
-                                                                ) : (
-                                                                    <table class="table table-striped table-hover dash-table">
-                                                                        <tr className='dash-table-row text-center'>
-                                                                            <td colSpan={3} className='text-secondary'>No candidates found.</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                )}
-                                                            </div>
-                                                        ) : (
-                                                            <div class="table-responsive dash-table-container client mt-4">
-                                                                <table class="table table-striped table-hover dash-table">
-                                                                    <tr className='dash-table-row'>
-                                                                        <td>
-                                                                            <Skeleton height={30} circle={true} width={30} />
-                                                                        </td>
-                                                                        <td className='dash-table-sub w-50'>
-                                                                            <Skeleton height={10} />
-                                                                        </td>
-                                                                        <td className='dash-table-sub w-25'>
-                                                                            <Skeleton height={10} />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr className='dash-table-row'>
-                                                                        <td>
-                                                                            <Skeleton height={30} circle={true} width={30} />
-                                                                        </td>
-                                                                        <td className='dash-table-sub w-50'>
-                                                                            <Skeleton height={10} />
-                                                                        </td>
-                                                                        <td className='dash-table-sub w-25'>
-                                                                            <Skeleton height={10} />
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        )
-                                                        }
                                                     </div>
                                                 </div>
-                                            </div>
+                                            )}
+
                                         </div>
 
                                         {/* <div class="row">

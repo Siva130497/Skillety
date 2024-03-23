@@ -236,26 +236,30 @@ const createClient = async (req, res) => {
 
       // const hashPassword = await bcrypt.hash(password, 12);
 
-      const newTempClient = new TempClient({
-        ...clientProperties, 
-        id: token, 
-        // tempPassword: hashPassword, 
-        url: tempUrl 
-      });
+      const alreadyUserCreatedWithUrl = await TempClient.findOne({id:id});
+      if(!alreadyUserCreatedWithUrl){
+        const newTempClient = new TempClient({
+          ...clientProperties, 
+          id: token, 
+          // tempPassword: hashPassword, 
+          url: tempUrl 
+        });
+  
+        await newTempClient.save();
+        console.log(newTempClient);
+      }
+      
 
-      await newTempClient.save();
-      console.log(newTempClient);
-
-      const existingClientUrlWithEmail = await clientUrlWithEmail.findOne({email:{ $regex: new RegExp(newTempClient.email.toLowerCase(), "i") }});
+      const existingClientUrlWithEmail = await clientUrlWithEmail.findOne({email:{ $regex: new RegExp(clientProperties.email.toLowerCase(), "i") }});
 
       if (existingClientUrlWithEmail) {
-        existingClientUrlWithEmail.url.push(newTempClient.url);
+        existingClientUrlWithEmail.url.push(tempUrl);
         await existingClientUrlWithEmail.save();
         console.log(existingClientUrlWithEmail);
       } else {
         const newClientUrlWithEmail = new clientUrlWithEmail({
-          email: newTempClient.email,
-          url: [newTempClient.url],
+          email: clientProperties.email,
+          url: [tempUrl],
         });
 
         await newClientUrlWithEmail.save();
@@ -272,7 +276,7 @@ const createClient = async (req, res) => {
 
       const mailOptions = {
         from: 'demoemail1322@gmail.com',
-        to: `${newTempClient.email}`,
+        to: `${clientProperties.email}`,
         subject: 'Mail from SKILLITY!',
         text: 'Your details have been verified successfully. Please use the temporary URL to create your account.',
         html: `<div style="position: relative; padding:20px; font-family:Calibri;">
@@ -280,7 +284,7 @@ const createClient = async (req, res) => {
             <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
         </div>
         <div style="margin-top: 40px; font-size:15px;">
-            <p>Dear ${newTempClient.name},</p>
+            <p>Dear ${clientProperties.name},</p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for choosing Skillety. In order to complete the
                 setup of your account, we kindly ask you to create a password.</p>
 
@@ -309,14 +313,14 @@ const createClient = async (req, res) => {
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);
-          return res.status(500).json({ error: error.message, newTempClient });
+          return res.status(500).json({ error: error.message });
         } else {
           console.log('Email sent: ' + info.response);
-          res.status(201).json({ newTempClient, emailSent: true });
+          res.status(201).json({ emailSent: true });
         }
       });
     }else{
-      return res.status(404).json({message: "no client found with the matching id"});
+      return res.status(404).json({error: "no client found with the matching id"});
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -498,7 +502,7 @@ const finalClientRegister = async (req, res) => {
     const tempClient = await TempClient.findOne({ id });
 
     if (!tempClient) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     const {
