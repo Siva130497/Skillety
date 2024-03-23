@@ -332,7 +332,7 @@ const ClientRegister = () => {
                                                         placeholder='Enter a clear & specific industry to get better responses' /> */}
 
                                                     <div className='cand--reg-multi-input-form-group'>
-                                                        <input type="text" id='searchIndustryInput' name='searchIndustryInput'
+                                                        <input type="search" id='searchIndustryInput' name='searchIndustryInput'
                                                             value={searchIndustryInput}
                                                             onChange={handleIndustrySearch}
                                                             className='cand--reg-flex-input industry'

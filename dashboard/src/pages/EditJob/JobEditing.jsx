@@ -836,7 +836,7 @@ function showErrorMessage() {
                               className="manually-add-btn with-mb"
                               onClick={handleManualJobRole}
                               disabled={!isCheckedJobRole}
-                            >Enter Jobrole Manually</button>
+                            >Enter Jobrole</button>
                           </div>
 
                         </div>
@@ -940,7 +940,7 @@ function showErrorMessage() {
                               className="manually-add-btn"
                               onClick={handleManualSkill}
                               disabled={!isCheckedSkill}
-                            >Enter Skills Manually
+                            >Enter Skills
                             </button>
                           </div>
 
@@ -1072,13 +1072,13 @@ function showErrorMessage() {
                             }
                           </div>
 
-                          <div className="job-post-form-chechbox-area">
+                          {/* <div className="job-post-form-chechbox-area">
                             <label className="job-post-form-check-input">
                               <input type="checkbox" />
                               <span className="job-post-form-checkmark"></span>
                               Include candidate willing to relocate to above location (s)
                             </label>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>

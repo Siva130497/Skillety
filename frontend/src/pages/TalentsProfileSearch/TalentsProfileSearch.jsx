@@ -754,7 +754,7 @@ const TalentsProfileSearch = () => {
     }
   };
 
-  
+
   const getAllCandidateDetail = async () => {
     try {
       const response = await axios.get(
@@ -932,12 +932,12 @@ const TalentsProfileSearch = () => {
       checkBoxfilters.length > 0 ||
       selectedResults.length > 0 ||
       selectedLocationResults.length > 0 ||
-      (filters.minExperienceYr 
+      (filters.minExperienceYr
         // && filters.minExperienceMonth
-        ) ||
-      (filters.maxExperienceYr 
+      ) ||
+      (filters.maxExperienceYr
         // && filters.maxExperienceMonth
-        ) ||
+      ) ||
       (filters.currencyType && (filters.minSalary || filters.maxSalary)) ||
       selectedEducationResults.length > 0 ||
       // || selectedRoleResults.length > 0
@@ -1155,13 +1155,13 @@ const TalentsProfileSearch = () => {
           if (
             filters.minExperienceYr &&
             // filters.minExperienceMonth &&
-            filters.maxExperienceYr 
+            filters.maxExperienceYr
             // &&
             // filters.maxExperienceMonth
           ) {
             return (
               candidate.year >= filters.minExperienceYr &&
-              candidate.year <= filters.maxExperienceYr 
+              candidate.year <= filters.maxExperienceYr
               // &&
               // candidate.month >= filters.minExperienceMonth &&
               // candidate.month <= filters.maxExperienceMonth
@@ -1175,12 +1175,12 @@ const TalentsProfileSearch = () => {
             //  &&
             // filters.minExperienceMonth 
             &&
-            !filters.maxExperienceYr 
+            !filters.maxExperienceYr
             // &&
             // !filters.maxExperienceMonth
           ) {
             return (
-              candidate.year >= filters.minExperienceYr 
+              candidate.year >= filters.minExperienceYr
               // &&
               // candidate.month >= filters.minExperienceMonth
             );
@@ -1189,11 +1189,11 @@ const TalentsProfileSearch = () => {
         })
         .filter((candidate) => {
           if (
-            !filters.minExperienceYr 
+            !filters.minExperienceYr
             // &&
             // !filters.minExperienceMonth 
             &&
-            filters.maxExperienceYr 
+            filters.maxExperienceYr
             // &&
             // filters.maxExperienceMonth
           ) {
@@ -1707,59 +1707,59 @@ const TalentsProfileSearch = () => {
 
   const viewCandidateDetail = async (id, percentage) => {
     try {
-        if (clientToken) {
-            const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", {
-                candidateId: id,
-                companyId: loginClientDetail.companyId,
-            }, {
-              headers: {
-                Authorization: `Bearer ${clientToken}`,
-                Accept: `application/json`
-              }
-            });
+      if (clientToken) {
+        const response = await axios.post("https://skillety-n6r1.onrender.com/cv-views", {
+          candidateId: id,
+          companyId: loginClientDetail.companyId,
+        }, {
+          headers: {
+            Authorization: `Bearer ${clientToken}`,
+            Accept: `application/json`
+          }
+        });
 
-            if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
-                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
-                if (!isNaN(percentage)) {
-                    url += `&percentage=${percentage}`;
-                }
+        if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
+          let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
+          if (!isNaN(percentage)) {
+            url += `&percentage=${percentage}`;
+          }
 
-                window.open(url, "_blank");
-            } else {
-                Swal.fire({
-                    title: 'Error!',
-                    text: '',
-                    icon: 'info',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'OK',
-                });
-            }
+          window.open(url, "_blank");
         } else {
-            navigate("/client-login");
+          Swal.fire({
+            title: 'Error!',
+            text: '',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+          });
         }
+      } else {
+        navigate("/client-login");
+      }
     } catch (error) {
-        console.error(error);
-        if (error.response.data.error === "Customized CV Views package expired!" || error.response.data.error === "No CV views remaining in the active package!" || error.response.data.error === "No active package found!") {
-            Swal.fire({
-                title: 'Buy Package Plan',
-                text: error.response.data.error,
-                icon: 'info',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-            }).then(() => {
-                navigate("/packages");
-            });
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: '',
-                icon: 'info',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'OK',
-            });
-        }
+      console.error(error);
+      if (error.response.data.error === "Customized CV Views package expired!" || error.response.data.error === "No CV views remaining in the active package!" || error.response.data.error === "No active package found!") {
+        Swal.fire({
+          title: 'Buy Package Plan',
+          text: error.response.data.error,
+          icon: 'info',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK',
+        }).then(() => {
+          navigate("/packages");
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: '',
+          icon: 'info',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK',
+        });
+      }
     }
-};
+  };
 
 
   return (
@@ -1785,7 +1785,7 @@ const TalentsProfileSearch = () => {
                     <div className="row">
                       <div className="col-12 col-lg-12 col-xl-6 col-md-12">
                         <h4 className="cli-tal-pro-search-heading">
-                          Search Candidate
+                          Search Talent
                         </h4>
                       </div>
                       <p className="tal-head-desc">
@@ -1820,13 +1820,13 @@ const TalentsProfileSearch = () => {
                                   <h6 class="cli-tal-pro-search-filter-title">
                                     Notice period / Availability to join&nbsp;
                                   </h6>
-                                  <button class="info-icon-button">
+                                  {/* <button class="info-icon-button">
                                     <i class="ri-information-line info-icon"></i>
                                   </button>
                                   <div class="tooltip">
                                     This is the information about the notice
                                     period & availability to join.
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                               <div className="tal--search-options-area">
@@ -2143,13 +2143,45 @@ const TalentsProfileSearch = () => {
                                     <option value="8">8</option>
                                     <option value="9">9</option>
                                     <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
                                     <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
                                     <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
                                     <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
                                     <option value="30">30</option>
+                                    <option value="31">31</option>
+                                    <option value="32">32</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
                                     <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="38">38</option>
+                                    <option value="39">39</option>
                                     <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
                                     <option value="45">45</option>
+                                    <option value="46">46</option>
+                                    <option value="47">47</option>
+                                    <option value="48">48</option>
+                                    <option value="49">49</option>
                                     <option value="50">50</option>
                                   </select>
                                 </div>
@@ -2181,13 +2213,45 @@ const TalentsProfileSearch = () => {
                                     <option value="8">8</option>
                                     <option value="9">9</option>
                                     <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
                                     <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
                                     <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
                                     <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
                                     <option value="30">30</option>
+                                    <option value="31">31</option>
+                                    <option value="32">32</option>
+                                    <option value="33">33</option>
+                                    <option value="34">34</option>
                                     <option value="35">35</option>
+                                    <option value="36">36</option>
+                                    <option value="37">37</option>
+                                    <option value="38">38</option>
+                                    <option value="39">39</option>
                                     <option value="40">40</option>
+                                    <option value="41">41</option>
+                                    <option value="42">42</option>
+                                    <option value="43">43</option>
+                                    <option value="44">44</option>
                                     <option value="45">45</option>
+                                    <option value="46">46</option>
+                                    <option value="47">47</option>
+                                    <option value="48">48</option>
+                                    <option value="49">49</option>
                                     <option value="50">50</option>
                                   </select>
                                 </div>
@@ -2312,7 +2376,7 @@ const TalentsProfileSearch = () => {
                             <div className="cli-tal-pro-search-filter-content">
                               <div className="cli-tal-pro-search-filter-title-area">
                                 <h6 className="cli-tal-pro-search-filter-title">
-                                  Current or Preferred location of candidate
+                                  Current or Preferred location of talent
                                 </h6>
                               </div>
                               {selectedLocationResults.length > 0 && (
@@ -2416,9 +2480,9 @@ const TalentsProfileSearch = () => {
                                     }
                                   />
                                 </div>
-                                <span className="cli-tal-pro-exp-input-text">
+                                {/* <span className="cli-tal-pro-exp-input-text">
                                   to
-                                </span>
+                                </span> */}
                                 <input
                                   type="text"
                                   className="cli-tal-pro-exp-input text-center  width-45 search-page"
@@ -2435,13 +2499,66 @@ const TalentsProfileSearch = () => {
                                   laks
                                 </span> */}
                               </div>
-                              <div className="cli--mark-keyword-area">
+                              {/* <div className="cli--mark-keyword-area">
                                 <label className="cli--mark-keyword-check-input">
                                   <input type="checkbox" />
                                   <span className="cli--mark-keyword-checkmark"></span>
                                   Include candidate who did not mention their
                                   current salary
                                 </label>
+                              </div> */}
+                            </div>
+                          </div>
+
+                          <div className="cli-tal-pro-search-filter-content-section">
+                            <div className="cli-tal-pro-search-filter-toggle-area">
+                              <h6 className="cli--emploment-detail-head">
+                                Employment details
+                              </h6>
+                              {/* <i class="bi bi-chevron-down"></i> */}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className=""
+                                width="15"
+                                height="9"
+                                viewBox="0 0 15 9"
+                                fill="none"
+                              >
+                                <path
+                                  d="M1 1L6.79289 6.79289C7.18342 7.18342 7.81658 7.18342 8.20711 6.79289L14 1"
+                                  stroke="#714F36"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                />
+                              </svg>
+                            </div>
+                            <div className="cli-tal-pro-search-filter-expand-area">
+                              <div className="expand-area-padding">
+                                <div className="cli-tal-search-filter-form-group">
+                                  <div className="cli-tal-search-filter-form-label-area">
+                                    <label
+                                      htmlFor="company"
+                                      className="cli-tal-search-filter-form-label"
+                                    >
+                                      Company
+                                    </label>
+                                  </div>
+                                  <div className="cli-tal-pro-search-filter-input-area">
+                                    <input
+                                      type="text"
+                                      name="company"
+                                      className="cli-tal-pro-search-filter-input"
+                                      placeholder="Add company name"
+                                      value={filters.company}
+                                      onChange={(e) =>
+                                        setFilters({
+                                          ...filters,
+                                          company: e.target.value,
+                                        })
+                                      }
+                                    />
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -2449,7 +2566,7 @@ const TalentsProfileSearch = () => {
                           <div className="cli-tal-pro-search-filter-content-section">
                             <div className="cli-tal-pro-search-filter-toggle-area">
                               <h6 className="cli--emploment-detail-head">
-                                Employment & Educational details
+                                Educational details
                               </h6>
                               {/* <i class="bi bi-chevron-down"></i> */}
                               <svg
@@ -2505,7 +2622,7 @@ const TalentsProfileSearch = () => {
                                       type="search"
                                       name="department"
                                       className="cli-tal-pro-search-filter-input"
-                                      placeholder="Enter education"
+                                      placeholder="Enter educational details"
                                       value={filters.education}
                                       onChange={handleEducationSearch}
                                     />
@@ -2531,85 +2648,6 @@ const TalentsProfileSearch = () => {
                                 </div>
 
                                 {/* <div className="cli-tal-search-filter-form-group">
-                                                                    <div className="cli-tal-search-filter-form-label-area">
-                                                                        <label htmlFor="role" className='cli-tal-search-filter-form-label'>Role</label>
-                                                                    </div>
-                                                                    {selectedRoleResults.length > 0 && (
-                                                                        <div className='cli--tal-pro-badge-area mb-4'>
-                                                                            {selectedRoleResults.map(selectResult => (
-                                                                                <span className="tal-cand-reg-form-badge"
-                                                                                    key={selectResult}
-                                                                                    onClick={() => handleDeselectRole(selectResult)}
-                                                                                >{selectResult}</span>
-                                                                            ))}
-                                                                        </div>
-                                                                    )}
-                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="search" name='role' className='cli-tal-pro-search-filter-input' placeholder='Add Role'
-                                                                            value={filters.role}
-                                                                            onChange={handleRoleSearch} />
-                                                                        <div className='tal-pro-search-result-data-area'>
-                                                                            {filteredRole.length > 0 &&
-                                                                                filteredRole.map((filterResult) => (
-                                                                                    <div
-                                                                                        className='tal-pro-search-result-data'
-                                                                                        key={filterResult._id}
-                                                                                        onClick={() => handleFilteredRoleClick(filterResult.role)}
-                                                                                    >
-                                                                                        {filterResult.role}
-                                                                                    </div>
-                                                                                ))}
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
-
-                                {/* <div className="cli-tal-search-filter-form-group">
-                                                                    <div className="cli-tal-search-filter-form-label-area">
-                                                                        <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
-                                                                    </div>
-
-                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="text" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
-                                                                            value={filters.industry}
-                                                                            onChange={(e) => setFilters({ ...filters, industry: e.target.value })} />
-
-                                                                    </div>
-                                                                </div> */}
-
-                                {/* <div className="cli-tal-search-filter-form-group">
-                                                                    <div className="cli-tal-search-filter-form-label-area">
-                                                                        <label htmlFor="industry" className='cli-tal-search-filter-form-label'>Industry</label>
-                                                                    </div>
-                                                                    {selectedIndustryResults.length > 0 && (
-                                                                        <div className='cli--tal-pro-badge-area mb-4'>
-                                                                            {selectedIndustryResults.map(selectResult => (
-                                                                                <span className="tal-cand-reg-form-badge"
-                                                                                    key={selectResult}
-                                                                                    onClick={() => handleDeselectIndustry(selectResult)}
-                                                                                >{selectResult}</span>
-                                                                            ))}
-                                                                        </div>
-                                                                    )}
-                                                                    <div className="cli-tal-pro-search-filter-input-area">
-                                                                        <input type="search" name='industry' className='cli-tal-pro-search-filter-input' placeholder='Add Industry'
-                                                                            value={filters.industry}
-                                                                            onChange={handleIndustrySearch} />
-                                                                        <div className='tal-pro-search-result-data-area'>
-                                                                            {filteredIndustry.length > 0 &&
-                                                                                filteredIndustry.map((filterResult) => (
-                                                                                    <div
-                                                                                        className='tal-pro-search-result-data'
-                                                                                        key={filterResult._id}
-                                                                                        onClick={() => handleFilteredIndustryClick(filterResult.industry)}
-                                                                                    >
-                                                                                        {filterResult.industry}
-                                                                                    </div>
-                                                                                ))}
-                                                                        </div>
-                                                                    </div>
-                                                                </div> */}
-
-                                <div className="cli-tal-search-filter-form-group">
                                   <div className="cli-tal-search-filter-form-label-area">
                                     <label
                                       htmlFor="company"
@@ -2617,20 +2655,7 @@ const TalentsProfileSearch = () => {
                                     >
                                       Company
                                     </label>
-                                    {/* <div class="cl-toggle-switch">
-                                                                        <label class="cl-switch">
-                                                                            <input type="checkbox" id="toggletoSwitch1" />
-                                                                            <span></span>
-                                                                        </label>
-                                                                        <h6 className='cl-toggle--switch-label' id="labelText1">Boolean Off</h6>
-                                                                    </div> */}
                                   </div>
-                                  {/* <div className='cli--tal-pro-badge-area mb-4'>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                        <span className="tal-cand-reg-form-badge">Badge 1</span>
-                                                                    </div> */}
                                   <div className="cli-tal-pro-search-filter-input-area">
                                     <input
                                       type="text"
@@ -2645,26 +2670,8 @@ const TalentsProfileSearch = () => {
                                         })
                                       }
                                     />
-                                    {/* <div className='tal-pro-search-result-data-area'>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 1</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 2</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 3</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 4</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 5</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 6</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 7</div>
-                                                                            <div className='tal-pro-search-result-data'>Search Result 8</div>
-                                                                        </div> */}
                                   </div>
-                                  {/* <div id="container" className='multi-input-container'>
-                                                                        <div className="cli--tal-search-add-input-area mt-3">
-                                                                            <button className='cli--tal-search-add-input-button'>
-                                                                                <i class="bi bi-plus add-input-icon"></i>
-                                                                                Add Exclude Company
-                                                                            </button>
-                                                                        </div>
-                                                                    </div> */}
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -3679,7 +3686,7 @@ const TalentsProfileSearch = () => {
                                     <span>
                                       {search?.selectedResults?.length > 0 &&
                                         search?.selectedResults?.join(", ") +
-                                          " "}
+                                        " "}
                                       {search?.selectedLocationResults?.length >
                                         0 &&
                                         search?.selectedLocationResults?.join(
@@ -3763,9 +3770,9 @@ const TalentsProfileSearch = () => {
                   >
                     <div class="reg--form-arrow-area candidate back">
                       <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27" fill="none">
-                          <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
-                          <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
-                          <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
+                        <path d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832" stroke="#714F36" stroke-width="2" />
+                        <path d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162" stroke="#714F36" stroke-width="2" />
+                        <path d="M1 26L25.1667 1" stroke="#714F36" stroke-width="2" />
                       </svg>
                     </div>
                     <div className='reg--form-btn candidate back'>Back to Search</div>
@@ -3790,13 +3797,13 @@ const TalentsProfileSearch = () => {
                               <div class="info-icon-area">
                                 <h6 className="cli--emploment-detail-head">
                                   Notice period / Availability to join
-                                  <button class="info-icon-button">
+                                  {/* <button class="info-icon-button">
                                     <i class="ri-information-line info-icon"></i>
                                   </button>
                                   <div class="tooltip">
                                     This is the information about the notice
                                     period & availability to join.
-                                  </div>
+                                  </div> */}
                                 </h6>
                               </div>
                               <svg
@@ -3974,7 +3981,7 @@ const TalentsProfileSearch = () => {
                                     Mark all keywords as mandatory
                                   </label>
                                 </div>
-                                <div
+                                {/* <div
                                   id="container1"
                                   className="multi-input-container"
                                 >
@@ -3995,7 +4002,7 @@ const TalentsProfileSearch = () => {
                                       Add IT Skills
                                     </button>
                                   </div>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -4077,7 +4084,7 @@ const TalentsProfileSearch = () => {
                                     placeholder="Add location"
                                   />
                                 </div>
-                                <div className="cli--mark-keyword-area search-results">
+                                {/* <div className="cli--mark-keyword-area search-results">
                                   <label className="cli--mark-keyword-check-input">
                                     <input type="checkbox" />
                                     <span className="cli--mark-keyword-checkmark"></span>
@@ -4093,7 +4100,7 @@ const TalentsProfileSearch = () => {
                                     Exclude candidate who have mentioned
                                     Anywhere in ...
                                   </label>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -4157,14 +4164,14 @@ const TalentsProfileSearch = () => {
                                     lacs
                                   </span> */}
                                 </div>
-                                <div className="cli--mark-keyword-area">
+                                {/* <div className="cli--mark-keyword-area">
                                   <label className="cli--mark-keyword-check-input">
                                     <input type="checkbox" />
                                     <span className="cli--mark-keyword-checkmark"></span>
                                     Include candidate who did not mention their
                                     current salary
                                   </label>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -4874,8 +4881,8 @@ const TalentsProfileSearch = () => {
                                 );
                               const matchingImg = candidateImg
                                 ? candidateImg.find(
-                                    (img) => img.id === candidate.id
-                                  )
+                                  (img) => img.id === candidate.id
+                                )
                                 : null;
                               const imgSrc = matchingImg
                                 ? matchingImg.image.startsWith("https")
@@ -5054,8 +5061,8 @@ const TalentsProfileSearch = () => {
                                                 percentage
                                               )
                                             }
-                                            // onMouseEnter={handleMouseEnter}
-                                            // onMouseLeave={handleMouseLeave}
+                                          // onMouseEnter={handleMouseEnter}
+                                          // onMouseLeave={handleMouseLeave}
                                           >
                                             View Profile
                                           </button>
@@ -5512,38 +5519,38 @@ const TalentsProfileSearch = () => {
                             {(filteredSearchResultsMsg
                               ? !filteredSearchResultsMsg
                               : filteredSearchResults.slice(x[0], x[1])
-                                  .length === 25 &&
-                                filteredSearchResults.length > x[1]) && (
-                              <button
-                                className="tal--pro-slider-btn"
-                                onClick={() => setX([x[0] + 25, x[1] + 25])}
-                              >
-                                <svg
-                                  className="arrow-right"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="25"
-                                  height="25"
-                                  viewBox="0 0 27 27"
-                                  fill="none"
+                                .length === 25 &&
+                              filteredSearchResults.length > x[1]) && (
+                                <button
+                                  className="tal--pro-slider-btn"
+                                  onClick={() => setX([x[0] + 25, x[1] + 25])}
                                 >
-                                  <path
-                                    d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
-                                    stroke="#5C3B2E"
-                                    stroke-width="2"
-                                  />
-                                  <path
-                                    d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
-                                    stroke="#5C3B2E"
-                                    stroke-width="2"
-                                  />
-                                  <path
-                                    d="M1 26L25.1667 1"
-                                    stroke="#5C3B2E"
-                                    stroke-width="2"
-                                  />
-                                </svg>
-                              </button>
-                            )}
+                                  <svg
+                                    className="arrow-right"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="25"
+                                    height="25"
+                                    viewBox="0 0 27 27"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M2.56641 3.44987C6.17752 6.50543 15.5664 10.4499 24.2331 1.7832"
+                                      stroke="#5C3B2E"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M24.5618 1.45996C21.07 4.6512 15.9586 13.4593 23.4473 23.162"
+                                      stroke="#5C3B2E"
+                                      stroke-width="2"
+                                    />
+                                    <path
+                                      d="M1 26L25.1667 1"
+                                      stroke="#5C3B2E"
+                                      stroke-width="2"
+                                    />
+                                  </svg>
+                                </button>
+                              )}
                           </div>
                         </div>
                       </div>

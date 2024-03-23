@@ -2,6 +2,21 @@
     .job-search-content-lg p {
         font-size: 25px;
     }
+
+    .salary-input-container input,
+    .salary-input-container select{
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .salary-input-container .cli--salary-inputs-area{
+        width: 100% !important;
+        flex-direction: column;
+    }
+
+    .salary-input-container select option{
+        text-align: center !important;
+    }
 }
 @media (min-width:1399.98px) {
     .sticky--sidebar{
@@ -47,6 +62,22 @@
 
     .job-search-head{
         font-size: 45px !important;
+    }
+
+    .salary-input-container .cli-tal-pro-exp-input,
+    .salary-input-container .width-45.search-page,
+    .salary-input-container select{
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .salary-input-container .cli--salary-inputs-area{
+        width: 100% !important;
+        flex-direction: column;
+    }
+
+    .salary-input-container select option{
+        text-align: center !important;
     }
 }
 

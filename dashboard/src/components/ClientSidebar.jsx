@@ -159,7 +159,7 @@ const ClientSidebar = () => {
                     }
 
                     <li className="dropdown" id='search_candidate'>
-                        <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search candidates</span></a>
+                        <a href="/talent-profile-search" className="nav-link"><i data-feather="search"></i><span>Search Talent</span></a>
                     </li>
 
                     <li className="dropdown" id='post_job'>

@@ -741,7 +741,7 @@ const CandidateCreate = () => {
                                 <div className="col-12 col-lg-6 custom-padding-right2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="text" 
+                                            <input type="search" 
                                             name='searchDesignationInput'
                                                 id='searchDesignationInput'
                                                 placeholder='Search designation'
@@ -797,7 +797,7 @@ const CandidateCreate = () => {
                                                 onChange={(e) => setNewDesignation(e.target.value)}
                                                 disabled={!isCheckedDesignation}
                                             />
-                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your designation manually</label>
+                                            <label htmlFor="manualDesignationInput" className='cand--reg-form-label'>Enter your designation</label>
                                             <button
                                                 type="button"
                                                 className="multi-form-add-btn"
@@ -853,7 +853,7 @@ const CandidateCreate = () => {
                                     </div> */}
                                     <div className='cand--reg-form-group cand--reg-custom-padding form-no-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="text"
+                                            <input type="search"
                                                 placeholder='Search locations'
                                                 value={searchLocationInput}
                                                 onChange={handleLocationSearch} className='cand--reg-form-input' />
@@ -915,7 +915,7 @@ const CandidateCreate = () => {
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text" id='skills' 
+                                                <input type="search" id='skills' 
                                                 name='skills'
                                                     value={searchSkillInput}
                                                     onChange={handleSkillSearch}
@@ -1032,7 +1032,7 @@ const CandidateCreate = () => {
                                             </div> */}
 
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text"
+                                                <input type="search"
                                                     id='searchEducationInput'
                                                     name='searchEducationInput'
                                                     value={searchEducationInput}
