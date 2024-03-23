@@ -120,14 +120,14 @@ export const CandidateFooter = () => {
                           </li>
                           <li data-aos="fade">
                             <a
-                              href="/terms-and-conditions"
+                              href="/terms-and-conditions-talent"
                               className="footer--link"
                             >
                               Terms & Conditions
                             </a>
                           </li>
                           <li data-aos="fade">
-                            <a href="/privacy-policy" className="footer--link">
+                            <a href="/privacy-policy-talent" className="footer--link">
                               Privacy & Policy
                             </a>
                           </li>

@@ -660,7 +660,7 @@ const Home = () => {
                           "Post multiple jobs easily and publish it on 172 partner job-boards & social media platforms, in just one click. CVs would flow in from all sides into your dashboard and inbox."}
                       </p>
                       <div className='service-know-morearea'>
-                        <a href="/job-posting" className='service--know-more'>
+                        <a href={clientToken ? `/post-job-web/${clientToken}` : "/client-login"} className='service--know-more'>
                           <div className='service--know-more-btn'>Know more
                           </div>
                           <div className='service--know-more-arrow'>

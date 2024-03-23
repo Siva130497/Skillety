@@ -1000,7 +1000,7 @@ const JobSearch = () => {
                                                         </svg>
                                                     </div>
                                                     <div className="cli-tal-pro-search-filter-expand-area">
-                                                        <div className="cli-tal-pro-exp-input-area search-results">
+                                                        <div className="cli-tal-pro-exp-input-area search-results salary-input-container">
                                                             <div className="cli--salary-inputs-area">
                                                                 <select name="" className='cli-tal-pro-select-input width-30' id="">
                                                                     <option value="" disabled>Select</option>
@@ -1504,7 +1504,7 @@ const JobSearch = () => {
                                                             </svg>
                                                         </div>
                                                         <div className="cli-tal-pro-search-filter-expand-area job">
-                                                            <div className="cli-tal-pro-exp-input-area search-results">
+                                                            <div className="cli-tal-pro-exp-input-area search-results salary-input-container">
                                                                 <div className="cli--salary-inputs-area">
                                                                     <select name="" className='cli-tal-pro-select-input width-30' id=""
                                                                         value={filters.currencyType}

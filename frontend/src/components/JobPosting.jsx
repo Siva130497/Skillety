@@ -381,7 +381,7 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
                  className="btn btn-primary btn-sm"
                  onClick={handleManualJobRole}
                  disabled = {!isCheckedJobRole}
-                 >Enter Jobrole Manually</button>
+                 >Enter Jobrole</button>
                </div>
                <div className="form-group">
                  <label 
@@ -474,7 +474,7 @@ const JobPosting = ({employeeId, staffToken, clientToken, companyId, role}) => {
                  className="btn btn-primary btn-sm"
                  onClick={handleManualSkill}
                  disabled={!isCheckedSkill}
-                 >Enter Skills Manually</button>
+                 >Enter Skills</button>
                </div>
                <div className="form-group">
                  <label 

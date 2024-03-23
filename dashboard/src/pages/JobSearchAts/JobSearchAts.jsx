@@ -1974,7 +1974,7 @@ const JobSearchAts = () => {
                                                                         )}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="text" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
                                                                                 value={filters.searchInput}
                                                                                 onChange={handleSearch}
                                                                             />
