@@ -1,6 +1,8 @@
 .cand--reg-form-area {
     padding-top: 80px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    z-index: 1;
+    position: relative;
 }
 
 .cand--reg-form-group {
@@ -358,6 +360,8 @@
 .cand--reg-btn-area {
     display: flex;
     justify-content: space-between;
+    position: relative;
+    z-index: 0;
 }
 
 .cand--reg-exp-area {

@@ -3,6 +3,18 @@
         font-size: 30px;
     }
 
+    .home--about-section {
+        padding: 60px 36px 0px 36px;
+    }
+
+    .home--service-section {
+        padding-top: 50px;
+    }
+
+    .milestone--section {
+        margin-top: 10px;
+    }
+
     .home--left-cover {
         padding-top: 180px;
     }
@@ -155,7 +167,7 @@
     }
 
     .candidate--slider-area {
-        margin-top: 100px;
+        margin-top: 60px;
     }
 
     .candidate--profile-area {
@@ -238,12 +250,20 @@
     }
 
     .home--testimonial-section {
-        padding: 60px 36px 50px 36px;
+        padding: 0px 36px 50px 36px;
+    }
+
+    .container-fluid.home--section.custom {
+        margin-top: 0;
+    }
+
+    .testimonial--card-area {
+        margin-top: 50px;
     }
 
     .connect--section {
-        padding-top: 100px;
-        padding-bottom: 100px;
+        padding-top: 50px;
+        padding-bottom: 60px;
     }
 
     .connect--title h4 {
@@ -252,7 +272,7 @@
     }
 
     .connect--content-area {
-        margin-top: 100px;
+        margin-top: 80px;
     }
 
     .service--know-more-btn {
@@ -291,12 +311,17 @@
 
 @media (max-width:991.5px) {
     .home--about-section {
+        padding-top: 60px;
         padding-left: 20px;
         padding-right: 20px;
     }
 
     .home--search-area .home--search-box {
         max-width: 100%;
+    }
+
+    .home--service-section {
+        padding-top: 40px;
     }
 
     .short-cut {
@@ -331,7 +356,7 @@
     .connect--section {
         padding-left: 20px;
         padding-right: 20px;
-        padding-bottom: 100px;
+        padding-bottom: 60px;
     }
 
     .home--about-toparea {
@@ -444,21 +469,44 @@
         display: none;
     } */
     .candidate--slider-area {
-        margin-top: 100px;
+        margin-top: 60px;
         padding: 0 25px;
     }
 
+    .container-fluid.home--section.custom {
+        margin-top: 0;
+    }
+
+    .testimonial--arrow-area {
+        width: 120px;
+        height: 120px;
+    }
+
+    .testimonial--arrow-area svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    .testimonial--card-lg {
+        border-radius: 48px 48px 60px 48px;
+    }
+
+    .testimonial--content-area{
+        width: 80%;
+    }
+
     .home--services-slider-area {
-        padding: 60px 40px;
+        padding: 40px 30px;
     }
 
     .milestone--section {
         padding: 60px 40px 50px 40px;
+        margin-top: 10px;
     }
 
     .home--milestone-cards-area {
         padding-left: 0;
-        padding-top: 80px;
+        padding-top: 60px;
     }
 
     .home--milestone-container {
@@ -489,7 +537,11 @@
     }
 
     .home--left-cover {
-        padding-top: 80px;
+        padding-top: 60px;
+    }
+
+    .home--head h5 {
+        font-size: 35px;
     }
 
     .candidate--card .candidate--name-area h6 {
@@ -800,7 +852,7 @@
     }
 
     .custom--mobile-padding {
-        padding: 0 0.75rem;
+        padding: 0 0.75rem !important;
     }
 
     .candidate--section {
@@ -1000,7 +1052,7 @@
     }
 
     .register--section {
-        padding: 0px 0px 60px 0px;
+        padding: 0px 0px 50px 0px;
     }
 
     .register--card {
