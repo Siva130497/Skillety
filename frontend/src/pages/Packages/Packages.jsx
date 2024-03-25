@@ -23,6 +23,181 @@ const Packages = ({ companyId }) => {
   const [loginClientDetail, setLoginClientDetail] = useState();
   const [currentPackage, setCurrentPackage] = useState();
 
+  const [validity, setValidity] = useState(1);
+  
+  const [total, setTotal] = useState({
+    cvViews: 0,
+    logins: 0,
+    activeJobs: 0
+  })
+
+  const [quantity, setQuantity] = useState(
+    {
+      cvViews: 0,
+      logins: 0,
+      activeJobs: 0
+    }
+  );
+
+  const [quantitySVAS, setQuantitySVAS] = useState(
+    {
+      OnlineTechnicalAssessment: 0,
+      L1Interview_0to8yrs: 0,
+      L1Interview_8to15yrs: 0,
+      L1Interview_above15yrs: 0,
+      BGVComprehensive: 0
+    }
+  );
+
+  const [totalSVAS, setTotalSVAD] = useState({
+    OnlineTechnicalAssessment: 0,
+    L1Interview_0to8yrs: 0,
+    L1Interview_8to15yrs: 0,
+    L1Interview_above15yrs: 0,
+    BGVComprehensive: 0
+  })
+
+  useEffect(() => {
+    if (quantitySVAS.OnlineTechnicalAssessment) {
+      const servicePrice = parseInt(quantitySVAS.OnlineTechnicalAssessment) * 120
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+
+      setTotalSVAD({ ...totalSVAS, OnlineTechnicalAssessment: servicePrice + GSTAmount ? servicePrice + GSTAmount : 0 });
+    } else {
+      setTotalSVAD({ ...totalSVAS, OnlineTechnicalAssessment: 0 });
+    }
+
+
+  }, [quantitySVAS.OnlineTechnicalAssessment])
+
+  useEffect(() => {
+    if (quantitySVAS.L1Interview_0to8yrs) {
+      const servicePrice = parseInt(quantitySVAS.L1Interview_0to8yrs) * 1500
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+
+      setTotalSVAD({ ...totalSVAS, L1Interview_0to8yrs: servicePrice + GSTAmount ? servicePrice + GSTAmount : 0 });
+    } else {
+      setTotalSVAD({ ...totalSVAS, L1Interview_0to8yrs: 0 });
+    }
+
+
+  }, [quantitySVAS.L1Interview_0to8yrs])
+
+  useEffect(() => {
+    if (quantitySVAS.L1Interview_8to15yrs) {
+      const servicePrice = parseInt(quantitySVAS.L1Interview_8to15yrs) * 2000
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+
+      setTotalSVAD({ ...totalSVAS, L1Interview_8to15yrs: servicePrice + GSTAmount ? servicePrice + GSTAmount : 0 });
+    } else {
+      setTotalSVAD({ ...totalSVAS, L1Interview_8to15yrs: 0 });
+    }
+
+
+  }, [quantitySVAS.L1Interview_8to15yrs])
+
+  useEffect(() => {
+    if (quantitySVAS.L1Interview_above15yrs) {
+      const servicePrice = parseInt(quantitySVAS.L1Interview_above15yrs) * 2500
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+
+      setTotalSVAD({ ...totalSVAS, L1Interview_above15yrs: servicePrice + GSTAmount ? servicePrice + GSTAmount : 0 });
+    } else {
+      setTotalSVAD({ ...totalSVAS, L1Interview_above15yrs: 0 });
+    }
+
+
+  }, [quantitySVAS.L1Interview_above15yrs])
+
+  useEffect(() => {
+    if (quantitySVAS.BGVComprehensive) {
+      const servicePrice = parseInt(quantitySVAS.BGVComprehensive) * 3500
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+
+      setTotalSVAD({ ...totalSVAS, BGVComprehensive: servicePrice + GSTAmount ? servicePrice + GSTAmount : 0 });
+    } else {
+      setTotalSVAD({ ...totalSVAS, BGVComprehensive: 0 });
+    }
+
+
+  }, [quantitySVAS.BGVComprehensive])
+
+
+  const handleValServiceBuyNowClick = (serviceName, quantity) => {
+
+    if (quantity) {
+      
+      const unitPrice = serviceName === "OnlineTechnicalAssessment" ? 120 : serviceName === "L1Interview(0to8yrs)" ? 1500 : serviceName === "L1Interview(8to15yrs)" ? 2000 : serviceName === "L1Interview(>15yrs)" ? 2500 : 3500;
+      const servicePrice = parseInt(quantity) * unitPrice
+
+      const GSTAmount = (parseInt(servicePrice)) * (allPackages[0]?.GST) / 100
+      const valueAddedServiceInfo = {
+        id: loginClientDetail?.companyId,
+        serviceName,
+        quantity: parseInt(quantity),
+        servicePrice: servicePrice.toString(),
+        finalAmount: (parseInt(servicePrice) + GSTAmount).toString(),
+        GST: allPackages[0]?.GST.toString(),
+        GSTAmount: GSTAmount.toString()
+      };
+
+      const params = new URLSearchParams(valueAddedServiceInfo);
+
+    if (clientToken && loginClientDetail?.companyId) {
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+      window.open(url, '_blank');
+    } else {
+      navigate('/client-login');
+    }
+
+    }
+  };
+
+  useEffect(() => {
+    if (quantity.cvViews > 0) {
+      const servicePrice = parseInt(quantity.cvViews) * 5
+      // const discount = parseInt(validity.cvViews) <= 3 ? "0" : 3 < parseInt(validity.cvViews) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+
+      setTotal({ ...total, cvViews: servicePrice ? servicePrice : 0 });
+    } else {
+      setTotal({ ...total, cvViews: 0 });
+    }
+
+
+  }, [quantity.cvViews])
+
+  useEffect(() => {
+    if (quantity.logins > 0) {
+      const servicePrice = parseInt(quantity.logins) * 1000
+      // const discount = parseInt(validity.logins) <= 3 ? "0" : 3 < parseInt(validity.logins) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+
+      setTotal({ ...total, logins: servicePrice ? servicePrice  : 0 });
+    } else {
+      setTotal({ ...total, logins: 0 });
+    }
+
+
+  }, [quantity.logins])
+
+  useEffect(() => {
+    if (quantity.activeJobs > 0) {
+      const servicePrice = parseInt(quantity.activeJobs) * 100
+      // const discount = parseInt(validity.activeJobs) <= 3 ? "0" : 3 < parseInt(validity.activeJobs) <= 6 ? "5" : "10"
+      // const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100
+      // const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100
+
+      setTotal({ ...total, activeJobs: servicePrice  ? servicePrice  : 0 });
+    } else {
+      setTotal({ ...total, activeJobs: 0 });
+    }
+
+
+  }, [quantity.activeJobs])
+
   useEffect(() => {
     setclientToken(JSON.parse(localStorage.getItem("clientToken")));
   }, [clientToken]);
@@ -78,6 +253,54 @@ const Packages = ({ companyId }) => {
     }
 
   };
+
+
+  const handleServiceBuyNowClick = () => {
+    if(quantity.cvViews > 0 || quantity.logins > 0 || quantity.activeJobs > 0){
+        let serviceNames = [];
+        if(quantity.cvViews > 0){
+            serviceNames.push("CV Views")
+        }
+        if(quantity.logins > 0){
+            serviceNames.push("Login IDs")
+        }
+        if(quantity.activeJobs > 0){
+            serviceNames.push("Job Postings")
+        }
+        const servicePrice = parseInt(quantity.cvViews) * 5 + parseInt(quantity.logins) * 1000 + parseInt(quantity.activeJobs) * 100;
+        const parsedValidity = parseInt(validity);
+
+        const discount = parsedValidity <= 3 ? "0" : (parsedValidity <= 6 ? "5" : "10");
+        const discountAmount = parseInt(servicePrice) * parseInt(discount) / 100;
+        const GSTAmount = (parseInt(servicePrice) - discountAmount) * (allPackages[0]?.GST) / 100;
+      
+        const serviceInfo = {
+            id: loginClientDetail?.companyId,
+            serviceNames: serviceNames.join(', '), // Convert array to string
+            quantities: JSON.stringify({
+                cvViews: parseInt(quantity.cvViews),
+                logins: parseInt(quantity.logins),
+                activeJobs: parseInt(quantity.activeJobs)
+            }),
+            validity: parseInt(validity),
+            servicePrice: servicePrice.toString(),
+            finalAmount: (parseInt(servicePrice) - discountAmount + GSTAmount).toString(),
+            discount,
+            discountAmount: discountAmount.toString(),
+            GST: allPackages[0]?.GST.toString(),
+            GSTAmount: GSTAmount.toString()
+        };
+
+        const params = new URLSearchParams(serviceInfo);
+
+        if (clientToken && loginClientDetail?.companyId) {
+            const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+            window.open(url, '_blank');
+        } else {
+            navigate('/client-login');
+        }
+    }  
+};
 
 
   const getLoginClientDetail = async () => {
@@ -371,11 +594,13 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input" />
+                                className="sol-price-table-qty-input" 
+                                value={quantity.cvViews}
+                                onChange={(e) => setQuantity({ ...quantity, cvViews: e.target.value })}/>
                             </td>
 
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {total.cvViews}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
                             </td>
@@ -388,11 +613,13 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input" />
+                                className="sol-price-table-qty-input"
+                                value={quantity.logins}
+                                  onChange={(e) => setQuantity({ ...quantity, logins: e.target.value })} />
                             </td>
 
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {total.logins}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
                             </td>
@@ -405,11 +632,13 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input" />
+                                className="sol-price-table-qty-input" 
+                                value={quantity.activeJobs}
+                                  onChange={(e) => setQuantity({ ...quantity, activeJobs: e.target.value })}/>
                             </td>
 
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {total.activeJobs}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
                             </td>
@@ -420,7 +649,9 @@ const Packages = ({ companyId }) => {
                               Validity (In months)
                             </td>
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
-                              <select className="sol-price-table-qty-input">
+                              <select className="sol-price-table-qty-input"
+                              value={validity}
+                              onChange={(e)=>setValidity(e.target.value)}>
                                 <option value="1" selected>1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -437,11 +668,12 @@ const Packages = ({ companyId }) => {
                             </td>
 
                             <td className="sol-price-table-data price text-center">
-                              30
+                            {total.cvViews + total.logins + total.activeJobs}
                             </td>
 
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={handleServiceBuyNowClick}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
@@ -508,13 +740,16 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input"/>
+                                className="sol-price-table-qty-input"
+                                value={quantitySVAS.OnlineTechnicalAssessment}
+                                  onChange={(e) => setQuantitySVAS({ ...quantitySVAS, OnlineTechnicalAssessment: e.target.value })}/>
                             </td>
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {totalSVAS.OnlineTechnicalAssessment}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={() => handleValServiceBuyNowClick("OnlineTechnicalAssessment", quantitySVAS.OnlineTechnicalAssessment)}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
@@ -554,13 +789,16 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input"/>
+                                className="sol-price-table-qty-input"
+                                value={quantitySVAS.L1Interview_0to8yrs}
+                                  onChange={(e) => setQuantitySVAS({ ...quantitySVAS, L1Interview_0to8yrs: e.target.value })}/>
                             </td>
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {totalSVAS.L1Interview_0to8yrs}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={() => handleValServiceBuyNowClick("L1Interview(0to8yrs)", quantitySVAS.L1Interview_0to8yrs)}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
@@ -600,13 +838,16 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input"/>
+                                className="sol-price-table-qty-input"
+                                value={quantitySVAS.L1Interview_8to15yrs}
+                                  onChange={(e) => setQuantitySVAS({ ...quantitySVAS, L1Interview_8to15yrs: e.target.value })}/>
                             </td>
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {totalSVAS.L1Interview_8to15yrs}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={() => handleValServiceBuyNowClick("L1Interview(8to15yrs)", quantitySVAS.L1Interview_8to15yrs)}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
@@ -646,13 +887,16 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input"/>
+                                className="sol-price-table-qty-input"
+                                value={quantitySVAS.L1Interview_above15yrs}
+                                  onChange={(e) => setQuantitySVAS({ ...quantitySVAS, L1Interview_above15yrs: e.target.value })}/>
                             </td>
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {totalSVAS.L1Interview_above15yrs}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={() => handleValServiceBuyNowClick("L1Interview(>15yrs)", quantitySVAS.L1Interview_above15yrs)}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
@@ -692,13 +936,16 @@ const Packages = ({ companyId }) => {
                             <td className="sol-price-table-data text-center sol-price-table-qty-area">
                               <input
                                 type="number"
-                                className="sol-price-table-qty-input"/>
+                                className="sol-price-table-qty-input"
+                                value={quantitySVAS.BGVComprehensive}
+                                  onChange={(e) => setQuantitySVAS({ ...quantitySVAS, BGVComprehensive: e.target.value })}/>
                             </td>
                             <td className="sol-price-table-data price text-center">
-                              10
+                            {totalSVAS.BGVComprehensive}
                             </td>
                             <td className="text-center last-data sol-price-buy-now-btn-area">
-                              <button className="sol-price-buy-now-btn">
+                              <button className="sol-price-buy-now-btn"
+                              onClick={() => handleValServiceBuyNowClick("BGVComprehensive", quantitySVAS.BGVComprehensive)}>
                                 <div className="sol-price-buy-now-btn-sub">
                                   Buy Now
                                 </div>
