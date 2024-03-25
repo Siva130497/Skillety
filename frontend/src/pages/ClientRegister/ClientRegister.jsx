@@ -76,11 +76,11 @@ const ClientRegister = () => {
         }));
     }, [profile]);
 
-    useEffect(()=>{
-        if(clientToken){
+    useEffect(() => {
+        if (clientToken) {
             navigate("/client-home")
         }
-    },[clientToken])
+    }, [clientToken])
 
 
     const registerUser = async (userData) => {
@@ -152,7 +152,7 @@ const ClientRegister = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         if (
             credentials.name &&
             credentials.companyName &&
@@ -172,7 +172,7 @@ const ClientRegister = () => {
             console.log(updatedCredentials);
             registerUser(updatedCredentials);
 
-        }else{
+        } else {
             setRequire(true);
         }
 
@@ -257,7 +257,7 @@ const ClientRegister = () => {
 
                             <div className="cli--reg-form-area">
                                 <div className="con--note-form-area" data-aos="fade-up">
-                                    <form action="" 
+                                    <form action=""
                                     // onSubmit={handleSubmit}
                                     >
                                         <div className="row">
@@ -332,7 +332,36 @@ const ClientRegister = () => {
                                                         placeholder='Enter a clear & specific industry to get better responses' /> */}
 
                                                     <div className='cand--reg-multi-input-form-group'>
-                                                        <input type="search" id='searchIndustryInput' name='searchIndustryInput'
+
+                                                        <div className="container-input-area">
+                                                            {selectedIndustry.map(selectIndustry => (
+                                                                <span className="form__badge"
+                                                                    key={selectIndustry}
+                                                                ><span>{selectIndustry}</span>
+                                                                    <i className='bi bi-x' onClick={() => handleDeselectIndustry(selectIndustry)}></i>
+                                                                </span>
+                                                            ))}
+                                                            <div className='position-relative container__input_section'>
+                                                                <div className="container__input_with_label">
+                                                                    <input type="search" className='container__input'
+                                                                        id='searchIndustryInput' name='searchIndustryInput'
+                                                                        value={searchIndustryInput}
+                                                                        onChange={handleIndustrySearch} />
+                                                                    <label htmlFor="skill" className={`container__input_label text-gray ${searchIndustryInput ? 'd-none' : ''}`}>Select an industry to get better responses</label>
+                                                                </div>
+                                                                <div className='search-result-data-area'>
+                                                                    {filteredIndustry.length > 0 &&
+                                                                        filteredIndustry.map((filterIndustry) => {
+                                                                            return <div className='search-result-data' key={filterIndustry._id} onClick={() => handleIndustryClick(filterIndustry.industry)}>
+                                                                                {filterIndustry.industry}
+                                                                            </div>
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* <input type="search" id='searchIndustryInput' name='searchIndustryInput'
                                                             value={searchIndustryInput}
                                                             onChange={handleIndustrySearch}
                                                             className='cand--reg-flex-input industry'
@@ -345,15 +374,15 @@ const ClientRegister = () => {
                                                                     </div>
                                                                 })
                                                             }
-                                                        </div>
-                                                        <div className='cand-reg-form-badge-area'>
+                                                        </div> */}
+                                                        {/* <div className='cand-reg-form-badge-area'>
                                                             {selectedIndustry.map(selectIndustry => (
                                                                 <span className="cand-reg-form-badge"
                                                                     key={selectIndustry}
                                                                     onClick={() => handleDeselectIndustry(selectIndustry)}
                                                                 >{selectIndustry}</span>
                                                             ))}
-                                                        </div>
+                                                        </div> */}
                                                         {require && <small className='text-danger text-capitalized'>{selectedIndustry.length === 0 && "required"}</small>}
                                                     </div>
 
@@ -401,7 +430,7 @@ const ClientRegister = () => {
                                                 </label>
                                             </div>
                                             <button type='submit' className='reg--form-btn-sub' disabled={!isAgreed} data-aos="fade-left"
-                                            onClick={handleSubmit}>
+                                                onClick={handleSubmit}>
                                                 <div className='reg--form-btn client'>
                                                     {spinStatus && <svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#FFF"></path>

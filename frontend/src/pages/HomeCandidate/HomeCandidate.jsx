@@ -684,7 +684,7 @@ const HomeCandidate = () => {
         </div>
       </div>
 
-      <section className='custom--mobile-padding candidate'>
+      <section className='custom--mobile-padding candidate cand-home-job-seaction'>
         <div className='candidate--section candidate'>
           <div className='home--about-toparea'>
             <div className='home--about-headarea'>
