@@ -3262,7 +3262,7 @@ const getViewedCandidates = async(req, res) => {
       console.log(clientViewedCandidate);
       return res.status(200).json(clientViewedCandidate);
     }else{
-      return res.status(404).json({ message: 'no candidates cv still not viewed' });
+      return res.status(404).json({ error: 'no candidates cv still not viewed' });
     }
   }catch(err){
     return res.status(500).json({ error: err.message });

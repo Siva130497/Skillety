@@ -574,7 +574,7 @@ const SkilletyPackagePlans = () => {
   }, [packageSelectionDetail]);
 
   useEffect(()=>{
-    if(urlParams.get('id')){
+    if(urlParams.get('packageType')){
       switchTab(2);
       setPackageInfo({
         id: urlParams.get('id'),
@@ -586,6 +586,31 @@ const SkilletyPackagePlans = () => {
         amount: urlParams.get('amount'),
         realPrice: urlParams.get('realPrice'),
         offerPrice: urlParams.get('offerPrice'),
+        GST: urlParams.get('GST'),
+        GSTAmount: urlParams.get('GSTAmount')
+      });
+    }else if(urlParams.get('serviceNames')){
+      switchServiceTab(2);
+      setServiceInfo({
+        id: urlParams.get('id'),
+        serviceNames: urlParams.get('serviceNames').split(', '),
+        quantities: JSON.parse(urlParams.get('quantities')),
+        validity: urlParams.get('validity'),
+        servicePrice: urlParams.get('servicePrice'),
+        finalAmount: urlParams.get('finalAmount'),
+        discount: urlParams.get('discount'),
+        discountAmount: urlParams.get('discountAmount'),
+        GST: urlParams.get('GST'),
+        GSTAmount: urlParams.get('GSTAmount')
+      });
+    }else if(urlParams.get('serviceName')){
+      switchValServiceTab(2);
+      setValueAddedServiceInfo({
+        id: urlParams.get('id'),
+        serviceName: urlParams.get('serviceName'),
+        quantity: urlParams.get('quantity'),
+        servicePrice: urlParams.get('servicePrice'),
+        finalAmount: urlParams.get('finalAmount'),
         GST: urlParams.get('GST'),
         GSTAmount: urlParams.get('GSTAmount')
       });
