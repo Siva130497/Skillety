@@ -718,7 +718,7 @@ const ClientDashboard = () => {
                                                                 <a href='/talent-profile-search' className="dash-table-see-all-btn">See all</a>
                                                             </div>
                                                             {!contentloading ? (
-                                                                <div className="table-responsive dash-table-container client mt-2 mt-md-4">
+                                                                <div className="table-responsive dash-table-container client mt-2 mt-md-3">
                                                                     {candidateDetail.filter(cand => {
                                                                         const postedJobsSkills = new Set(postedJobs.flatMap(job => job.skills));
                                                                         return cand.skills.some(skill => postedJobsSkills.has(skill));

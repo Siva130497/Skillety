@@ -2040,7 +2040,7 @@ const TalentsProfileSearch = () => {
                                                                 <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                                                             </div> */}
                               </div>
-                              {selectedResults.length > 0 && (
+                              {/* {selectedResults.length > 0 && (
                                 <div className="cli--tal-pro-badge-area mb-4">
                                   {selectedResults.map((selectResult) => (
                                     <span
@@ -2054,9 +2054,58 @@ const TalentsProfileSearch = () => {
                                     </span>
                                   ))}
                                 </div>
-                              )}
+                              )} */}
                               <div className="cli--tal-pro-filter-input-area">
-                                <input
+
+                                <div className="container_input_section">
+                                  <div className="container_search_icon_area">
+                                    <i className="bi bi-search"></i>
+                                  </div>
+                                  <div className="container-input-area3">
+
+                                    {selectedResults.length > 0 && (
+                                      <>
+                                        {selectedResults.map((selectResult) => (
+                                          <span className="form__badge2"
+                                            key={selectResult}
+                                          ><span>{selectResult}</span>
+                                            <i className='bi bi-x' onClick={() => handleDeselect(selectResult)}></i>
+                                          </span>
+                                        ))}
+                                      </>
+                                    )}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchKeywordInput'
+                                          id='searchKeywordInput'
+                                          value={filters.searchInput}
+                                          onChange={handleSearch} />
+                                        <label htmlFor="searchKeywordInput" className={`container__input_label2 small-text ${filters.searchInput ? 'd-none' : ''}`}>Enter keywords like skills, designation</label>
+                                      </div>
+
+                                      <div className="tal-pro-search-result-data-area">
+                                        {filteredList.length > 0 &&
+                                          filteredList.map((filterResult, index) => (
+                                            <div
+                                              className="tal-pro-search-result-data"
+                                              key={index}
+                                              onClick={() =>
+                                                handleFilteredClick(filterResult)
+                                              }
+                                            >
+                                              {filterResult}
+                                            </div>
+                                          ))}
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                {/* <input
                                   type="search"
                                   className="cli--tal-pro-filter-input"
                                   placeholder="Enter keywords like skills, designation"
@@ -2077,7 +2126,8 @@ const TalentsProfileSearch = () => {
                                         {filterResult}
                                       </div>
                                     ))}
-                                </div>
+                                </div> */}
+
                               </div>
                               <div className="cli--mark-keyword-area">
                                 <label className="cli--mark-keyword-check-input">
@@ -2379,7 +2429,7 @@ const TalentsProfileSearch = () => {
                                   Current or Preferred location of talent
                                 </h6>
                               </div>
-                              {selectedLocationResults.length > 0 && (
+                              {/* {selectedLocationResults.length > 0 && (
                                 <div className="cli--tal-pro-badge-area mb-4">
                                   {selectedLocationResults.map(
                                     (selectResult) => (
@@ -2395,9 +2445,62 @@ const TalentsProfileSearch = () => {
                                     )
                                   )}
                                 </div>
-                              )}
+                              )} */}
+
+
                               <div className="cli-tal-pro-search-filter-input-area location">
-                                <input
+                                <div className="container_input_section">
+                                  {/* <div className="container_search_icon_area">
+                                    <i className="bi bi-search"></i>
+                                  </div> */}
+                                  <div className="container-input-area3 no-icon">
+
+                                    {selectedLocationResults.length > 0 && (
+                                      <>
+                                        {selectedLocationResults.map((selectResult) => (
+                                          <span className="form__badge2"
+                                            key={selectResult}
+                                          ><span>{selectResult}</span>
+                                            <i className='bi bi-x' onClick={() =>
+                                              handleDeselectLocation(selectResult)
+                                            }></i>
+                                          </span>
+                                        ))}
+                                      </>
+                                    )}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searcgLocationInput'
+                                          id='searcgLocationInput'
+                                          value={filters.location}
+                                          onChange={handleLocationSearch} />
+                                        <label htmlFor="searcgLocationInput" className={`container__input_label2 small-text ${filters.location ? 'd-none' : ''}`}>Search location</label>
+                                      </div>
+
+                                      <div className="tal-pro-search-result-data-area">
+                                        {filteredLocation.length > 0 &&
+                                          filteredLocation.map((filterResult) => (
+                                            <div
+                                              className="tal-pro-search-result-data"
+                                              key={filterResult._id}
+                                              onClick={() =>
+                                                handleFilteredLocationClick(
+                                                  filterResult.location
+                                                )
+                                              }
+                                            >
+                                              {filterResult.location}
+                                            </div>
+                                          ))}
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* <input
                                   type="search"
                                   className="cli-tal-pro-search-filter-input"
                                   placeholder="Search location"
@@ -2419,7 +2522,8 @@ const TalentsProfileSearch = () => {
                                         {filterResult.location}
                                       </div>
                                     ))}
-                                </div>
+                                </div> */}
+
                               </div>
                               {/* <div className="cli--mark-keyword-area search-results">
                                                                 <label className="cli--mark-keyword-check-input">
@@ -2597,7 +2701,7 @@ const TalentsProfileSearch = () => {
                                     </label>
                                   </div>
 
-                                  {selectedEducationResults.length > 0 && (
+                                  {/* {selectedEducationResults.length > 0 && (
                                     <div className="cli--tal-pro-badge-area mb-4">
                                       {selectedEducationResults.map(
                                         (selectResult) => (
@@ -2615,10 +2719,61 @@ const TalentsProfileSearch = () => {
                                         )
                                       )}
                                     </div>
-                                  )}
+                                  )} */}
 
                                   <div className="cli-tal-pro-search-filter-input-area">
-                                    <input
+
+                                    <div className="container_input_section">
+                                      {/* <div className="container_search_icon_area">
+                                    <i className="bi bi-search"></i>
+                                  </div> */}
+                                      <div className="container-input-area3 no-icon">
+
+                                        {selectedEducationResults.length > 0 && (
+                                          <>
+                                            {selectedEducationResults.map(
+                                              (selectResult) => (
+                                                <span className="form__badge2" key={selectResult}><span>{selectResult}</span>
+                                                  <i className='bi bi-x' onClick={() => handleDeselectEducation(selectResult)}></i>
+                                                </span>
+                                              ))}
+                                          </>
+                                        )}
+
+                                        <div className='position-relative container__input_section'>
+                                          <div className="container__input_with_label">
+                                            <input type="search" className='container__input2'
+                                              name='department'
+                                              id='department'
+                                              value={filters.education}
+                                              onChange={handleEducationSearch} />
+                                            <label htmlFor="department" className={`container__input_label2 small-text ${filters.education ? 'd-none' : ''}`}>Enter educational details</label>
+                                          </div>
+
+                                          <div className="tal-pro-search-result-data-area">
+                                            {filteredEducation.length > 0 &&
+                                              filteredEducation.map(
+                                                (filterResult) => (
+                                                  <div
+                                                    className="tal-pro-search-result-data"
+                                                    key={filterResult._id}
+                                                    onClick={() =>
+                                                      handleFilteredEducationClick(
+                                                        filterResult.education
+                                                      )
+                                                    }
+                                                  >
+                                                    {filterResult.education}
+                                                  </div>
+                                                )
+                                              )}
+                                          </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* <input
                                       type="search"
                                       name="department"
                                       className="cli-tal-pro-search-filter-input"
@@ -2643,7 +2798,8 @@ const TalentsProfileSearch = () => {
                                             </div>
                                           )
                                         )}
-                                    </div>
+                                    </div> */}
+                                    
                                   </div>
                                 </div>
 
