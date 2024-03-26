@@ -26,7 +26,7 @@ const Home = () => {
   const [talentHomeContent, setTalentHomeContent] = useState([]);
   const [clientLogos, setClientLogos] = useState([]);
   const [candidateDetail, setCandidateDetail] = useState([]);
-  const { getCandidateImg, candidateImg, getProtectedData } = useContext(AuthContext);
+  const { getCandidateImg, candidateImg, getProtectedData, loginId } = useContext(AuthContext);
   const [clientToken, setClientToken] = useState("");
 
   const [skillArray, setSkillArray] = useState([]);
@@ -142,7 +142,7 @@ const Home = () => {
             });
 
             if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
-                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
+                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}&loginId=${loginId}`;
                 // if (!isNaN(percentage)) {
                 //     url += `&percentage=${percentage}`;
                 // }

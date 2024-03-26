@@ -12,7 +12,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive, eventsActive, contactActive}) => {
 
-    const { getProtectedData } = useContext(AuthContext);
+    const { getProtectedData, loginId } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
@@ -23,7 +23,7 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
     const [talentJobPostContent, setTalentJobPostContent] = useState([]);
 
     const [socket, setSocket] = useState(null);
-    const [loginId, setLoginId] = useState("");
+    // const [loginId, setLoginId] = useState("");
 
 
         //for show success message for payment
@@ -56,12 +56,11 @@ export const NewNavCandidateHome = ({homeActive, aboutUsActive, searchJobActive,
     },[candidateToken, token]);
     
     useEffect(() => {
-        if ((candidateToken || token) && socket) {
-            const id = uuidv4();
-            setLoginId(id);
-          socket?.emit('join_room', id)
+        if ((candidateToken || token) && socket && loginId) {
+            
+          socket?.emit('join_room', loginId)
         }
-      }, [candidateToken, token, socket]);
+      }, [candidateToken, token, socket, loginId]);
     
       const handleLogout = (e) => {
         e.preventDefault(); // Prevent default anchor tag behavior
