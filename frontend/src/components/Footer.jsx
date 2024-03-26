@@ -1,7 +1,49 @@
 import React from 'react'
+import { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [subscriberEmail, setSubscriberEmail] = useState("");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+   //for show success message for payment
+   function showSuccessMessage(message) {
+    Swal.fire({
+      title: 'Thank you for subscribing!',
+      text: message,
+      icon: 'success',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  //for show error message for payment
+  function showErrorMessage(message) {
+    Swal.fire({
+      title: 'Sorry to say!',
+      text: message,
+      icon: 'error',
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'OK',
+    });
+  }
+
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+    axios.post("https://skillety-n6r1.onrender.com/subscribe", {subscriberEmail})
+    .then(res=>{
+      console.log(res.data);
+      showSuccessMessage("Subscribed successfully!");
+      setSubscriberEmail("");
+    }).catch(err=>{
+      console.log(err);
+      showErrorMessage(`Subcribtion failed!, Try again: ${err.response.data.error}`);
+    })
+  }
   return (
       
         <footer className='footer--section'>
@@ -18,9 +60,14 @@ export const Footer = () => {
                       <p className='footer--email-desc' data-aos="fade-right">
                         Enter your email below to sign up for our twice weekly newsletter.
                       </p>
-                      <form action="">
+                      <form action=""
+                      onSubmit={handleSubmit}>
                         <input type="text" className='form-control footer--email-input' data-aos="fade-up"
-                          placeholder='Your email' required />
+                          placeholder='Your email' required 
+                          onChange={(e)=>{
+                            setSubscriberEmail(e.target.value)
+                            }}/>
+                            <div>{(!emailRegex.test(subscriberEmail) && subscriberEmail) ? "Enter valid email address" : ""}</div>
                         <div className="footer--sub-btn-area">
                           <button type='submit' className='footer--sub-btn-sub' data-aos="fade-right">
                             <div className='footer--sub-btn'>
