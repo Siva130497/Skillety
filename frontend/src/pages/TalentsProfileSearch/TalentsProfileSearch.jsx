@@ -22,6 +22,7 @@ const TalentsProfileSearch = () => {
     packageSelectionDetail,
     getCandidateImg,
     candidateImg,
+    loginId
   } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState([]);
@@ -1719,7 +1720,7 @@ const TalentsProfileSearch = () => {
         });
 
         if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
-          let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}`;
+          let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?token=${encodeURIComponent(clientToken)}&loginId=${loginId}`;
           if (!isNaN(percentage)) {
             url += `&percentage=${percentage}`;
           }

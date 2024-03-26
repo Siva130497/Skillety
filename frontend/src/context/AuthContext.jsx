@@ -6,6 +6,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebaseConfig';
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthContext = createContext();
 
@@ -24,6 +25,8 @@ export const AuthContextProvider = ({children}) => {
     const [clientImg, setClientImg] = useState();
     const [packageSelectionDetail, setPackageSelectionDetail] = useState();
     const [result, setResult] = useState();
+
+    const loginId = uuidv4();
 
     //for show success message for payment
   function showSuccessMessage(message) {
@@ -46,6 +49,8 @@ export const AuthContextProvider = ({children}) => {
       confirmButtonText: 'OK',
     });
   }
+
+  
    
     //user login request
     const loginUser = async (userData) => {
@@ -313,7 +318,7 @@ export const AuthContextProvider = ({children}) => {
       }
 
 
-    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result}}>
+    return<AuthContext.Provider value={{candidateReg, loginUser, getProtectedData, errorMsg, setErrorMsg, eventDetail, getEventDetail, getEventImg, eventImg, blogDetail, getBlogsDetail,videoDetail, getVideoDetail, podcastDetail, getPodcastDetail, newsDetail, getNewsDetail, getCandidateImg, candidateImg, getClientImg, clientImg, getClientChoosenPlan, packageSelectionDetail, result, loginId}}>
             {children}
         </AuthContext.Provider>
 }

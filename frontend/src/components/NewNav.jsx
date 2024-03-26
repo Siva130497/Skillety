@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 import { v4 as uuidv4 } from "uuid";
 
 const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOActive, contactActive, postJobActive }) => {
-    const { getProtectedData } = useContext(AuthContext);
+    const { getProtectedData,  loginId} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [userName, setUserName] = useState('');
@@ -23,7 +23,7 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
     const [loginClientDetail, setLoginClientDetail] = useState();
 
     const [socket, setSocket] = useState(null);
-    const [loginId, setLoginId] = useState("");
+    // const [loginId, setLoginId] = useState("");
 
     //for show success message for payment
   function showSuccessMessage(message) {
@@ -55,12 +55,11 @@ const NewNav = ({ homeActive, aboutUsActive, searchCVActive, serviceActive, RPOA
 },[clientToken]);
 
 useEffect(() => {
-    if (clientToken && socket) {
-        const id = uuidv4();
-        setLoginId(id);
-      socket?.emit('join_room', id)
+    if (clientToken && socket && loginId) {
+        
+      socket?.emit('join_room', loginId)
     }
-  }, [clientToken, socket]);
+  }, [clientToken, socket, loginId]); 
 
   const handleLogout = () => {
     const logoutMsg = {

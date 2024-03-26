@@ -464,7 +464,7 @@ const CreateCandidateATS = () => {
             }
             if (selectedSkills.length < maxSkillNum) {
                 setSkillError("")
-                const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase());
+                const foundObject = skillArray.find(item => item.skill.toLowerCase() === newSkill.toLowerCase().trim());
                 if (foundObject) {
                     setSkillError(`Skill "${newSkill}" already in list, please search...`);
                     setNewSkill("");
@@ -483,7 +483,7 @@ const CreateCandidateATS = () => {
 
     const handleManualDesignation = () => {
         setSearchDesignationInput("");
-        const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase());
+        const foundObject = designationArray.find(item => item.designation.toLowerCase() === newDesignation.toLowerCase().trim());
         if (foundObject) {
             setDesignationAlert(`Designation "${newDesignation}" already in list, please search...`);
             setNewDesignation("");

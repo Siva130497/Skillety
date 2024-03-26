@@ -18,7 +18,7 @@ const Packages = ({ companyId }) => {
 
   const [allPackages, setAllPackages] = useState([]);
 
-  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail } = useContext(AuthContext);
+  const { getProtectedData, getClientChoosenPlan, packageSelectionDetail, loginId } = useContext(AuthContext);
   const [employeeId, setEmployeeId] = useState("");
   const [loginClientDetail, setLoginClientDetail] = useState();
   const [currentPackage, setCurrentPackage] = useState();
@@ -144,7 +144,7 @@ const Packages = ({ companyId }) => {
       const params = new URLSearchParams(valueAddedServiceInfo);
 
     if (clientToken && loginClientDetail?.companyId) {
-      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}&loginId=${loginId}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
@@ -246,7 +246,7 @@ const Packages = ({ companyId }) => {
     const params = new URLSearchParams(packDetail);
 
     if (clientToken && loginClientDetail?.companyId) {
-      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+      const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}&loginId=${loginId}`;
       window.open(url, '_blank');
     } else {
       navigate('/client-login');
@@ -294,7 +294,7 @@ const Packages = ({ companyId }) => {
         const params = new URLSearchParams(serviceInfo);
 
         if (clientToken && loginClientDetail?.companyId) {
-            const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}`;
+            const url = `https://skillety-dashboard-tk2y.onrender.com/package-plans?clientToken=${encodeURIComponent(clientToken)}&${params.toString()}&loginId=${loginId}`;
             window.open(url, '_blank');
         } else {
             navigate('/client-login');
