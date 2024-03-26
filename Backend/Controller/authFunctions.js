@@ -73,7 +73,7 @@ const offlineCand = require("../Database/offlineCand");
 
 const webContent = require("../Database/webContent");
 const clientLogoWeb = require("../Database/clientLogoWeb");
-
+const SubscribingUser = require("../Database/subscribingUser");
 
 // const hash = async() => {
 //   const pass = 'newpassword'
@@ -9142,6 +9142,109 @@ const deleteClientLogo = async (req, res) => {
   }
 };
 
+/* sending subscribe mail to subscribe user */
+const subscribingMailSending = async(req, res) => {
+  try{
+    const { subscriberEmail } = req.body;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(subscriberEmail)) {
+      return res.status(400).json({ error: "Please enter a valid email"});
+  }
+    // Get current date
+    const currentDate = new Date();
+
+    // Format date as dd/mm/yyyy
+    const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
+    const newSubscribingUser = new SubscribingUser({
+      email:subscriberEmail,
+      subcribtionDate:formattedDate
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: "demoemail1322@gmail.com",
+        pass: "znsdgrmwzskpatwz"
+      }
+    });
+
+    const mailOptions = {
+      from: "demoemail1322@gmail.com",
+      to: `${subscriberEmail}`, 
+      subject: 'Mail from SKILLITY!',
+      text: 'Welcome to Skillety!',
+      html: `<div style="position: relative; padding:20px; font-family:Calibri;">
+        <div style="text-align: center;">
+            <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
+        </div>
+        <div style="margin-top: 40px; font-size:15px;">
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for subscribing Skillety. We are happy to have you with us.</p>
+            <div>
+                <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
+                <p>We look forward to serving you.</p>
+            </div>
+        </div>
+    </div>`,
+    };
+
+    transporter.sendMail(mailOptions, async function (error, info) { // async added here
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ error: error.message});
+      } else {
+        console.log('Email sent: ' + info.response);
+        try {
+          await newSubscribingUser.save();
+          res.status(201).json({ message: "Subscribtion message sent successfully!", emailSent: true });
+        } catch (err) {
+          res.status(500).json({ error: err.message });
+        }
+      }
+    });
+    
+  }catch (err){
+    res.status(500).json({ error: err.message });
+  }
+}
+
+
+//getting all subscribed users
+const getAllSubscribedUsers = async(req, res) => {
+  try{
+      const page = parseInt(req.query.page) || 1; // Default page is 1
+      const limit = parseInt(req.query.limit) || 10; // Number of items per page
+
+        // Query total count of documents matching the filters
+        const totalCount = await SubscribingUser.countDocuments();
+
+        // Calculate the skip value based on the page number and limit
+        const skip = (page - 1) * limit;
+
+        const allUsers = await SubscribingUser.find()
+            .sort({ updatedAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean()
+            .exec();
+
+        if (allUsers.length === 0) {
+            return res.status(404).json({ error: "No users found" });
+        }
+
+        // Return plain JavaScript objects with pagination info
+        return res.status(200).json({
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+            totalUsers:totalCount,
+            data: allUsers
+        });
+  }catch (err){
+    res.status(500).json({error:err.message});
+  }
+}
+
+
 /* candidate detail bulk upload */
 const candidateDetailUpload = async(req, res) => {
   try{
@@ -9747,6 +9850,8 @@ module.exports = {
   getAllClientLogos,
   savingClientLogos,
   deleteClientLogo,
+  subscribingMailSending,
+  getAllSubscribedUsers,
 
   candidateDetailUpload,
   clientDetailUpload,

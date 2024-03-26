@@ -47,7 +47,6 @@ export const AuthContextProvider = ({children}) => {
     });
   }
    
-
     //user login request
     const loginUser = async (userData) => {
         try {

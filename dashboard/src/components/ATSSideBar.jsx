@@ -67,6 +67,8 @@ const ATSSideBar = () => {
             } else if (path === '/candidate-contact-message') {
                 $('#contact-message-candidate').addClass('active');
                 $('#contact-message').addClass('active');
+            } else if (path === '/subscribed-users') {
+                $('#subscribed_users').addClass('active');
             } else if (path === '/enquiry-details') {
                 $('#enquiry_details').addClass('active');
             } else if (path === '/posted-media/event') {
@@ -246,7 +248,7 @@ const ATSSideBar = () => {
                     {/* <li className="dropdown" id='posted_events'>
                             <a href="/posted-events" className="nav-link"><i data-feather="calendar"></i><span>Posted Events</span></a>
                         </li> */}
-                    {
+                    
                         <li className="dropdown" id='chat'>
                             <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="send"></i><span>Chat</span></a>
                             <ul className="dropdown-menu">
@@ -254,7 +256,10 @@ const ATSSideBar = () => {
                                 <li id='chat_candidate'><a className="nav-link" href="/chat-candidate">Candidate</a></li>
                             </ul>
                         </li>
-                    }
+                        <li className="dropdown" id='subscribed_users'>
+                            <a href="/subscribed-users" className="nav-link"><i data-feather="users"></i><span>Subscribed Users</span></a>
+                        </li>
+                    
 
                     <li className="dropdown" id='customize'>
                         <a href="#" className="menu-toggle nav-link has-dropdown"><i data-feather="edit"></i><span>Customize Website</span></a>

@@ -66,6 +66,7 @@ import PostedEvents from './pages/PostedEvents/PostedEvents';
 import EnquiryDetails from './pages/EnquiryDetails/EnquiryDetails';
 import CandidateContact from './pages/CandidateContact/CandidateContact';
 import ClientContact from './pages/ClientContact/ClientContact';
+import SubscribeUsers from './pages/Subscribed Users/SubscribeUsers';
 import NonApprovalJobs from './pages/NonApprovalJobs/NonApprovalJobs';
 import RecruiterLogin from './pages/RecruiterLogin/RecruiterLogin';
 import JobEditingRecruiter from './pages/EditJob recruiter/JobEditingRecruiter';
@@ -175,6 +176,7 @@ function App() {
         <Route path='/enquiry-details' element={<EnquiryDetails />} />
         <Route path='/candidate-contact-message' element={<CandidateContact />} />
         <Route path='/client-contact-message' element={<ClientContact />} />
+        <Route path='/subscribed-users' element={<SubscribeUsers />} />
         <Route path='/edit-job-recruiter/:id' element={<JobEditingRecruiter />} />
         <Route path='/applied-candidate-recruiter/:id' element={<AppliedCandidateRecruiter />} />
         <Route path='/chat-candidate' element={<CandidateChat />} />
