@@ -246,6 +246,8 @@ const {
    getAllClientLogos,
    savingClientLogos,
    deleteClientLogo,
+   subscribingMailSending,
+   getAllSubscribedUsers,
    
    candidateDetailUpload,
    clientDetailUpload,
@@ -912,6 +914,12 @@ router.post("/client-logos", employeeAuth, uploadImgBase64Logo.array('logo'), sa
 
 //delete particular client logo using mongoose id
 router.delete("/client-logo/:id", employeeAuth, deleteClientLogo);
+
+//send subscribing mail to user
+router.post("/subscribe", subscribingMailSending);
+
+//get all subscribers 
+router.get("/all-subscribers", employeeAuth, getAllSubscribedUsers);
 
 //bulk candidate detail save
 router.post("/bulk-candidate", candidateDetailUpload);
