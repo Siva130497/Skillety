@@ -249,26 +249,26 @@ const JobSearch = () => {
     // }, [])
 
     useEffect(() => {
-        
-            const fetchData = async () => {
-                try {
-                    const user = await getProtectedData(candidateToken);
-                    console.log(user);
-                    setCandidateId(user.id || user?.responseData.uid);
-                    setCandToken(user.userToken);
-                } catch (error) {
-                    console.log(error);
-                    window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
 
-                }
-            };
+        const fetchData = async () => {
+            try {
+                const user = await getProtectedData(candidateToken);
+                console.log(user);
+                setCandidateId(user.id || user?.responseData.uid);
+                setCandToken(user.userToken);
+            } catch (error) {
+                console.log(error);
+                window.location.href = 'https://skillety-frontend-wcth.onrender.com/candidate-login'
 
-            fetchData();
-            getAllSkills();
-            getAllJobRoles();
-            getAllLocations();
-            getAllEducation();
-        
+            }
+        };
+
+        fetchData();
+        getAllSkills();
+        getAllJobRoles();
+        getAllLocations();
+        getAllEducation();
+
     }, []);
 
     const getPostedjobs = async () => {
@@ -314,7 +314,7 @@ const JobSearch = () => {
 
     const getAppliedjobs = async () => {
         try {
-           
+
             const res = await axios.get(`https://skillety-n6r1.onrender.com/my-applied-jobs/${candidateId}`, {
                 headers: {
                     Authorization: `Bearer ${candidateToken ? candidateToken : candToken}`,
@@ -467,17 +467,17 @@ const JobSearch = () => {
                 return obj.designation.toLowerCase().includes(inputValue.toLowerCase());
             });
 
-            const skills = skillsObj.map(skill=>skill.skill);
-            const jobRoles = jobRolesObj.map(jobRole=>jobRole.designation);
+            const skills = skillsObj.map(skill => skill.skill);
+            const jobRoles = jobRolesObj.map(jobRole => jobRole.designation);
 
             function combineArraysUnique(arr1, arr2) {
                 const combinedSet = new Set([...arr1, ...arr2]);
                 return Array.from(combinedSet);
             }
-            
+
             const combinedResults = combineArraysUnique(skills, jobRoles);
 
-        
+
             if (combinedResults.length > 0) {
                 setFilteredList(combinedResults);
             } else {
@@ -2017,7 +2017,8 @@ const JobSearch = () => {
                     <h6 className='cl-toggle--switch-label'>Boolean Off</h6>
                 </div> */}
                                                                         </div>
-                                                                        {selectedResults.length > 0 && (
+                                                                        
+                                                                        {/* {selectedResults.length > 0 && (
                                                                             <div className='job-post-form-badge-area'>
                                                                                 {selectedResults.map(selectResult => (
                                                                                     <span className="job-post-form-badge job tal-search"
@@ -2026,10 +2027,56 @@ const JobSearch = () => {
                                                                                     >{selectResult}</span>
                                                                                 ))}
                                                                             </div>
-                                                                        )}
+                                                                        )} */}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
+
+                                                                            <div className="container_input_section">
+                                                                                <div className="container_search_icon_area">
+                                                                                    <i className="bi bi-search"></i>
+                                                                                </div>
+                                                                                <div className="container-input-area3">
+
+                                                                                    {selectedResults.length > 0 && (
+                                                                                        <>
+                                                                                            {selectedResults.map(selectResult => (
+                                                                                                <span className="form__badge candidate"
+                                                                                                    key={selectResult}
+                                                                                                ><span>{selectResult}</span>
+                                                                                                    <i className='bi bi-x' onClick={() => handleDeselect(selectResult)}></i>
+                                                                                                </span>
+                                                                                            ))}
+                                                                                        </>
+                                                                                    )}
+
+                                                                                    <div className='position-relative container__input_section'>
+                                                                                        <div className="container__input_with_label">
+                                                                                            <input type="search" className='container__input2'
+                                                                                                name='searcgKeywordInput'
+                                                                                                id='searcgKeywordInput'
+                                                                                                value={filters.searchInput}
+                                                                                                onChange={handleSearch} />
+                                                                                            <label htmlFor="searcgKeywordInput" className={`container__input_label2 small-text ${filters.searchInput ? 'd-none' : ''}`}>Enter keywords like skills, designation</label>
+                                                                                        </div>
+
+                                                                                        <div className='search-result-data-area'>
+                                                                                            {filteredList.length > 0 &&
+                                                                                                filteredList.map((filterResult, index) => (
+                                                                                                    <div
+                                                                                                        className='search-result-data job'
+                                                                                                        key={index}
+                                                                                                        onClick={() => handleFilteredClick(filterResult)}
+                                                                                                    >
+                                                                                                        {filterResult}
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter keywords like skills, designation'
                                                                                 value={filters.searchInput}
                                                                                 onChange={handleSearch}
                                                                             />
@@ -2045,7 +2092,8 @@ const JobSearch = () => {
                                                                                             {filterResult}
                                                                                         </div>
                                                                                     ))}
-                                                                            </div>
+                                                                            </div> */}
+
                                                                         </div>
 
                                                                         <div className="cli--mark-keyword-area">
@@ -2251,7 +2299,8 @@ const JobSearch = () => {
                                                                             <span>View more</span>
                                                                         </button>
                                                                     </div> */}
-                                                                        {selectedJobTitleResults.length > 0 && (
+
+                                                                        {/* {selectedJobTitleResults.length > 0 && (
                                                                             <div className='job-post-form-badge-area'>
                                                                                 {selectedJobTitleResults.map(selectResult => (
                                                                                     <span className="job-post-form-badge job tal-search"
@@ -2260,10 +2309,56 @@ const JobSearch = () => {
                                                                                     >{selectResult}</span>
                                                                                 ))}
                                                                             </div>
-                                                                        )}
+                                                                        )} */}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter Job title'
+
+                                                                            <div className="container_input_section">
+                                                                                <div className="container_search_icon_area">
+                                                                                    <i className="bi bi-search"></i>
+                                                                                </div>
+                                                                                <div className="container-input-area3">
+
+                                                                                    {selectedJobTitleResults.length > 0 && (
+                                                                                        <>
+                                                                                            {selectedJobTitleResults.map(selectResult => (
+                                                                                                <span className="form__badge candidate"
+                                                                                                    key={selectResult}
+                                                                                                ><span>{selectResult}</span>
+                                                                                                    <i className='bi bi-x' onClick={() => handleJobTitleDeselect(selectResult)}></i>
+                                                                                                </span>
+                                                                                            ))}
+                                                                                        </>
+                                                                                    )}
+
+                                                                                    <div className='position-relative container__input_section'>
+                                                                                        <div className="container__input_with_label">
+                                                                                            <input type="search" className='container__input2'
+                                                                                                name='searcgJobtitleInput'
+                                                                                                id='searcgJobtitleInput'
+                                                                                                value={filters.jobTitle}
+                                                                                                onChange={handleJobTitleSearch} />
+                                                                                            <label htmlFor="searcgJobtitleInput" className={`container__input_label2 small-text ${filters.jobTitle ? 'd-none' : ''}`}>Enter Job title</label>
+                                                                                        </div>
+
+                                                                                        <div className='search-result-data-area'>
+                                                                                            {filteredJobTitleList.length > 0 &&
+                                                                                                filteredJobTitleList.map((filterResult) => (
+                                                                                                    <div
+                                                                                                        className='search-result-data job'
+                                                                                                        key={filterResult._id}
+                                                                                                        onClick={() => handleJobTitleFilteredClick(filterResult.designation)}
+                                                                                                    >
+                                                                                                        {filterResult.designation}
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter Job title'
                                                                                 value={filters.jobTitle}
                                                                                 onChange={handleJobTitleSearch}
                                                                             />
@@ -2279,7 +2374,8 @@ const JobSearch = () => {
                                                                                             {filterResult.designation}
                                                                                         </div>
                                                                                     ))}
-                                                                            </div>
+                                                                            </div> */}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2308,7 +2404,7 @@ const JobSearch = () => {
                                                                             <span>View more</span>
                                                                         </button>
                                                                     </div> */}
-                                                                        {selectedLocationResults.length > 0 && (
+                                                                        {/* {selectedLocationResults.length > 0 && (
                                                                             <div className='job-post-form-badge-area'>
                                                                                 {selectedLocationResults.map(selectResult => (
                                                                                     <span className="job-post-form-badge job tal-search"
@@ -2317,10 +2413,56 @@ const JobSearch = () => {
                                                                                     >{selectResult}</span>
                                                                                 ))}
                                                                             </div>
-                                                                        )}
+                                                                        )} */}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
+
+                                                                            <div className="container_input_section">
+                                                                                <div className="container_search_icon_area">
+                                                                                    <i className="bi bi-search"></i>
+                                                                                </div>
+                                                                                <div className="container-input-area3">
+
+                                                                                    {selectedLocationResults.length > 0 && (
+                                                                                        <>
+                                                                                            {selectedLocationResults.map(selectResult => (
+                                                                                                <span className="form__badge candidate"
+                                                                                                    key={selectResult}
+                                                                                                ><span>{selectResult}</span>
+                                                                                                    <i className='bi bi-x' onClick={() => handleLocationDeselect(selectResult)}></i>
+                                                                                                </span>
+                                                                                            ))}
+                                                                                        </>
+                                                                                    )}
+
+                                                                                    <div className='position-relative container__input_section'>
+                                                                                        <div className="container__input_with_label">
+                                                                                            <input type="search" className='container__input2'
+                                                                                                name='searchLocationInput'
+                                                                                                id='searchLocationInput'
+                                                                                                value={filters.location}
+                                                                                                onChange={handleLocationSearch} />
+                                                                                            <label htmlFor="searchLocationInput" className={`container__input_label2 small-text ${filters.location ? 'd-none' : ''}`}>Enter location</label>
+                                                                                        </div>
+
+                                                                                        <div className='search-result-data-area'>
+                                                                                            {filteredLocationList.length > 0 &&
+                                                                                                filteredLocationList.map((filterResult) => (
+                                                                                                    <div
+                                                                                                        className='search-result-data job'
+                                                                                                        key={filterResult._id}
+                                                                                                        onClick={() => handleLocationFilteredClick(filterResult.location)}
+                                                                                                    >
+                                                                                                        {filterResult.location}
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter location'
                                                                                 value={filters.location}
                                                                                 onChange={handleLocationSearch}
                                                                             />
@@ -2336,7 +2478,8 @@ const JobSearch = () => {
                                                                                             {filterResult.location}
                                                                                         </div>
                                                                                     ))}
-                                                                            </div>
+                                                                            </div> */}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2356,6 +2499,7 @@ const JobSearch = () => {
                                                                                     <option value="" disabled>Select</option>
                                                                                     <option value="₹" >₹</option>
                                                                                     <option value="$">$</option>
+                                                                                    <option value="€">€</option>
                                                                                 </select>
                                                                                 <input type="number" className='cli-tal-pro-exp-input numeric-input width-70' placeholder='Min salary'
                                                                                     value={filters.minSalary}
@@ -2393,7 +2537,7 @@ const JobSearch = () => {
                                                                             <span>View more</span>
                                                                         </button>
                                                                     </div> */}
-                                                                        {selectedEducationResults.length > 0 && (
+                                                                        {/* {selectedEducationResults.length > 0 && (
                                                                             <div className='job-post-form-badge-area'>
                                                                                 {selectedEducationResults.map(selectResult => (
                                                                                     <span className="job-post-form-badge job tal-search"
@@ -2402,10 +2546,56 @@ const JobSearch = () => {
                                                                                     >{selectResult}</span>
                                                                                 ))}
                                                                             </div>
-                                                                        )}
+                                                                        )} */}
 
                                                                         <div className="cli--tal-pro-filter-input-area">
-                                                                            <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
+
+                                                                            <div className="container_input_section">
+                                                                                <div className="container_search_icon_area">
+                                                                                    <i className="bi bi-search"></i>
+                                                                                </div>
+                                                                                <div className="container-input-area3">
+
+                                                                                    {selectedEducationResults.length > 0 && (
+                                                                                        <>
+                                                                                            {selectedEducationResults.map(selectResult => (
+                                                                                                <span className="form__badge candidate"
+                                                                                                    key={selectResult}
+                                                                                                ><span>{selectResult}</span>
+                                                                                                    <i className='bi bi-x' onClick={() => handleEducationDeselect(selectResult)}></i>
+                                                                                                </span>
+                                                                                            ))}
+                                                                                        </>
+                                                                                    )}
+
+                                                                                    <div className='position-relative container__input_section'>
+                                                                                        <div className="container__input_with_label">
+                                                                                            <input type="search" className='container__input2'
+                                                                                                name='searchEducationInput'
+                                                                                                id='searchEducationInput'
+                                                                                                value={filters.education}
+                                                                                                onChange={handleEducationSearch} />
+                                                                                            <label htmlFor="searchEducationInput" className={`container__input_label2 small-text ${filters.education ? 'd-none' : ''}`}>Enter education</label>
+                                                                                        </div>
+
+                                                                                        <div className='search-result-data-area'>
+                                                                                            {filteredEducationList.length > 0 &&
+                                                                                                filteredEducationList.map((filterResult) => (
+                                                                                                    <div
+                                                                                                        className='search-result-data job'
+                                                                                                        key={filterResult._id}
+                                                                                                        onClick={() => handleEducationFilteredClick(filterResult.education)}
+                                                                                                    >
+                                                                                                        {filterResult.education}
+                                                                                                    </div>
+                                                                                                ))}
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* <input type="search" className='cli--tal-pro-filter-input' placeholder='Enter education'
                                                                                 value={filters.education}
                                                                                 onChange={handleEducationSearch}
                                                                             />
@@ -2421,7 +2611,8 @@ const JobSearch = () => {
                                                                                             {filterResult.education}
                                                                                         </div>
                                                                                     ))}
-                                                                            </div>
+                                                                            </div> */}
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -2450,7 +2641,7 @@ const JobSearch = () => {
                                                                         const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                         const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                         const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
-                                                                        const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.id);
+                                                                        const isApplied = appliedJobDetail.find(appJob => appJob.jobId === job.id);
                                                                         const calculateMatchPercentage = (skills1, skills2) => {
                                                                             const matchingSkills = skills2.filter(skill => skills1.includes(skill));
                                                                             return (matchingSkills.length / skills1.length) * 100;
@@ -2514,7 +2705,7 @@ const JobSearch = () => {
 
                                                                                     </div>
                                                                                     <div className="job--detail-card-know-more-btn-area">
-                                                                                        <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
+                                                                                        <a href={`/job-detail/${job.id}`} className='job--detail-card-know-more-btn'>{isApplied ? "Applied" : "Know more"}</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </article>
@@ -2524,7 +2715,7 @@ const JobSearch = () => {
                                                                             const matchingImg = clientImg ? clientImg.find(img => img.id === job.companyId) : null;
                                                                             const imgSrc = matchingImg ? `data:image/jpeg;base64,${matchingImg.image}` : "../assets/img/talents-images/avatar.jpg";
                                                                             const companyName = clients.find(cli => cli.companyId === job.companyId)?.companyName
-                                                                            const isApplied = appliedJobDetail.find(appJob=>appJob.jobId === job.jobId);
+                                                                            const isApplied = appliedJobDetail.find(appJob => appJob.jobId === job.jobId);
 
                                                                             return (
                                                                                 <article className='job--detail-card'>
@@ -2583,7 +2774,7 @@ const JobSearch = () => {
 
                                                                                         </div>
                                                                                         <div className="job--detail-card-know-more-btn-area">
-                                                                                            <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>{isApplied? "Applied" :"Know more"}</a>
+                                                                                            <a href={`/job-detail/${job.jobId}`} className='job--detail-card-know-more-btn'>{isApplied ? "Applied" : "Know more"}</a>
                                                                                         </div>
                                                                                     </div>
                                                                                 </article>
