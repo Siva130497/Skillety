@@ -121,6 +121,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    text-align: center;
     border-radius: 100px;
     border: #714F36 1px solid !important;
     padding: 7px 12px !important;

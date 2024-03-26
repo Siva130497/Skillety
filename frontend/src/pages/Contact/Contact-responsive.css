@@ -237,4 +237,8 @@
     .container__input{
         font-size: 16px;
     }
+
+    .text-gray {
+        font-size: 16px !important;
+    }
 }

@@ -21,7 +21,7 @@ export const CandidateFooter = () => {
                     </p>
                     <form action="">
                       <input
-                        type="text"
+                        type="email"
                         className="form-control footer--email-input candidate"
                         data-aos="fade-up"
                         placeholder="Your email"
