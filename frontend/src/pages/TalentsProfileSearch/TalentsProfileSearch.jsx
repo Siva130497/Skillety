@@ -2800,7 +2800,7 @@ const TalentsProfileSearch = () => {
                                           )
                                         )}
                                     </div> */}
-                                    
+
                                   </div>
                                 </div>
 
@@ -5000,7 +5000,7 @@ const TalentsProfileSearch = () => {
                             <button className="tal--search-submit-btn">
                               Submit
                             </button>
-                            <button className="clear--all_button">
+                            <button className="clear--all_button" onClick={() => {window.location.reload()}}>
                               Clear all
                             </button>
                           </div>

@@ -13,16 +13,18 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 const ContactCandidate = () => {
     const recaptcha = useRef();
+    const [candToken, setCandToken] = useState("");
+    const candidateToken = JSON.parse(localStorage.getItem("candidateToken"))
 
     const [candidateContactContent, setCandidateContactContent] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get("https://skillety-n6r1.onrender.com/web-content?ids=content_13,content_18,content_19,content_20,content_21,content_22,content_23,content_24,content_25")
-        .then(res=>{
-          console.log(res.data);
-          setCandidateContactContent(res.data);
-        }).catch(err=>console.log(err));
-      },[])
+            .then(res => {
+                console.log(res.data);
+                setCandidateContactContent(res.data);
+            }).catch(err => console.log(err));
+    }, [])
 
     //for show success message for payment
     function showSuccessMessage(message) {
@@ -132,28 +134,32 @@ const ContactCandidate = () => {
                                     </div>
                                     <div className="about--head candidate">
                                         <h2 data-aos="fade-left">
-                                        {candidateContactContent.find(content=>content.id === "content_13")?.content ||
-                                            "It’s Time to Make Skillety Work for You"}</h2>
+                                            {candidateContactContent.find(content => content.id === "content_13")?.content ||
+                                                "It’s Time to Make Skillety Work for You"}</h2>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
-                                    <div className="about--card-area">
-                                        <div className="card about--card candidate" data-aos="fade-right">
-                                            <div className="card--imgicon-area">
-                                                <h6 className='card--text candidate'>I am an immediate joiner</h6>
-                                                <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
+
+                                {!(candToken || candidateToken) &&
+                                    <div className="col-12 col-xl-4 col-lg-6 offset-lg-6 offset-xl-0 col-md-12 about--right-cover">
+                                        <div className="about--card-area">
+                                            <div className="card about--card candidate" data-aos="fade-right">
+                                                <div className="card--imgicon-area">
+                                                    <h6 className='card--text candidate'>I am an immediate joiner</h6>
+                                                    <img src="assets/img/home-images/clipboard-img.png" className='card--icon candidate' alt="" />
+                                                </div>
+                                                <div className="about--sub-des candidate">
+                                                    <p>
+                                                        You're just One Click away from the best opportunities.
+                                                    </p>
+                                                </div>
+                                                <a href='/candidate-login' className="arrow--icon-btn candidate">
+                                                    <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
+                                                </a>
                                             </div>
-                                            <div className="about--sub-des candidate">
-                                                <p>
-                                                You're just One Click away from the best opportunities.
-                                                </p>
-                                            </div>
-                                            <a href='/candidate-login' className="arrow--icon-btn candidate">
-                                                <img src="assets/img/home-images/arrow-dark.png" className='arrow--icon' alt="" />
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                }
+
                             </div>
                         </div>
 
@@ -161,30 +167,30 @@ const ContactCandidate = () => {
                             <div className="con--where-container">
                                 <div className="con--where-heading-area">
                                     <h4 className='con--where-heading' data-aos="fade-up">
-                                    {candidateContactContent.find(content=>content.id === "content_18")?.content ||
-                                        "Where Do We Work?"}
+                                        {candidateContactContent.find(content => content.id === "content_18")?.content ||
+                                            "Where Do We Work?"}
                                     </h4>
                                 </div>
                                 <div className="con--where-desc-area">
                                     <p className="con--where-desc" data-aos="fade-left">
-                                    {candidateContactContent.find(content=>content.id === "content_19")?.content ||
-                                        "Hello!, seekers of wisdom and answers! Welcome to the Contact Us page at Skillety - the space where your questions meet their match, and your curiosity gets a VIP pass to the front of the line!"}
+                                        {candidateContactContent.find(content => content.id === "content_19")?.content ||
+                                            "Hello!, seekers of wisdom and answers! Welcome to the Contact Us page at Skillety - the space where your questions meet their match, and your curiosity gets a VIP pass to the front of the line!"}
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
-                                    {candidateContactContent.find(content=>content.id === "content_20")?.content ||
-                                        "Need assistance, guidance, or just want to drop us a virtual high-five? We've got you covered like a cozy blanket on a chilly night. Our Contact Us page is more than just a form; it's a direct hotline to the wizards behind the career-curtain, ready to sprinkle a little magic on your queries."}
+                                        {candidateContactContent.find(content => content.id === "content_20")?.content ||
+                                            "Need assistance, guidance, or just want to drop us a virtual high-five? We've got you covered like a cozy blanket on a chilly night. Our Contact Us page is more than just a form; it's a direct hotline to the wizards behind the career-curtain, ready to sprinkle a little magic on your queries."}
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
-                                    {candidateContactContent.find(content=>content.id === "content_21")?.content ||
-                                        "Whether you're navigating the labyrinth of Job listings, seeking career advice, or just want to share your latest cat meme (we love those too), this is the place where pixels become handshakes. So, put on your typing gloves, flex those fingers, and let the conversation begin!"}
+                                        {candidateContactContent.find(content => content.id === "content_21")?.content ||
+                                            "Whether you're navigating the labyrinth of Job listings, seeking career advice, or just want to share your latest cat meme (we love those too), this is the place where pixels become handshakes. So, put on your typing gloves, flex those fingers, and let the conversation begin!"}
                                     </p>
 
                                     <p className="con--where-desc mt-4" data-aos="fade-left">
                                         <b>
-                                        {candidateContactContent.find(content=>content.id === "content_22")?.content ||
-                                            "Even better, just pick up your phone and call us @ +91-99664-33330. We’re waiting!!!"}</b>
+                                            {candidateContactContent.find(content => content.id === "content_22")?.content ||
+                                                "Even better, just pick up your phone and call us @ +91-99664-33330. We’re waiting!!!"}</b>
                                     </p>
 
                                 </div>
@@ -215,8 +221,8 @@ const ContactCandidate = () => {
                                                 </div>
                                                 <div className='con--loaction' data-aos="fade-left">
                                                     <a href="https://goo.gl/maps/SNX17mkAzaY8PVW36" target='_blank'>
-                                                    {candidateContactContent.find(content=>content.id === "content_23")?.content ||
-                                                        "Plot No. 45, 2nd Floor, Sarvasukhi Colony, West Marredpally, Secunderabad, Telangana 500026. INDIA."}
+                                                        {candidateContactContent.find(content => content.id === "content_23")?.content ||
+                                                            "Plot No. 45, 2nd Floor, Sarvasukhi Colony, West Marredpally, Secunderabad, Telangana 500026. INDIA."}
                                                     </a>
                                                 </div>
                                             </div>
@@ -226,8 +232,8 @@ const ContactCandidate = () => {
                                                 </div>
                                                 <div className='con--phone-no' data-aos="fade-left">
                                                     <a href="tel:+919966433330" target='_blank'>
-                                                    {candidateContactContent.find(content=>content.id === "content_24")?.content ||
-                                                        "+91-9966433330"}</a>
+                                                        {candidateContactContent.find(content => content.id === "content_24")?.content ||
+                                                            "+91-9966433330"}</a>
                                                 </div>
                                             </div>
                                             <div className="con--content">
@@ -236,8 +242,8 @@ const ContactCandidate = () => {
                                                 </div>
                                                 <div className='con--mail' data-aos="fade-left">
                                                     <a href="mailto:info@skillety.com" target='_blank'>
-                                                    {candidateContactContent.find(content=>content.id === "content_25")?.content ||
-                                                        "info@skillety.com"}</a>
+                                                        {candidateContactContent.find(content => content.id === "content_25")?.content ||
+                                                            "info@skillety.com"}</a>
                                                 </div>
                                             </div>
                                         </div>

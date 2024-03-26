@@ -347,7 +347,9 @@ const ClientRegister = () => {
                                                                         id='searchIndustryInput' name='searchIndustryInput'
                                                                         value={searchIndustryInput}
                                                                         onChange={handleIndustrySearch} />
-                                                                    <label htmlFor="skill" className={`container__input_label text-gray ${searchIndustryInput ? 'd-none' : ''}`}>Select an industry to get better responses</label>
+                                                                    {selectedIndustry.length === 0 &&
+                                                                        <label htmlFor="skill" className={`container__input_label text-gray ${searchIndustryInput ? 'd-none' : ''}`}>Select an industry to get better responses</label>
+                                                                    }
                                                                 </div>
                                                                 <div className='search-result-data-area'>
                                                                     {filteredIndustry.length > 0 &&
