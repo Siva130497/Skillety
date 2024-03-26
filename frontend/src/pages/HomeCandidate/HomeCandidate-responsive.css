@@ -26,7 +26,7 @@
     }
 
     .milestone--section.candidate {
-        margin-top: 80px;
+        margin-top: 70px;
     }
 
     .cand--job-card-loc-area .cand--job-card-location{
@@ -67,18 +67,15 @@
 
     .custom--mobile-padding.candidate {
         padding-top: 60px;
-    }
-
-    .custom--mobile-padding.candidate{
-        padding-bottom: 60px;
+        padding-bottom: 40px;
     }
 
     .home--testimonial-section.candidate {
-        padding-top: 40px;
+        padding-top: 0px;
     }
 
     .register--section.candidate {
-        padding: 0px 0 100px 0;
+        padding: 0px 0 80px 0;
     }
 }
 
@@ -98,7 +95,11 @@
     }
 
     .milestone--section.candidate {
-        margin-top: 100px;
+        margin-top: 70px;
+    }
+
+    .cand-home-job-seaction{
+        padding-top: 40px;
     }
 
     .home--rpo-section.candidate {
@@ -110,8 +111,12 @@
         font-size: 20px;
     }
 
+    .home--head.candidate h4{
+        font-size: 35px;
+    }
+
     .home--testimonial-section.candidate {
-        padding-top: 40px;
+        padding-top: 20px;
     }
 
     .cand--home-event-section {
@@ -254,7 +259,7 @@
     }
 
     .register--section.candidate {
-        padding: 0px 0 60px 0;
+        padding: 0px 0 50px 0;
     }
 
     .cand--job-card-desc-area .slide-down-view {

@@ -853,16 +853,46 @@ const JobPostingWeb = () => {
                                   <div className='job-post-form-label-with-badge'>
                                     <label htmlFor="" className='job-post-form-label'>Job title / Designation<span className='form-required'>*</span></label>
                                     {/* <i class="bi bi-chevron-down"></i> */}
-                                    {selectedJobRoles.map(selectJobRole => (
+                                    {/* {selectedJobRoles.map(selectJobRole => (
                                       <span className="job-post-form-badge"
                                         key={selectJobRole}
                                         onClick={() => handleDeselectJobRole(selectJobRole)}
                                       >{selectJobRole}
                                       </span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
-                                  <input type="search" className='job-post-form-input'
+                                  <div className="container-input-area2">
+                                    {selectedJobRoles.map(selectJobRole => (
+                                      <span className="form__badge small-text"
+                                        key={selectJobRole}
+                                      ><span>{selectJobRole}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectJobRole(selectJobRole)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchJobRoleInput'
+                                          id='searchJobRoleInput'
+                                          value={searchJobRoleInput}
+                                          onChange={handleJobRoleSearch} />
+                                        <label htmlFor="searchJobRoleInput" className={`container__input_label2 ${searchJobRoleInput ? 'd-none' : ''}`}>Enter a clear & specific title to get better responses</label>
+                                      </div>
+                                      <div className='search-result-data-area'>
+                                        {filteredJobRoles.length > 0 &&
+                                          filteredJobRoles.map((filterJobRole) => {
+                                            return <div className='search-result-data' key={filterJobRole._id} onClick={() => handleJobRoleClick(filterJobRole.designation)}>
+                                              {filterJobRole.designation}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* <input type="search" className='job-post-form-input'
                                     name='searchJobRoleInput'
                                     id='searchJobRoleInput'
                                     value={searchJobRoleInput}
@@ -877,7 +907,8 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
+
                                   <small className='text-danger text-capitalized'>{designationAlert}</small>
                                   <div className="job-post-form-chechbox-area">
                                     <label className="job-post-form-check-input view-disabled-input">
@@ -940,12 +971,12 @@ const JobPostingWeb = () => {
 
                                   <div className='job-post-form-label-with-badge'>
                                     <label htmlFor="" className='job-post-form-label'>Mandatory skills<span className='form-required'>*</span></label>
-                                    {selectedSkills.map(selectSkill => (
+                                    {/* {selectedSkills.map(selectSkill => (
                                       <span className="job-post-form-badge"
                                         key={selectSkill}
                                         onClick={() => handleDeselect(selectSkill)}
                                       >{selectSkill}</span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <br></br>
@@ -964,16 +995,12 @@ const JobPostingWeb = () => {
                           ))} */}
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input type="search" className='job-post-form-input'
+                                  {/* <input type="search" className='job-post-form-input'
                                     name='searchSkillInput'
                                     id='searchSkillInput'
                                     value={searchSkillInput}
                                     onChange={handleSkillSearch}
                                     placeholder='Add skills that are crucial for this job' />
-                                  {/* <div className='input-sub-text'>
-                            <span>0/200</span>
-                          </div> */}
-                                  {/* {skillError && <p>{skillError}</p>} */}
 
                                   <div className='search-result-data-area'>
                                     {filteredSkills.length > 0 &&
@@ -983,7 +1010,39 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
+                                  </div> */}
+
+                                  <div className="container-input-area2">
+
+                                    {selectedSkills.map(selectSkill => (
+                                      <span className="form__badge small-text"
+                                        key={selectSkill}
+                                      ><span>{selectSkill}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselect(selectSkill)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchSkillInput'
+                                          id='searchSkillInput'
+                                          value={searchSkillInput}
+                                          onChange={handleSkillSearch} />
+                                        <label htmlFor="searchSkillInput" className={`container__input_label2 ${searchSkillInput ? 'd-none' : ''}`}>Add skills that are crucial for this job</label>
+                                      </div>
+                                      <div className='search-result-data-area'>
+                                        {filteredSkills.length > 0 &&
+                                          filteredSkills.map((filterSkill) => {
+                                            return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>
+                                              {filterSkill.skill}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+                                    </div>
                                   </div>
+
                                   <small className='text-danger text-capitalized'>{skillError}</small>
                                   <div className="job-post-form-chechbox-area">
                                     <label className="job-post-form-check-input view-disabled-input">
@@ -1036,16 +1095,51 @@ const JobPostingWeb = () => {
                           <option value="Option 1">Option 1</option>
                           <option value="Option 2">Option 2</option>
                           </select> */}
-                                    {selectedDepartment.map(selectDepartment => (
+
+                                    {/* {selectedDepartment.map(selectDepartment => (
                                       <span className="job-post-form-badge"
                                         key={selectDepartment}
                                         onClick={() => handleDeselectDepartment(selectDepartment)}
                                       >{selectDepartment}</span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input
+
+                                  <div className="container-input-area2">
+
+                                    {selectedDepartment.map(selectDepartment => (
+                                      <span className="form__badge small-text"
+                                        key={selectDepartment}
+                                      ><span>{selectDepartment}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectDepartment(selectDepartment)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchDepartmentInput'
+                                          id='searchDepartmentInput'
+                                          value={searchDepartmentInput}
+                                          onChange={handleDepartmentSearch} />
+                                        <label htmlFor="searchDepartmentInput" className={`container__input_label2 ${searchDepartmentInput ? 'd-none' : ''}`}>Search department</label>
+                                      </div>
+
+                                      <div className='search-result-data-area'>
+                                        {filteredDepartment.length > 0 &&
+                                          filteredDepartment.map((filterDepartment) => {
+                                            return <div className='search-result-data' key={filterDepartment._id} onClick={() => handleDepartmentClick(filterDepartment.department)}>
+                                              {filterDepartment.department}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  {/* <input
                                     type='search'
                                     className='job-post-form-input'
                                     placeholder='Search department...'
@@ -1061,7 +1155,7 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
 
                                 </div>
                               </div>
@@ -1073,16 +1167,50 @@ const JobPostingWeb = () => {
 
                                   <div className='job-post-form-label-with-badge'>
                                     <label htmlFor="" className='job-post-form-label'>Role<span className='form-required'>*</span></label>
-                                    {selectedRoles.map(selectRole => (
+                                    {/* {selectedRoles.map(selectRole => (
                                       <span className="job-post-form-badge"
                                         key={selectRole}
                                         onClick={() => handleDeselectRole(selectRole)}
                                       >{selectRole}</span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input type="search" className='job-post-form-input'
+
+                                  <div className="container-input-area2">
+
+                                    {selectedRoles.map(selectRole => (
+                                      <span className="form__badge small-text"
+                                        key={selectRole}
+                                      ><span>{selectRole}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectRole(selectRole)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchRoleInput'
+                                          id='searchRoleInput'
+                                          value={searchRoleInput}
+                                          onChange={handleRoleSearch} />
+                                        <label htmlFor="searchRoleInput" className={`container__input_label2 ${searchRoleInput ? 'd-none' : ''}`}>Enter a clear & specific role to get better responses</label>
+                                      </div>
+
+                                      <div className='search-result-data-area'>
+                                        {filteredRoles.length > 0 &&
+                                          filteredRoles.map((filterRole) => {
+                                            return <div className='search-result-data' key={filterRole._id} onClick={() => handleRoleClick(filterRole.role)}>
+                                              {filterRole.role}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  {/* <input type="search" className='job-post-form-input'
                                     name='searchRoleInput'
                                     id='searchRoleInput'
                                     value={searchRoleInput}
@@ -1097,7 +1225,7 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
 
                                 </div>
                               </div>
@@ -1127,16 +1255,50 @@ const JobPostingWeb = () => {
 
                                   <div className='job-post-form-label-with-badge'>
                                     <label htmlFor="" className='job-post-form-label'>Job location ( maximum 3 )<span className='form-required'>*</span></label>
-                                    {selectedLocations.map(selectLocation => (
+                                    {/* {selectedLocations.map(selectLocation => (
                                       <span className="job-post-form-badge"
                                         key={selectLocation}
                                         onClick={() => handleDeselectLocation(selectLocation)}
                                       >{selectLocation}</span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input
+
+                                  <div className="container-input-area2">
+
+                                    {selectedLocations.map(selectLocation => (
+                                      <span className="form__badge small-text"
+                                        key={selectLocation}
+                                      ><span>{selectLocation}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectLocation(selectLocation)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchLocationInput'
+                                          id='searchLocationInput'
+                                          value={searchLocationInput}
+                                          onChange={handleLocationSearch} />
+                                        <label htmlFor="searchLocationInput" className={`container__input_label2 ${searchLocationInput ? 'd-none' : ''}`}>Search locations</label>
+                                      </div>
+
+                                      <div className='search-result-data-area'>
+                                        {filteredLocations.length > 0 &&
+                                          filteredLocations.map((filterLocation) => {
+                                            return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                              {filterLocation.location}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  {/* <input
                                     type='search'
                                     className='job-post-form-input'
                                     placeholder='Search locations'
@@ -1151,7 +1313,8 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
+
                                   <small className='text-danger text-capitalized'>{locationError}</small>
                                   {/* <div className="job-post-form-chechbox-area">
                                     <label className="job-post-form-check-input">
@@ -1392,17 +1555,52 @@ const JobPostingWeb = () => {
                             <option value="Education">Education</option>
                             <option value="Manufacturing">Manufacturing</option>
                           </select> */}
-                                    {selectedIndustry.map(selectIndustry => (
+
+                                    {/* {selectedIndustry.map(selectIndustry => (
                                       <span className="job-post-form-badge"
                                         key={selectIndustry}
                                         onClick={() => handleDeselectIndustry(selectIndustry)}
                                       >{selectIndustry}
                                       </span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input type="search" className='job-post-form-input'
+
+                                  <div className="container-input-area2">
+
+                                    {selectedIndustry.map(selectIndustry => (
+                                      <span className="form__badge small-text"
+                                        key={selectIndustry}
+                                      ><span>{selectIndustry}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectIndustry(selectIndustry)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchIndustryInput'
+                                          id='searchIndustryInput'
+                                          value={searchIndustryInput}
+                                          onChange={handleIndustrySearch} />
+                                        <label htmlFor="searchIndustryInput" className={`container__input_label2 ${searchIndustryInput ? 'd-none' : ''}`}>Enter a clear & specific industry to get better responses</label>
+                                      </div>
+
+                                      <div className='search-result-data-area'>
+                                        {filteredIndustry.length > 0 &&
+                                          filteredIndustry.map((filterIndustry) => {
+                                            return <div className='search-result-data' key={filterIndustry._id} onClick={() => handleIndustryClick(filterIndustry.industry)}>
+                                              {filterIndustry.industry}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+                                  {/* <input type="search" className='job-post-form-input'
                                     name='searchIndustryInput'
                                     id='searchIndustryInput'
                                     value={searchIndustryInput}
@@ -1417,7 +1615,8 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
+
                                 </div>
                               </div>
                             </div>
@@ -1438,17 +1637,50 @@ const JobPostingWeb = () => {
                             <option value="Doctorate">Doctorate</option>
                             <option value="Professional Certification">Professional Certification</option>
                           </select> */}
-                                    {selectedEducation.map(selectEducation => (
+
+                                    {/* {selectedEducation.map(selectEducation => (
                                       <span className="job-post-form-badge"
                                         key={selectEducation}
                                         onClick={() => handleDeselectEducation(selectEducation)}
                                       >{selectEducation}
                                       </span>
-                                    ))}
+                                    ))} */}
                                   </div>
 
                                   {/* <i class="bi bi-chevron-down"></i> */}
-                                  <input type="search" className='job-post-form-input'
+
+                                  <div className="container-input-area2">
+
+                                    {selectedEducation.map(selectEducation => (
+                                      <span className="form__badge small-text"
+                                        key={selectEducation}
+                                      ><span>{selectEducation}</span>
+                                        <i className='bi bi-x' onClick={() => handleDeselectEducation(selectEducation)}></i>
+                                      </span>
+                                    ))}
+
+                                    <div className='position-relative container__input_section'>
+                                      <div className="container__input_with_label">
+                                        <input type="search" className='container__input2'
+                                          name='searchEducationInput'
+                                          id='searchEducationInput'
+                                          value={searchEducationInput}
+                                          onChange={handleEducationSearch} />
+                                        <label htmlFor="searchEducationInput" className={`container__input_label2 ${searchEducationInput ? 'd-none' : ''}`}>Enter a clear & specific education to get better responses</label>
+                                      </div>
+                                      <div className='search-result-data-area'>
+                                        {filteredEducation.length > 0 &&
+                                          filteredEducation.map((filterEducation) => {
+                                            return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                              {filterEducation.education}
+                                            </div>
+                                          })
+                                        }
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* <input type="search" className='job-post-form-input'
                                     name='searchEducationInput'
                                     id='searchEducationInput'
                                     value={searchEducationInput}
@@ -1463,7 +1695,8 @@ const JobPostingWeb = () => {
                                         </div>
                                       })
                                     }
-                                  </div>
+                                  </div> */}
+
                                 </div>
                               </div>
                             </div>

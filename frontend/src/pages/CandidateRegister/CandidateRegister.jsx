@@ -12,7 +12,7 @@ import LayoutNew from '../../components/LayoutNew';
 import GoogleAuth from '../../components/GoogleAuth';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CandidateRegister = () => {
     const candidateToken = JSON.parse(localStorage.getItem("candidateToken"));
@@ -117,28 +117,28 @@ const CandidateRegister = () => {
     }
 
     useEffect(() => {
-        
+
         const fetchData = async () => {
             try {
                 const user = await getProtectedData(candidateToken);
                 console.log(user);
-                
+
                 setCandToken(user.userToken);
-              
+
             } catch (error) {
                 console.log(error);
-             
+
             }
         };
 
         fetchData();
-}, []);
+    }, []);
 
-    useEffect(()=>{
-        if(candToken || candidateToken){
+    useEffect(() => {
+        if (candToken || candidateToken) {
             navigate("/")
         }
-    },[candToken, candidateToken])
+    }, [candToken, candidateToken])
 
 
     useEffect(() => {
@@ -344,7 +344,7 @@ const CandidateRegister = () => {
         if (type === "checkbox") {
             if (checked === true) {
                 setDateString("");
-                setSelectedDate(null); 
+                setSelectedDate(null);
             }
             setCredentials((prevCredentials) => ({
                 ...prevCredentials,
@@ -579,7 +579,7 @@ const CandidateRegister = () => {
     const handleNext = () => {
         let isValid = true;
         if (step === 1) {
-            
+
             if (credentials.days === "" || credentials.firstName === "" || credentials.lastName === "" || credentials.phone === "" || credentials.email === "" || credentials.password === "" || credentials.confirmPassword === "" || credentials.password !== credentials.confirmPassword || !resume || credentials.password.length < 8 || !(emailRegex.test(credentials.email)) || !dateStringValueCheck || credentials.gender === "") {
                 // if (credentials.password.length < 8) {
                 //     return showErrorMessage("password must be atleast 8 characters long")
@@ -875,7 +875,46 @@ const CandidateRegister = () => {
                                 <div className="col-12 col-lg-6 custom-padding-right2">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="search" name='searchDesignationInput'
+                                            <div className="container-input-area">
+                                                {selectedDesignations.map(selectDesignation => (
+                                                    <span className="form__badge"
+                                                        key={selectDesignation}
+                                                    ><span>{selectDesignation}</span>
+                                                        <i className='bi bi-x' onClick={() => handleDeselectDesignation(selectDesignation)}></i>
+                                                    </span>
+                                                ))}
+                                                <div className='position-relative container__input_section'>
+                                                    <div className="container__input_with_label">
+                                                        <input type="search" className='container__input'
+                                                            name='searchDesignationInput'
+                                                            id='searchDesignationInput'
+                                                            value={searchDesignationInput}
+                                                            onChange={handleDesignationSearch} />
+                                                        <label htmlFor="designation" className={`container__input_label text-gray ${searchDesignationInput ? 'd-none' : ''}`}>Current Role/Designation&nbsp;<span className='is-required'>*</span></label>
+                                                    </div>
+                                                    {/* <div className="search-result__area">
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                        <div className="search__result">Result 1</div>
+                                                    </div> */}
+                                                    <div className='search-result-data-area'>
+                                                        {filteredDesignation.length > 0 &&
+                                                            filteredDesignation.map((filterDesignation) => {
+                                                                return <div className='search-result-data' key={filterDesignation._id} onClick={() => handleDesignationClick(filterDesignation.designation)}>
+                                                                    {filterDesignation.designation}
+                                                                </div>
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            {/* <input type="search" name='searchDesignationInput'
                                                 id='searchDesignationInput'
                                                 placeholder='Search designation'
                                                 value={searchDesignationInput}
@@ -889,16 +928,16 @@ const CandidateRegister = () => {
                                                         </div>
                                                     })
                                                 }
-                                            </div>
+                                            </div> */}
                                         </div>
-                                        <div className='cand-reg-form-badge-area'>
+                                        {/* <div className='cand-reg-form-badge-area'>
                                             {selectedDesignations.map(selectDesignation => (
                                                 <span className="cand-reg-form-badge"
                                                     key={selectDesignation}
                                                     onClick={() => handleDeselectDesignation(selectDesignation)}
                                                 >{selectDesignation}</span>
                                             ))}
-                                        </div>
+                                        </div> */}
 
                                         {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedDesignations.length === 0 && "required"}</small>}
                                         <small className='text-danger error-msg'>{designationAlert}</small>
@@ -989,7 +1028,36 @@ const CandidateRegister = () => {
                                     </div> */}
                                     <div className='cand--reg-form-group cand--reg-custom-padding form-no-padding'>
                                         <div className='cand--reg-multi-input-form-group'>
-                                            <input type="search"
+                                            <div className="container-input-area">
+                                                {selectedLocations.map(selectLocation => (
+                                                    <span className="form__badge"
+                                                        key={selectLocation}
+                                                    ><span>{selectLocation}</span>
+                                                        <i className='bi bi-x' onClick={() => handleDeselectLocation(selectLocation)}></i>
+                                                    </span>
+                                                ))}
+                                                <div className='position-relative container__input_section'>
+                                                    <div className="container__input_with_label">
+                                                        <input type="search" className='container__input'
+                                                            name='searchLocationInput'
+                                                            id='searchLocationInput'
+                                                            value={searchLocationInput}
+                                                            onChange={handleLocationSearch} />
+                                                        <label htmlFor="location" className={`container__input_label text-gray ${searchLocationInput ? 'd-none' : ''}`}>Current Location&nbsp;<span className='is-required'>*</span></label>
+                                                    </div>
+                                                    <div className='search-result-data-area'>
+                                                        {filteredLocations.length > 0 &&
+                                                            filteredLocations.map((filterLocation) => {
+                                                                return <div className='search-result-data' key={filterLocation._id} onClick={() => handleLocationClick(filterLocation.location)}>
+                                                                    {filterLocation.location}
+                                                                </div>
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* <input type="search"
                                                 placeholder='Search locations'
                                                 value={searchLocationInput}
                                                 onChange={handleLocationSearch} className='cand--reg-form-input' />
@@ -1002,17 +1070,20 @@ const CandidateRegister = () => {
                                                         </div>
                                                     })
                                                 }
-                                            </div>
+                                            </div> */}
+
                                         </div>
-                                        <div className='cand-reg-form-badge-area'>
+
+                                        {/* <div className='cand-reg-form-badge-area'>
                                             {selectedLocations.map(selectLocation => (
                                                 <span className="cand-reg-form-badge"
                                                     key={selectLocation}
                                                     onClick={() => handleDeselectLocation(selectLocation)}
                                                 >{selectLocation}</span>
                                             ))}
-                                        </div>
+                                        </div> */}
                                         {requireStep2 && <small className='text-danger text-capitalized form-error-message'>{selectedLocations.length === 0 && "required"}</small>}
+
                                     </div>
                                 </div>
 
@@ -1045,31 +1116,60 @@ const CandidateRegister = () => {
                                         <div className="cand--reg-form-flex-grp">
                                             <label htmlFor="skills" className='cand--reg-form-label-custom'>Skills</label>
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="search" id='skills' name='skills'
+
+                                                <div className="container-input-area">
+                                                    {selectedSkills.map(selectSkill => (
+                                                        <span className="form__badge"
+                                                            key={selectSkill}
+                                                        ><span>{selectSkill}</span>
+                                                            <i className='bi bi-x' onClick={() => handleDeselect(selectSkill)}></i>
+                                                        </span>
+                                                    ))}
+                                                    <div className='position-relative container__input_section'>
+                                                        <div className="container__input_with_label">
+                                                            <input type="search" className='container__input pb-0'
+                                                                id='skills'
+                                                                name='skills'
+                                                                value={searchSkillInput}
+                                                                onChange={handleSkillSearch} />
+                                                            <label htmlFor="skill" className={`container__input_label text-gray ${searchSkillInput ? 'd-none' : ''}`}>Enter your skill name to search here</label>
+                                                        </div>
+                                                        <div className='search-result-data-area'>
+                                                            {filteredSkills.length > 0 &&
+                                                                filteredSkills.map((filterSkill) => {
+                                                                    return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* <input type="search" id='skills' name='skills'
                                                     value={searchSkillInput}
                                                     onChange={handleSkillSearch}
                                                     className='cand--reg-flex-input'
                                                     placeholder='Enter your skill name to search here' />
-                                                {/* {skillError && <p className='skills-error-text'>{skillError}</p>} */}
+
                                                 <div className='search-result-data-area'>
                                                     {filteredSkills.length > 0 &&
                                                         filteredSkills.map((filterSkill) => {
                                                             return <div className='search-result-data' key={filterSkill._id} onClick={() => handleSkillClick(filterSkill.skill)}>{filterSkill.skill}</div>
                                                         })
                                                     }
-                                                </div>
-                                                <small className='text-danger error-msg'>{skillAlert}</small>
-                                                <div className='cand-reg-form-badge-area'>
+                                                </div> */}
+
+                                                <div className='text-danger error-msg'>{skillAlert}</div>
+                                                {/* <div className='cand-reg-form-badge-area'>
                                                     {selectedSkills.map(selectSkill => (
                                                         <span className="cand-reg-form-badge"
                                                             key={selectSkill}
                                                             onClick={() => handleDeselect(selectSkill)}
                                                         >{selectSkill}</span>
                                                     ))}
-                                                </div>
-                                                {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedSkills.length === 0 && "required"}</small>}
-                                                <br className='break-tag' />
-                                                {skillError && <small className='text-danger error-msg text-capitalized'>{skillError}</small>}
+                                                </div> */}
+                                                {requireStep2 && <div className='text-danger error-msg text-capitalized'>{selectedSkills.length === 0 && " required"}</div>}
+                                                {/* <br className='break-tag' /> */}
+                                                {skillError && <div className='text-danger error-msg text-capitalized'>{skillError}</div>}
                                             </div>
                                         </div>
 
@@ -1086,7 +1186,7 @@ const CandidateRegister = () => {
                                             </label>
 
                                         </div> */}
-                                        <div className="cand--reg-skills-text pt-0">
+                                        <div className="cand--reg-skills-text pt-3">
                                             Note: These will also be used as the Tags for searching matching jobs for you. So enter all your key skills without fail.
                                         </div>
 
@@ -1097,7 +1197,7 @@ const CandidateRegister = () => {
                                     <div className='cand--reg-form-group cand--reg-custom-padding custom mb-5'>
                                         <div className='cand--reg-form-flex-grp'>
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="text" 
+                                                <input type="text"
                                                     name='manualSkillInput'
                                                     id='manualSkillInput'
                                                     value={newSkill}
@@ -1106,12 +1206,12 @@ const CandidateRegister = () => {
                                                     className='cand--reg-flex-input'
                                                     placeholder='Enter your skill' />
 
-                                                    <button
-                                                type="button"
-                                                className="multi-form-add-btn"
-                                                onClick={handleManualSkill}
-                                                disabled={!isCheckedSkill}
-                                            >Add</button>
+                                                <button
+                                                    type="button"
+                                                    className="multi-form-add-btn"
+                                                    onClick={handleManualSkill}
+                                                    disabled={!isCheckedSkill}
+                                                >Add</button>
                                             </div>
 
                                             {/* <input
@@ -1149,7 +1249,7 @@ const CandidateRegister = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-form-flex-grp">
-                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Education Details&nbsp;<span className='is-required'>*</span></label>
+                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Educational Details&nbsp;<span className='is-required'>*</span></label>
                                             {/* <input type="text" id='education' name='education' className='cand--reg-flex-input' /> */}
                                             {/* <select
                                                 className="cand--reg-select-input"
@@ -1190,7 +1290,37 @@ const CandidateRegister = () => {
                                             </div> */}
 
                                             <div className='cand--reg-multi-input-form-group'>
-                                                <input type="search"
+
+                                                <div className="container-input-area">
+                                                    {selectedEducation.map(selectEducation => (
+                                                        <span className="form__badge"
+                                                            key={selectEducation}
+                                                        ><span>{selectEducation}</span>
+                                                            <i className='bi bi-x' onClick={() => handleDeselectEducation(selectEducation)}></i>
+                                                        </span>
+                                                    ))}
+                                                    <div className='position-relative container__input_section'>
+                                                        <div className="container__input_with_label">
+                                                            <input type="search" className='container__input pb-0'
+                                                                id='searchEducationInput'
+                                                                name='searchEducationInput'
+                                                                value={searchEducationInput}
+                                                                onChange={handleEducationSearch} />
+                                                            <label htmlFor="skill" className={`container__input_label text-gray ${searchEducationInput ? 'd-none' : ''}`}>Enter your skill name to search here</label>
+                                                        </div>
+                                                        <div className='search-result-data-area'>
+                                                            {filteredEducation.length > 0 &&
+                                                                filteredEducation.map((filterEducation) => {
+                                                                    return <div className='search-result-data' key={filterEducation._id} onClick={() => handleEducationClick(filterEducation.education)}>
+                                                                        {filterEducation.education}
+                                                                    </div>
+                                                                })
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* <input type="search"
                                                     id='searchEducationInput'
                                                     name='searchEducationInput'
                                                     value={searchEducationInput}
@@ -1205,8 +1335,8 @@ const CandidateRegister = () => {
                                                             </div>
                                                         })
                                                     }
-                                                </div>
-                                                <div className='cand-reg-form-badge-area'>
+                                                </div> */}
+                                                {/* <div className='cand-reg-form-badge-area'>
                                                     {selectedEducation.map(selectEducation => (
                                                         <span className="cand-reg-form-badge"
                                                             key={selectEducation}
@@ -1214,7 +1344,7 @@ const CandidateRegister = () => {
                                                         >{selectEducation}
                                                         </span>
                                                     ))}
-                                                </div>
+                                                </div> */}
                                                 {requireStep2 && <small className='text-danger error-msg text-capitalized'>{selectedEducation.length === 0 && "required"}</small>}
                                             </div>
                                         </div>

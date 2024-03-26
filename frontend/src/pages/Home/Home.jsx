@@ -1098,7 +1098,7 @@ const Home = () => {
         </div>
       </div>
 
-      <section className='custom--mobile-padding overflow-hidden'>
+      <section className='custom--mobile-padding overflow-hidden client-talent-slider-section'>
         <div className='candidate--section'>
           <div className='home--about-toparea'>
             <div className='home--about-headarea'>
@@ -1512,7 +1512,7 @@ const Home = () => {
         </div>
       </section>
 
-      <div className='container-fluid home--section'>
+      <div className='container-fluid home--section custom'>
         <div className='container-fluid container-section'>
           {clientLogos.length > 0 &&
             <section className='clients--section'>
@@ -1558,7 +1558,7 @@ const Home = () => {
             </div>
             <div className="testimonial--card-area">
               <div className="row">
-                <div className="col-12 col-xl-7 col-lg-12 col-md-12">
+                <div className="col-12 col-xl-12 col-xxl-7 col-lg-12 col-md-12">
                   <article className="testimonial--card-lg" data-aos="zoom-out-right">
                     <div className="testimonial--profile-area">
                       <img src="assets/img/home-images/testi-profile.jpeg" className='testimonial--profile-img' alt="" />

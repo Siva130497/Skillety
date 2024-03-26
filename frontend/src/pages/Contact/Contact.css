@@ -33,7 +33,7 @@
     margin-bottom: 0;
 }
 
-.con--where-desc-area .con--where-desc::first-letter{
+.con--where-desc-area .con--where-desc::first-letter {
     text-transform: uppercase !important;
 }
 
@@ -357,7 +357,7 @@ input[type="number"] {
 }
 
 /* ///////////////////// */
-.container-input-area{
+.container-input-area {
     position: relative;
     /* border-radius: 6px; */
     /* border: #714F36 2px solid; */
@@ -368,40 +368,163 @@ input[type="number"] {
     gap: 10px;
     row-gap: 8px;
     flex-wrap: wrap;
+    overflow-x: clip;
 }
 
-.form__badge{
+.container-input-area2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    row-gap: 8px;
+    flex-wrap: wrap;
+    overflow-x: clip;
+    border: 1px solid #714F36 !important;
+    padding: 8px 13px !important;
+    width: 100%;
+    position: relative;
+    transition: ease-in-out 0.5s;
+    border-radius: 6px;
+    background-color: #FFF;
+}
+
+.form__badge {
     background-color: #714F36;
     border-radius: 20px;
-    flex-shrink: 0;
+    /* flex-shrink: 0; */
     white-space: nowrap;
     border: none;
     color: #FFF;
     transition: ease 0.5s;
-    padding: 5px 12px;
-    font-size: 15px;
-    display: none;
+    padding: 3px 12px;
+    font-size: 14px;
+    /* display: none; */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+    position: relative;
 }
 
-.container__input{
+.form__badge.small-text {
+    font-size: 13px;
+    padding: 2px 12px;
+    gap: 7px;
+}
+
+.form__badge:hover {
+    background-color: #5C3B2E;
+}
+
+.form__badge i {
+    color: #FFF !important;
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: 16px;
+    position: unset !important;
+    right: unset !important;
+    top: unset !important;
+    z-index: auto;
+    font-weight: 800;
+    pointer-events: unset !important;
+
+}
+
+.form__badge span::first-letter {
+    text-transform: uppercase !important;
+}
+
+.container__input_section {
+    overflow-y: visible;
+    flex: 1;
+    width: 100%;
+}
+
+.container__input {
     border: none;
+    /* border-bottom: 2px solid #714F36; */
+    outline: none;
+    color: #714F36;
+    padding-bottom: 5px;
+    font-size: 18PX;
+    position: relative;
+    min-width: 280px;
+    background-color: transparent;
+    width: 100% !important;
+    /* flex: 1; */
+}
+
+.container__input2 {
     /* border-bottom: 2px solid #714F36; */
     border: none;
     outline: none;
     color: #714F36;
-    /* padding: 5px 0; */
-    font-size: 18PX;
+    padding-bottom: 5px;
+    font-size: 14PX;
     position: relative;
-    width: 100%;
+    min-width: 280px;
     background-color: transparent;
+    width: 100% !important;
 }
 
-.container__input::placeholder{
+.container__input::placeholder {
     color: #714F36;
     font-weight: 500;
+
 }
 
-.search-result__area{
+.container__input_with_label {
+    position: relative;
+    width: 100%;
+    flex: 1;
+}
+
+.container__input_with_label>.container__input:focus~.container__input_label {
+    opacity: 0;
+}
+
+.container__input_with_label>.container__input2:focus~.container__input_label2 {
+    opacity: 0;
+}
+
+.container__input_label {
+    color: #714F36;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: opacity ease 0.3s;
+    position: absolute;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    top: 50%;
+    left: 0;
+    opacity: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.container-input-area2:focus-within {
+    box-shadow: 0px 0px 0px 4px #f9c73338 !important;
+}
+
+
+.container__input_label2 {
+    color: #8f8f8f;
+    font-size: 14px;
+    line-height: normal;
+    text-transform: capitalize;
+    transition: opacity ease 0.3s;
+    position: absolute;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    top: 50%;
+    left: 0;
+    opacity: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.search-result__area {
     display: none;
     position: absolute;
     /* top: 0  ; */
@@ -416,7 +539,7 @@ input[type="number"] {
     z-index: 2;
 }
 
-.search__result{
+.search__result {
     padding: 10px 12px;
     background-color: #FFF;
     transition: ease 0.5s;
@@ -424,7 +547,15 @@ input[type="number"] {
     font-size: 14px;
 }
 
-.search__result:hover{
+.search__result:hover {
     background-color: #714F36;
     color: #FFF;
+}
+
+.text-gray {
+    color: rgba(101, 101, 101, 0.65);
+}
+
+.error-msg {
+    font-size: .875em !important;
 }
