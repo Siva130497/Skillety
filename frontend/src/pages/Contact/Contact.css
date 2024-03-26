@@ -365,7 +365,7 @@ input[type="number"] {
     padding: 10px 0;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     row-gap: 8px;
     flex-wrap: wrap;
     overflow-x: clip;
@@ -374,7 +374,7 @@ input[type="number"] {
 .container-input-area2 {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     row-gap: 8px;
     flex-wrap: wrap;
     overflow-x: clip;
@@ -385,6 +385,55 @@ input[type="number"] {
     transition: ease-in-out 0.5s;
     border-radius: 6px;
     background-color: #FFF;
+}
+
+.container-input-area3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    row-gap: 8px;
+    flex-wrap: wrap;
+    overflow-x: clip;
+    border: none;
+    padding: 8px 12px 8px 0 !important;
+    width: 100%;
+    position: relative;
+    transition: ease-in-out 0.5s;
+}
+
+.container-input-area3.no-icon{
+    padding: 8px 12px 8px 12px !important;
+}
+
+.container_input_section {
+    position: relative;
+    display: flex;
+    gap: 0;
+    align-items: center;
+    border-radius: 4px;
+    color: #714F36;
+    border: 1px solid #714F36 !important;
+    background: #FFF;
+    box-shadow: 0px 4px 10px 0px rgba(150, 150, 150, 0.25);
+    padding: 0;
+    transition: ease-in-out 0.5s;
+}
+
+/* .container_input_section:focus-within {
+    box-shadow: 0px 0px 0px 4px #f9c73338 !important;
+} */
+
+.container_search_icon_area {
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+    padding: 10px 12px;
+    height: 100%;
+}
+
+.container_search_icon_area i {
+    font-size: 17px;
+    color: #8f8f8f;
 }
 
 .form__badge {
@@ -426,12 +475,76 @@ input[type="number"] {
     z-index: auto;
     font-weight: 800;
     pointer-events: unset !important;
-
 }
 
 .form__badge span::first-letter {
     text-transform: uppercase !important;
 }
+
+.form__badge2 {
+    color: #714F36;
+    background-color: #f6ece6;
+    border: 1.6px solid #714F36;
+    font-size: 12px;
+    border-radius: 50px;
+    font-weight: 500;
+    padding: 4px 6px 4px 10px;
+    cursor: pointer;
+    transition: ease-in-out 0.5s;
+    position: relative;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.form__badge2.candidate {
+    background-color: #fff0c5 !important;
+    border-color: #F9C833 !important;
+}
+
+.form__badge2.candidate:hover {
+    color: #714F36 !important;
+    background-color: #F9C833 !important;
+}
+
+.form__badge2.candidate:hover i {
+    color: #714F36 !important;
+    border-color: #714F36 !important;
+}
+
+.form__badge2 span::first-letter {
+    text-transform: uppercase !important;
+}
+
+.form__badge2:hover {
+    background-color: #714F36 !important;
+    color: #FFF;
+}
+
+.form__badge2 i {
+    vertical-align: middle;
+    color: #714F36;
+    font-size: 14px;
+    transition: ease-in-out 0.5s;
+    padding: 0;
+    border: 1px solid #714F36;
+    flex-shrink: 0;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.form__badge2:hover i {
+    color: #FFF !important;
+    border-color: #FFF !important;
+}
+
 
 .container__input_section {
     overflow-y: visible;
@@ -522,6 +635,10 @@ input[type="number"] {
     opacity: 1;
     transform: translateY(-50%);
     pointer-events: none;
+}
+
+.container__input_label2.small-text {
+    font-size: 12px;
 }
 
 .search-result__area {
