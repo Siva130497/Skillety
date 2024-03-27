@@ -6099,7 +6099,7 @@ const getDataForClientGraph = async (req, res) => {
                 data: activePostedJobCounts,
               },
               {
-                name: "No of applicants",
+                name: "No. of applicants",
                 data: appliedJobCounts,
               },
             ],
@@ -6163,11 +6163,11 @@ const getDataForClientGraph = async (req, res) => {
               categories: categories,
               series: [
                   {
-                      name: "PostedActiveJobs",
+                      name: "Posted active jobs",
                       data: postedActiveJobCounts,
                   },
                   {
-                      name: "AppliedJobs",
+                      name: "No. of applicants",
                       data: appliedJobCounts,
                   },
               ],
@@ -6229,7 +6229,7 @@ const getDataForClientGraph = async (req, res) => {
                       data: postedActiveJobCounts,
                   },
                   {
-                      name: "No of applicants",
+                      name: "No. of applicants",
                       data: appliedJobCounts,
                   },
               ],
@@ -9179,7 +9179,7 @@ const subscribingMailSending = async(req, res) => {
             <a href="https://www.skillety.com/"><img src="https://i.ibb.co/bPpycTB/skillety-logo.png" alt="skillety-logo" border="0" width="80" height="80"></a>
         </div>
         <div style="margin-top: 40px; font-size:15px;">
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thank you for subscribing Skillety. We are happy to have you with us.</p>
+            <p>Thank you for subscribing Skillety. We are happy to have you with us.</p>
             <div>
                 <p>If you have any questions, please feel free to reach out to our support team at <a href="mailto:support@skillety.com.">support@skillety.com.</a></p>
                 <p>We look forward to serving you.</p>

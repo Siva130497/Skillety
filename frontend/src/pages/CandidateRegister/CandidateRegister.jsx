@@ -791,7 +791,7 @@ const CandidateRegister = () => {
                                                 onPaste={(e) => e.preventDefault()}
                                                 placeholder="Enter your password" className='cand--reg-form-input is-password' required />
                                             <label htmlFor="password" className='cand--reg-form-label'>Password&nbsp;<span className='is-required'>*</span></label>
-                                            {credentials.password != "" &&
+                                            {credentials.password !== "" &&
                                                 <i className={`bi ${showPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
                                                     onClick={handleTogglePassword}
                                                     id='togglePassword'>
@@ -812,7 +812,7 @@ const CandidateRegister = () => {
                                                 onPaste={(e) => e.preventDefault()}
                                                 placeholder="Confirm your password" className='cand--reg-form-input is-password' required />
                                             <label htmlFor="confirm_password" className='cand--reg-form-label'>Confirm Password&nbsp;<span className='is-required'>*</span></label>
-                                            {credentials.confirmPassword != "" &&
+                                            {credentials.confirmPassword !== "" &&
                                                 <i className={`bi ${showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'} password-view-icon`}
                                                     onClick={handleToggleConfirmPassword}
                                                     id='togglePassword'>
@@ -891,7 +891,9 @@ const CandidateRegister = () => {
                                                             id='searchDesignationInput'
                                                             value={searchDesignationInput}
                                                             onChange={handleDesignationSearch} />
-                                                        <label htmlFor="designation" className={`container__input_label text-gray ${searchDesignationInput ? 'd-none' : ''}`}>Current Role/Designation&nbsp;<span className='is-required'>*</span></label>
+                                                        {selectedDesignations.length === 0 &&
+                                                            <label htmlFor="designation" className={`container__input_label ${searchDesignationInput ? 'd-none' : ''}`}>Current role/Designation&nbsp;<span className='is-required'>*</span></label>
+                                                        }
                                                     </div>
                                                     {/* <div className="search-result__area">
                                                         <div className="search__result">Result 1</div>
@@ -990,7 +992,7 @@ const CandidateRegister = () => {
                                             <input type="text" id='company' name="companyName"
                                                 value={credentials.companyName}
                                                 onChange={handleInputChange} placeholder="Enter your current company" className='cand--reg-form-input' required />
-                                            <label htmlFor="company" className='cand--reg-form-label'>Current Company&nbsp;<span className='is-required'>*</span></label>
+                                            <label htmlFor="company" className='cand--reg-form-label'>Current company&nbsp;<span className='is-required'>*</span></label>
                                         </div>
                                         {requireStep2 && <small className='text-danger text-capitalized form-error-message'>{credentials.companyName === "" && "required"}</small>}
                                     </div>
@@ -1044,7 +1046,9 @@ const CandidateRegister = () => {
                                                             id='searchLocationInput'
                                                             value={searchLocationInput}
                                                             onChange={handleLocationSearch} />
-                                                        <label htmlFor="location" className={`container__input_label text-gray ${searchLocationInput ? 'd-none' : ''}`}>Current Location&nbsp;<span className='is-required'>*</span></label>
+                                                        {selectedLocations.length === 0 &&
+                                                            <label htmlFor="location" className={`container__input_label ${searchLocationInput ? 'd-none' : ''}`}>Current location&nbsp;<span className='is-required'>*</span></label>
+                                                        }
                                                     </div>
                                                     <div className='search-result-data-area'>
                                                         {filteredLocations.length > 0 &&
@@ -1091,7 +1095,7 @@ const CandidateRegister = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-exp-area">
-                                            <label htmlFor="experience" className='cand--reg-form-label-custom'>Total Experience</label>
+                                            <label htmlFor="experience" className='cand--reg-form-label-custom'>Total experience</label>
                                             <div className="cand--reg-exp-input-flex-area">
                                                 <div className="cand--reg-exp-input-area">
                                                     <input type="number" id='years' name="year"
@@ -1250,7 +1254,7 @@ const CandidateRegister = () => {
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
                                         <div className="cand--reg-form-flex-grp">
-                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Educational Details&nbsp;<span className='is-required'>*</span></label>
+                                            <label htmlFor="education" className='cand--reg-form-label-custom'>Educational details&nbsp;<span className='is-required'>*</span></label>
                                             {/* <input type="text" id='education' name='education' className='cand--reg-flex-input' /> */}
                                             {/* <select
                                                 className="cand--reg-select-input"
@@ -1307,7 +1311,7 @@ const CandidateRegister = () => {
                                                                 name='searchEducationInput'
                                                                 value={searchEducationInput}
                                                                 onChange={handleEducationSearch} />
-                                                            <label htmlFor="skill" className={`container__input_label text-gray ${searchEducationInput ? 'd-none' : ''}`}>Enter your skill name to search here</label>
+                                                            <label htmlFor="skill" className={`container__input_label text-gray ${searchEducationInput ? 'd-none' : ''}`}>Enter higher education</label>
                                                         </div>
                                                         <div className='search-result-data-area'>
                                                             {filteredEducation.length > 0 &&
@@ -1380,7 +1384,7 @@ const CandidateRegister = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className='cand--reg-form-group cand--reg-custom-padding'>
-                                        <label htmlFor="headline" className='cand--reg-form-label-custom'>Profile Headline &nbsp;<span className='is-required'>*</span></label>
+                                        <label htmlFor="headline" className='cand--reg-form-label-custom'>Profile headline &nbsp;<span className='is-required'>*</span></label>
                                         <textarea name='profileHeadline'
                                             value={credentials.profileHeadline}
                                             onChange={handleInputChange} id="headline" placeholder='(Example: I am a Best Employee Award winning embedded engineer with over 5 years  of experience in the software development domain, proficient in tools/skills like NXPT1020, C, RS422, VxWORKS, ST-True Studio, STM32F103C8, Embedded C, EEPROM, WIFI.)' className='cand--reg-lg-input'>

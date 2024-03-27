@@ -236,7 +236,7 @@
     font-size: 18px;
     font-weight: 500;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     transition: ease-in-out 0.8s;
     position: absolute;
     top: 50%;
@@ -543,14 +543,14 @@
 }
 
 .search-result-data {
-    color: #714F36;
+    /* color: #714F36;
     font-weight: 400;
     font-size: 15px;
     padding: 12px 20px;
     background-color: #ececec;
     transition: ease-in-out 0.5s;
     cursor: pointer;
-    text-transform: capitalize;
+    text-transform: capitalize; */
 }
 
 .search-result-data:hover {

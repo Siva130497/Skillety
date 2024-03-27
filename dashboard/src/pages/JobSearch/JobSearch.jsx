@@ -2492,7 +2492,7 @@ const JobSearch = () => {
                                                                     </div>
                                                                     <div className="cli-tal-pro-search-filter-expand-area job">
                                                                         <div className="cli-tal-pro-exp-input-area search-results">
-                                                                            <div className="cli--salary-inputs-area">
+                                                                            <div className="cli--salary-inputs-area custom-salay-area">
                                                                                 <select name="" className='cli-tal-pro-select-input width-30' id=""
                                                                                     value={filters.currencyType}
                                                                                     onChange={(e) => setFilters({ ...filters, currencyType: e.target.value })}>
@@ -2506,7 +2506,7 @@ const JobSearch = () => {
                                                                                     onChange={(e) => setFilters({ ...filters, minSalary: e.target.value })} />
                                                                             </div>
                                                                             <span className='cli-tal-pro-exp-input-text'>to</span>
-                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page' placeholder='Max salary'
+                                                                            <input type="number" className='cli-tal-pro-exp-input text-center numeric-input width-45 search-page custom-full-width' placeholder='Max salary'
                                                                                 value={filters.maxSalary}
                                                                                 onChange={(e) => setFilters({ ...filters, maxSalary: e.target.value })} />
                                                                             {/* <span className='cli-tal-pro-exp-input-text'>laks</span> */}

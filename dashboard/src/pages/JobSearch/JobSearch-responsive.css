@@ -20,6 +20,21 @@
         font-size: 18px;
     }
 
+    .cli--salary-inputs-area.custom-salay-area {
+        width: 100% !important;
+        flex-direction: column;
+    }
+
+    .cli--salary-inputs-area.custom-salay-area select,
+    .cli--salary-inputs-area.custom-salay-area input{
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .cli-tal-pro-exp-input.custom-full-width{
+        width: 100% !important;
+    }
+
     .job--detail-location-area {
         margin-top: 40px;
     }
@@ -87,6 +102,21 @@
     .job--detail-card-img-area.job {
         width: 100%;
         height: 100px;
+    }
+
+    .cli--salary-inputs-area.custom-salay-area {
+        width: 100% !important;
+        flex-direction: column;
+    }
+
+    .cli--salary-inputs-area.custom-salay-area select,
+    .cli--salary-inputs-area.custom-salay-area input{
+        width: 100% !important;
+        text-align: center;
+    }
+
+    .cli-tal-pro-exp-input.custom-full-width{
+        width: 100% !important;
     }
 
     .job--detail-card-img-area.job .job--detail-card-img {

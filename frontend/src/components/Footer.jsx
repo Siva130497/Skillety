@@ -62,12 +62,13 @@ export const Footer = () => {
                       </p>
                       <form action=""
                       onSubmit={handleSubmit}>
-                        <input type="text" className='form-control footer--email-input' data-aos="fade-up"
+                        <input type="email" className='form-control footer--email-input' data-aos="fade-up"
                           placeholder='Your email' required 
+                          value={subscriberEmail}
                           onChange={(e)=>{
                             setSubscriberEmail(e.target.value)
                             }}/>
-                            <div>{(!emailRegex.test(subscriberEmail) && subscriberEmail) ? "Enter valid email address" : ""}</div>
+                            <small className='text-danger pt-4'>{(!emailRegex.test(subscriberEmail) && subscriberEmail) ? "Enter valid email address" : ""}</small>
                         <div className="footer--sub-btn-area">
                           <button type='submit' className='footer--sub-btn-sub' data-aos="fade-right">
                             <div className='footer--sub-btn'>

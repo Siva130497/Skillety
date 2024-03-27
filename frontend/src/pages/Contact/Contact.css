@@ -600,11 +600,11 @@ input[type="number"] {
 }
 
 .container__input_label {
-    color: #714F36;
+    color: #714F36 !important;
     font-size: 18px;
     font-weight: 500;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     transition: opacity ease 0.3s;
     position: absolute;
     text-wrap: nowrap;
@@ -622,10 +622,10 @@ input[type="number"] {
 
 
 .container__input_label2 {
-    color: #8f8f8f;
+    color: #8f8f8f !important;
     font-size: 14px;
     line-height: normal;
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     transition: opacity ease 0.3s;
     position: absolute;
     text-wrap: nowrap;
@@ -670,7 +670,9 @@ input[type="number"] {
 }
 
 .text-gray {
-    color: rgba(101, 101, 101, 0.65);
+    color: rgba(101, 101, 101, 0.75) !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
 }
 
 .error-msg {

@@ -563,7 +563,7 @@ const ClientDashboard = () => {
                             <select className='dash-chart-filter-input'
                               value={filter}
                               onChange={handleFilterChange}>
-                              <option value="weekly" selected>Weekly</option>
+                              <option value="weekly">Weekly</option>
                               <option value="monthly">Monthly</option>
                               <option value="yearly">Yearly</option>
                             </select>
