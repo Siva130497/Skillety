@@ -218,7 +218,7 @@ const JobDetailsAts = () => {
                                                         </button>
                                                     } */}
                                                     {job.companyId && <a
-                                                        href={`/company-detail/${job.companyId}`}
+                                                        href={`/company-detail-ats/${job.companyId}`}
                                                         className="dash-job-det-card-apply-btn"
                                                         // data-toggle="modal"
                                                         // data-target="#company_detail_modal"

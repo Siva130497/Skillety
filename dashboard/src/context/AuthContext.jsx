@@ -397,18 +397,19 @@ const candidateUpdate = async (userData) => {
   //BGV Data sending for verification
   const sendinngBGVData = async (userData) => {
     try {
-        const username = 'adminBgvFactsuite';
-        const password = 'AdminFSuite123';
-        const authString = `${username}:${password}`;
-        const base64AuthString = btoa(authString);
+        // const username = 'adminBgvFactsuite';
+        // const password = 'AdminFSuite123';
+        // const authString = `${username}:${password}`;
+        // const base64AuthString = btoa(authString);
 
         const response = await axios.post(
-            `http://3.108.132.101:8080/BgvApi/bgv/requestCandidateVerification?unique_id=${userData.unique_id}&client_id=${userData.client_id}`,
+            `https://skillety-n6r1.onrender.com/proxyRequestToThirdPartyAPI`,
             userData,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${base64AuthString}`,
+                    // 'Authorization': `Basic ${base64AuthString}`,
+                    // "Access-Control-Allow-Origin": "http://localhost:3000"
                 },
             }
         );
