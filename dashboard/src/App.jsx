@@ -80,6 +80,7 @@ import TalentsAts from './pages/TalentsAts/TalentsAts';
 import JobSearchAts from './pages/JobSearchAts/JobSearchAts';
 import JobDetailsAts from './pages/JobDetailsAts/JobDetailsAts';
 import BookedEvents from './pages/BookedEvents/BookedEvents';
+import CompanyDetailATS from './pages/CompanyDetailATS/CompanyDetailATS';
 
 //for customize website
 import EditTalentHome from './pages/CutomizeWebsite/Talent/EditTalentHome';
@@ -188,6 +189,7 @@ function App() {
         <Route path='/talents-ats/:id' element={<TalentsAts />} />
         <Route path='/search-jobs-ats' element={<JobSearchAts />} />
         <Route path='/job-detail-ats/:id' element={<JobDetailsAts />} />
+        <Route path='/company-detail-ats/:id' element={<CompanyDetailATS />} />
 
         {/* admin pages */}
         <Route path='/all-company-staff' element={<AllCompanyStaff />} />\

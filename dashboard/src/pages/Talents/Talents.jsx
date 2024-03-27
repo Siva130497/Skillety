@@ -22,7 +22,9 @@ import AuthContext from '../../context/AuthContext';
 const Talents = () => {
     const { id } = useParams();
     const location = useLocation();
-    const token = new URLSearchParams(window.location.search).get('token') || JSON.parse(localStorage.getItem('clientToken'));
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token') || JSON.parse(localStorage.getItem('clientToken'));
+    const employeeId = urlParams.get('employeeId')
     const [loginCandidate, setLoginCandidate] = useState();
     const [candidateImg, setCandidateImg] = useState();
     const [candidateImgUrl, setCandidateImgUrl] = useState("");
@@ -207,42 +209,134 @@ const Talents = () => {
 
 
     const handleSendDetailToBGV = () => {
-        const detail = {
-            unique_id: uuidv4(),
-            candidate_id: loginCandidate?.id,
-            employee_id: location.state?.employeeId,
-            client_id:"Skill2024",
-            password:"RmFjdHN1aXRlQDEyMw==",
-            bgv_form_data: 
-            {
-                firstname: loginCandidate?.firstName,
-                lastname: loginCandidate?.lastName,
-                primary_mobile: loginCandidate?.phone,
-                cv_document : candidateResumeUrl,
-                education_details: loginCandidate?.education.map((edu, index) => ({
-                    [`education_details_${index + 1}`]: {
-                        education_category: edu,
-                        university: loginCandidate?.college
-                    }
-                })),
-                personal_email_id: loginCandidate?.email,
-                past_work_experience: {
-                    past_work_experience_1: {
-                        work_skills: loginCandidate?.skills.join(", "),
-                        company: loginCandidate?.companyName,
-                        title: loginCandidate?.designation[0],
-                        to_date: loginCandidate?.selectedDate
-                    }
-                },
-                contact_details: {
-                    address: {
-                        city: loginCandidate?.location,
+        if(loginCandidate && employeeId){
+            const educationDetails = loginCandidate?.education.reduce((acc, edu, index) => {
+                acc[`education_details_${index + 1}`] = {
+                    education_category: edu,
+                    university: loginCandidate?.college
+                };
+                return acc;
+            }, {});
+            
+            const detail = {
+                unique_id: uuidv4(),
+                candidate_id: loginCandidate?.id,
+                employee_id: employeeId,
+                client_id:"Skill2024",
+                password:"RmFjdHN1aXRlQDEyMw==",
+                bgv_form_data: 
+                {
+                    firstname: loginCandidate?.firstName,
+                    lastname: loginCandidate?.lastName,
+                    gender: loginCandidate?.gender,
+                    primary_mobile: loginCandidate?.phone,
+                    cv_document : candidateResumeUrl,
+                    education_details: educationDetails,
+                    personal_email_id: loginCandidate?.email,
+                    past_work_experience: {
+                        past_work_experience_1: {
+                            work_skills: loginCandidate?.skills.join(", "),
+                            company: loginCandidate?.companyName,
+                            title: loginCandidate?.designation[0],
+                            to_date: loginCandidate?.selectedDate
+                        }
                     },
+                    contact_details: {
+                        address: {
+                            city: loginCandidate?.location,
+                        },
+                    }
                 }
             }
+            // const upDetail = {
+            //     unique_id: "123456789",
+            //     candidate_id: "3e694d1c-42a9-4c0c-ab21-b2bce41cb1a9",
+            //     employee_id: "a398161a-89a0-4a2e-9282-1311e0ad3cb2",
+            //     client_id: "Skill2024",
+            //     password: "RmFjdHN1aXRlQDEyMw==",
+            //     bgv_form_data: {
+            //         firstname: "john",
+            //         lastname: "Smith",
+            //         gender: "Male",
+            //         primary_mobile: "6543210987",
+            //         date_of_birth: "14-09-1997",
+            //         education_details: {
+            //             education_details_1: {
+            //                 education_category: "Technical Diploma/Technical Course",
+            //                 field_of_study: "Aerospace, Aeronautical and Astronautical Engineering",
+            //                 course_type: "Aerospace, Aeronautical and Astronautical Engineering",
+            //                 gpa_percentage: "10%",
+            //                 max_gpa_percentage: "42%",
+            //                 institution_name: "ticuo",
+            //                 university: "difo",
+            //                 educational_documents_proofs: "Base64 encoded file/document of JPEG/PNG/PDF format",
+            //                 registration_number: "1234rte5resadfg",
+            //                 address_of_educational_institute: "jkl;",
+            //                 from_date: "1/2/2252",
+            //                 to_date: "1/2/2252"
+            //             }
+            //         },
+            //         name_as_per_pan: "Rajech T",
+            //         personal_email_id: "test1231609@dumdumb.com",
+            //         pancard: "ADDLO9997L",
+            //         adharcard: "123454323214",
+            //         past_work_experience: {
+            //             past_work_experience_1: {
+            //                 iam_currently_working: 1,
+            //                 work_skills: "cvfgh",
+            //                 ctc: "vgbn",
+            //                 reason_for_leaving_job: "vbn",
+            //                 employee_id: "769700",
+            //                 reporting_manager_contact_number: "3535335",
+            //                 name_of_reporting_manager: "gghbj",
+            //                 reporting_manager_email_id: "2055653534",
+            //                 last_3_months_payslips: "vbnm",
+            //                 appraisal_letter: "cvb",
+            //                 relieving_letter: "xcvbnnnbv",
+            //                 offer_letter_of_previous_company: "xcvbvcxcvbn",
+            //                 work_experience_proof: "Base64 encoded file/document of JPEG/PNG/PDF format",
+            //                 company: "zxcvbn",
+            //                 title: "zxcvb",
+            //                 location: "xcvbvc",
+            //                 from_date: "4/2456/24",
+            //                 to_date: "53/5/56353",
+            //                 summary: "xcfvgbhlkljhjghk"
+            //             }
+            //         },
+            //         contact_details: {
+            //             address: {
+            //                 current_address: {
+            //                     country: "India",
+            //                     state: "Karnataka",
+            //                     city: "Bangalore",
+            //                     street: "yet",
+            //                     address: "cvbbhgvbvbnb",
+            //                     landmark: "Yet",
+            //                     pincode: "560095"
+            //                 },
+            //                 permanent_address: {
+            //                     country: "India",
+            //                     state: "Karnataka",
+            //                     city: "Bengaluru",
+            //                     street: "wqde",
+            //                     address: "cvbvcxcvbvxcvbvcvb",
+            //                     landmark: "qwer",
+            //                     pincode: "560094"
+            //                 }
+            //             },
+            //             current_address_proof: "Base64 encoded file/document of JPEG/PNG/PDF format",
+            //             current_address_period_of_stay_from: "01-09-2020",
+            //             current_address_period_of_stay_to: "30-09-2020",
+            //             permanent_address_proof: "Base64 encoded file/document of JPEG/PNG/PDF format",
+            //             permanent_address_period_of_stay_from: "03-09-2020",
+            //             permanent_address_period_of_stay_to: "24-09-2020"
+            //         }
+            //     }
+            // }
+            console.log(detail);
+            sendinngBGVData(detail);
         }
-        console.log(detail);
-        sendinngBGVData(detail);
+        
     }
 
     const breakpoints = {

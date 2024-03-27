@@ -1,0 +1,28 @@
+@media screen and (min-width: 992px) and (max-width: 1399px) {}
+
+@media (max-width:991.5px) {
+    .company-main-info-container{
+        display: flex;
+        gap: 30px;
+    }
+    .comp-det-card{
+        width: 100%;
+    }
+}
+
+@media (max-width:573px) {
+    .com-det-content {
+        padding: 20px 0px 10px 18px !important;
+    }
+    .company-main-info-container{
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+    }
+    .comp-det-card.profile {
+        padding: 30px;
+    }
+    .home--slider-btn-area{
+        justify-content: center;
+    }
+}

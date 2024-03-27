@@ -1549,7 +1549,7 @@ const TalentsProfileSearch = () => {
 
             if (response.data.message === "Candidate Viewed" || response.data.message === "The candidate detail already viewed!") {
                 // navigate(`/talents/${id}`, { state: { percentage } });
-                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}`;
+                let url = `https://skillety-dashboard-tk2y.onrender.com/talents/${id}?employeeId=${employeeId}`;
                 if (!isNaN(percentage)) {
                     url += `?percentage=${percentage}`;
                 }

@@ -95,6 +95,38 @@ mongoose.connect(process.env.DB_CONNECT)
     );
     response.send(data);
   });
+
+  app.post('/proxyRequestToThirdPartyAPI', async (req, res) => {
+    try {
+        // Extract user data from the request body
+        const userData = req.body;
+       
+        // Basic authentication credentials for the third-party API
+        const username = 'adminBgvFactsuite';
+        const password = 'AdminFSuite123';
+        const authString = `${username}:${password}`;
+        const base64AuthString = btoa(authString);
+
+        // Make a POST request to the third-party API with user data
+        const response = await axios.post(
+            `http://3.108.132.101:8080/BgvApi/bgv/requestCandidateVerification?unique_id=${userData.unique_id}&client_id=${userData.client_id}`,
+            userData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${base64AuthString}`,
+                },
+            }
+        );
+
+        // Forward the response from the third-party API to the client
+        res.json(response.data);
+    } catch (error) {
+        // Handle errors
+        // console.log(error);
+        res.status(error.response.status).json({ error: error.response.data.error });
+    }
+});
   
 let onlineUsers = [];
 
